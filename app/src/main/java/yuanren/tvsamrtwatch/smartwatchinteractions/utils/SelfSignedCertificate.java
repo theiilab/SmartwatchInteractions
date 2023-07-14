@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions;
+package yuanren.tvsamrtwatch.smartwatchinteractions.utils;
 
 import android.util.Base64;
 import android.util.Log;

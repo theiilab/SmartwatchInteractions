@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
