@@ -6,15 +6,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
-    private TextView mTextView;
+    private TextView textView;
     private ActivityMainBinding binding;
+
+    private String[] dummy_x_ray_items= {"item1", "item2", "item3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +29,62 @@ public class MainActivity extends Activity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mTextView = binding.text;
+        // keep screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        NetworkUtils.generateCertificate(getApplicationContext());
+        textView = binding.text;
 
-        mTextView.setOnTouchListener(new View.OnTouchListener() {
+        // X-Ray sliding interactions
+        textView.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int count = event.getPointerCount();
-                if (count > 1) {
-                    NetworkUtils.stopConnection();
-                }
-                finish();
-                return true;
+            public void onSwipeRight(View view) {
+                Log.d(TAG, "Swipe right");
+            }
+
+            @Override
+            public void onSwipeLeft(View view) {
+                Random rand = new Random();
+                int id = rand.nextInt(2);
+                textView.setText(dummy_x_ray_items[id]);
+                Log.d(TAG, "Swipe left");
+            }
+
+            @Override
+            public void onSwipeBottom(View view) {
+                Log.d(TAG, "Swipe down");
+            }
+
+            @Override
+            public void onSwipeTop(View view) {
+                Log.d(TAG, "Swipe up");
+            }
+
+            @Override
+            public void onClick(View view) {
+
+            }
+
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
             }
         });
 
-//        new SocketAsyncTask().execute();
+        // terminate the socket
+//        textView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int count = event.getPointerCount();
+//                if (count > 1) {
+//                    NetworkUtils.stopConnection();
+//                }
+//                finish();
+//                return true;
+//            }
+//        });
 
+        // start the SSL Socket Connection
+//        new SocketAsyncTask().execute();
     }
 
     @Override
@@ -53,10 +97,7 @@ public class MainActivity extends Activity {
         @Override
         protected Void doInBackground(Void... voids) {
             Log.d(TAG, "Start Async Tasks.");
-//            NetworkUtils.createSSLConnection(getApplicationContext());
-            NetworkUtils.createConnection();
-            NetworkUtils.send(new byte[]{45, 8, 2, 16, (byte) 200, 1, 82, 43, 10, 21, 105, 110, 102, 111, 46, 107, 111, 100, 111, 110, 111, 46, 97, 115, 115, 105, 115, 116, 97, 110, 116, 18, 13, 105, 110, 116, 101, 114, 102, 97, 99, 101, 32, 119, 101, 98});
-            NetworkUtils.receive();
+            NetworkUtils.createSSLConnection(getApplicationContext());
             return null;
         }
     }
