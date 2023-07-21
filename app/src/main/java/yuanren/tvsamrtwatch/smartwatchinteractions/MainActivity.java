@@ -66,22 +66,13 @@ public class MainActivity extends Activity {
 
             @Override
             public boolean onLongClick(View view) {
-                return false;
+                // terminate the socket
+                Log.d(TAG, "Socket manually terminated");
+                NetworkUtils.stopConnection();
+                finish();
+                return true;
             }
         });
-
-        // terminate the socket
-//        textView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int count = event.getPointerCount();
-//                if (count > 1) {
-//                    NetworkUtils.stopConnection();
-//                }
-//                finish();
-//                return true;
-//            }
-//        });
 
         // start the SSL Socket Connection
 //        new SocketAsyncTask().execute();

@@ -1,12 +1,13 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 public abstract class OnGestureRegisterListener implements View.OnTouchListener {
-
+    public static final String TAG = "OnGestureRegisterListener";
     private final GestureDetector gestureDetector;
     private View view;
 
@@ -29,8 +30,8 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+        private static final int SWIPE_THRESHOLD = 50;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 20;
 
         @Override
         public boolean onDown(MotionEvent e) {
