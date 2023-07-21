@@ -17,6 +17,10 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        if (event.getPointerCount() > 1) {
+            onTwoPointerTap(view);
+        }
+
         this.view = view;
         return gestureDetector.onTouchEvent(event);
     }
@@ -27,6 +31,8 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     public abstract void onSwipeTop(View view);
     public abstract void onClick(View view);
     public abstract boolean onLongClick(View view);
+
+    public abstract boolean onTwoPointerTap(View view);
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 

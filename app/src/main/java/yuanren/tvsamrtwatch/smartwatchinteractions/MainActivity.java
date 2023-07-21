@@ -66,6 +66,11 @@ public class MainActivity extends Activity {
 
             @Override
             public boolean onLongClick(View view) {
+                return false;
+            }
+
+            @Override
+            public boolean onTwoPointerTap(View view) {
                 // terminate the socket
                 Log.d(TAG, "Socket manually terminated");
                 NetworkUtils.stopConnection();
