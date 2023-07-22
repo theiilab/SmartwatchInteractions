@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
         });
 
         // start the SSL Socket Connection
-//        new SocketAsyncTask().execute();
+        new SocketAsyncTask().execute();
     }
 
     @Override
