@@ -2,12 +2,15 @@ package yuanren.tvsamrtwatch.smartwatchinteractions;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.Random;
 
@@ -90,6 +93,7 @@ public class MainActivity extends Activity {
     }
 
     private class SocketAsyncTask extends AsyncTask<Void, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Void... voids) {
             Log.d(TAG, "Start Async Tasks.");

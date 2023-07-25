@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,39 +58,40 @@ public class NetworkUtils {
 //    public static final String SERVER_IP = "192.168.0.111";
 //    public static final String SERVER_IP = "192.168.0.19";
     private static SSLSocket socket;
-    private static PrintWriter out;
-    private static BufferedReader in;
+    private static OutputStream outputStream;
+    private static InputStream inputStream;
     private static Path path;
 
     public static void send(byte[] payload) {
-        if (out != null) {
-            out.println(payload);
-            Log.d(TAG,"Message sent");
+        if (outputStream != null) {
+            try {
+                outputStream.write(payload);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public static void receive() {
+    public static byte[] receive() {
+        byte[] serverLength = new byte[1];
+        byte[] serverVersion = new byte[2];
+        byte[] serverStatus = new byte[3];
         try {
-            if (in != null) {
-                String responseMessage = in.readLine();
-
-                while (responseMessage == null) {
-                    responseMessage = in.readLine();
-                }
-
-                Log.d(TAG,"Server response: " + responseMessage);
-            }
+            inputStream.read(serverLength);
+            inputStream.read(serverVersion);
+            inputStream.read(serverStatus);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return serverStatus;
     }
 
     public static void stopConnection() {
         try {
-            if (out != null) {
+            if (outputStream != null) {
                 socket.close();
-                in.close();
-                out.close();
+                inputStream.close();
+                outputStream.close();
                 Log.i(TAG, "Client socket terminated.");
             }
         } catch (IOException e) {
@@ -97,7 +99,7 @@ public class NetworkUtils {
         }
     }
 
-    public static void generateCertificate(Context context) {
+    private static void generateCertificate(Context context) {
         path = Paths.get(context.getFilesDir().getAbsolutePath());
 
         try {
@@ -124,9 +126,6 @@ public class NetworkUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
             Log.d(TAG,"Certificate exported successfully!");
         } catch (CertificateException e) {
             throw new RuntimeException(e);
@@ -149,25 +148,47 @@ public class NetworkUtils {
             socket.startHandshake();
             Log.d(TAG, "Start handshake!");
 
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
             // Send and receive data from the server
-            OutputStream outputStream = socket.getOutputStream();
-            InputStream inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+            inputStream = socket.getInputStream();
+
+            byte[] version = new byte[] {8, 2};  // the protocol version 2
+            byte[] statusCode = new byte[] {16, (byte) 200, 1};  // Status OK
+            byte[] messageTag = new byte[] {82};  // the message tag
+            byte[] serviceTag = new byte[] {10};  // the service name tag
+            byte[] serviceName = new byte[] {121,117,97,110,114,101,110,46,116,118,115,97,109,114,116,119,97,116,99,104,46,115,109,97,114,116,119,97,116,99,104,105,110,116,101,114,97,99,116,105,111,110,115};  // the service name
+            byte[] tagDeviceName = new byte[] {18};  // the tag device
+            byte[] clientName = new byte[] {105, 110, 116, 101, 114, 102, 97, 99, 101, 32, 119, 101, 98};  // the client name
+
+            // length of names, messages and overall
+            byte[] lenOfServiceName = new byte[] {(byte) serviceName.length};
+            byte[] lenOfClientName = new byte[] {(byte) clientName.length};
+            int length = version.length + statusCode.length + messageTag.length + 1 + serviceTag.length + serviceName.length + tagDeviceName.length + clientName.length;
+            byte[] lengthOfMessage = new byte[] {(byte) (length)};  // the length of the message
+            byte[] lengthOfOverall = new byte[] {(byte) (length + 2)};  // the length of total
+
+            // prepare the payload byte array
+            byte[] allByteArray = new byte[length + 3];
+            ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+            buff.put(lengthOfOverall);
+            buff.put(version);
+            buff.put(statusCode);
+            buff.put(messageTag);
+            buff.put(lengthOfMessage);
+            buff.put(serviceTag);
+            buff.put(lenOfServiceName);
+            buff.put(serviceName);
+            buff.put(tagDeviceName);
+            buff.put(lenOfClientName);
+            buff.put(clientName);
+            byte[] combined = buff.array();
 
             // Write data to the server
-            String message = "Hello, Server!";
-            outputStream.write(message.getBytes());
+            send(combined);
 
             // Read response from the server
-            byte[] buffer = new byte[1024];
-            int bytesRead = inputStream.read(buffer);
-            String response = new String(buffer, 0, bytesRead);
-            Log.d(TAG, "Server response: " + response);
+            System.out.println(receive());
 
-            // Close the socket
-            socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
