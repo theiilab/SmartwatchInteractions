@@ -1,15 +1,12 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.utils;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMDecryptorProvider;
 import org.bouncycastle.openssl.PEMEncryptedKeyPair;
@@ -19,27 +16,29 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.KeyStore;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -48,7 +47,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.BuildConfig;
-import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 
 public class NetworkUtils {
     public static final String TAG = "NetworkUtils";
@@ -57,6 +55,9 @@ public class NetworkUtils {
     public static final String SERVER_IP = "10.0.0.4";
 //    public static final String SERVER_IP = "192.168.0.111";
 //    public static final String SERVER_IP = "192.168.0.19";
+
+    private static X509Certificate serverCert;
+    private static X509Certificate clientCert;
     private static SSLSocket socket;
     private static OutputStream outputStream;
     private static InputStream inputStream;
@@ -253,6 +254,85 @@ public class NetworkUtils {
         return buff.array();
     }
 
+    public static byte[] encodingSecret(String code) {
+        byte[] version = new byte[] {8, 2};  // the protocol version 2
+        byte[] statusCode = new byte[] {16, (byte) 200, 1};  // Status OK
+        byte[] a = new byte[] {(byte) 194, 2, 34, 10};  // ???
+        byte[] size = new byte[] {32};  // the size of the encoded secret
+        byte[] message = computeAlphaValue(code);
+
+        int length = version.length + statusCode.length + a.length + size.length + message.length;
+        byte[] lengthOfOverall = new byte[] {(byte) length};  // the length of total
+
+        // prepare the payload byte array
+        byte[] allByteArray = new byte[length + 1];
+        ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+        buff.put(lengthOfOverall);
+        buff.put(version);
+        buff.put(statusCode);
+        buff.put(a);
+        buff.put(size);
+        buff.put(message);
+
+        return buff.array();
+    }
+
+    private static byte[] computeAlphaValue(String s) {
+        PublicKey publicKey = clientCert.getPublicKey();
+        PublicKey publicKey2 = serverCert.getPublicKey();
+//        Log.d(TAG, "computeAlphaValue, nonce=" + bytesToHexString(bArr));
+
+        if (!(publicKey instanceof RSAPublicKey)|| !(publicKey2 instanceof RSAPublicKey)) { //
+            Log.e(TAG, "Expecting RSA public key");
+            return null;
+        }
+
+        RSAPublicKey rSAPublicKey = (RSAPublicKey) publicKey;
+        RSAPublicKey rSAPublicKey2 = (RSAPublicKey) publicKey2;
+
+        try {
+            MessageDigest instance = MessageDigest.getInstance("SHA-256");
+            String t = s.substring(2);
+            byte[] code = new BigInteger(s.substring(2),16).toByteArray();
+            code = removeLeadingNullBytes(code);
+
+            byte[] byteArray = rSAPublicKey.getModulus().abs().toByteArray();
+            byte[] byteArray2 = rSAPublicKey.getPublicExponent().abs().toByteArray();
+            byte[] byteArray3 = rSAPublicKey2.getModulus().abs().toByteArray();
+            byte[] byteArray4 = rSAPublicKey2.getPublicExponent().abs().toByteArray();
+            byte[] removeLeadingNullBytes = removeLeadingNullBytes(byteArray);
+            byte[] removeLeadingNullBytes2 = removeLeadingNullBytes(byteArray2);
+            byte[] removeLeadingNullBytes3 = removeLeadingNullBytes(byteArray3);
+            byte[] removeLeadingNullBytes4 = removeLeadingNullBytes(byteArray4);
+
+//            Log.d(TAG, "Hash inputs, in order: ");
+//            Log.d(TAG, "   client modulus: " + bytesToHexString(removeLeadingNullBytes));
+//            Log.d(TAG, "  client exponent: " + bytesToHexString(removeLeadingNullBytes2));
+//            Log.d(TAG, "   server modulus: " + bytesToHexString(removeLeadingNullBytes3));
+//            Log.d(TAG, "  server exponent: " + bytesToHexString(removeLeadingNullBytes4));
+//            Log.d(TAG, "            nonce: " + bytesToHexString(bArr));
+
+            instance.update(removeLeadingNullBytes);
+            instance.update(removeLeadingNullBytes2);
+            instance.update(removeLeadingNullBytes3);
+            instance.update(removeLeadingNullBytes4);
+            instance.update(code);
+            return instance.digest();
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "no sha-256 implementation");
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static byte[] removeLeadingNullBytes(byte[] byteArray) {
+        for (int i = 0; i < byteArray.length; ++i) {
+            if (byteArray[i] != 0) {
+                return Arrays.copyOfRange(byteArray, i, byteArray.length);
+            }
+        }
+        return null;
+    }
+
     private static SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile,
                                                     final String password) {
         try {
@@ -272,6 +352,7 @@ public class NetworkUtils {
             //build the CA certificate
             X509Certificate caCert = (X509Certificate) CertificateFactory.getInstance("X.509")
                     .generateCertificate(new ByteArrayInputStream(caCertHolder.getEncoded()));
+            serverCert = caCert;
 
             /**
              * Load client certificate
@@ -283,7 +364,12 @@ public class NetworkUtils {
             //build the certificate
             X509Certificate cert = (X509Certificate) CertificateFactory.getInstance("X.509")
                             .generateCertificate(new ByteArrayInputStream(certHolder.getEncoded()));
+            clientCert = cert;
             Log.d(TAG, String.valueOf(cert.getPublicKey()));
+
+            if (cert.getPublicKey() instanceof RSAPublicKey) {
+                Log.d(TAG, "Client public key is RSAPublicKey");
+            }
 
             /**
              * Load client private key

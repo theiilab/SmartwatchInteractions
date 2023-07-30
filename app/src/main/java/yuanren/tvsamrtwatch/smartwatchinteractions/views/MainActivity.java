@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions;
+package yuanren.tvsamrtwatch.smartwatchinteractions.views;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
         });
 
         // start the SSL Socket Connection
-        new SocketAsyncTask().execute();
+//        new SocketAsyncTask().execute();
     }
 
     @Override
