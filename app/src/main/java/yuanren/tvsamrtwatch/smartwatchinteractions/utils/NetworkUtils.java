@@ -51,7 +51,8 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.BuildConfig;
 public class NetworkUtils {
     public static final String TAG = "NetworkUtils";
 
-    public static final int SERVER_PORT = 6467;
+    public static final int SERVER_PAIR_PORT = 6467;  // port for pairing
+    public static final int SERVER_COMM_PORT = 6466;  // port for sending commands
     public static final String SERVER_IP = "10.0.0.4";
 //    public static final String SERVER_IP = "192.168.0.111";
 //    public static final String SERVER_IP = "192.168.0.19";
@@ -112,7 +113,7 @@ public class NetworkUtils {
         String keyFile = path.resolve("private.pem").toString();
 
         try {
-            socket = (SSLSocket) getSocketFactory(caCrtFile, crtFile, keyFile, "").createSocket(SERVER_IP, SERVER_PORT);
+            socket = (SSLSocket) getSocketFactory(caCrtFile, crtFile, keyFile, "").createSocket(SERVER_IP, SERVER_PAIR_PORT);
 
             // Perform SSL handshake
             socket.startHandshake();
