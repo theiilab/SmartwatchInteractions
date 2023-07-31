@@ -280,37 +280,28 @@ public class NetworkUtils {
     private static byte[] computeAlphaValue(String s) {
         PublicKey publicKey = clientCert.getPublicKey();
         PublicKey publicKey2 = serverCert.getPublicKey();
-//        Log.d(TAG, "computeAlphaValue, nonce=" + bytesToHexString(bArr));
 
-        if (!(publicKey instanceof RSAPublicKey)|| !(publicKey2 instanceof RSAPublicKey)) { //
+        if (!(publicKey instanceof RSAPublicKey)|| !(publicKey2 instanceof RSAPublicKey)) {
             Log.e(TAG, "Expecting RSA public key");
             return null;
         }
 
-        RSAPublicKey rSAPublicKey = (RSAPublicKey) publicKey;
-        RSAPublicKey rSAPublicKey2 = (RSAPublicKey) publicKey2;
+        RSAPublicKey rSAPublicKey = (RSAPublicKey) publicKey;  // client public key
+        RSAPublicKey rSAPublicKey2 = (RSAPublicKey) publicKey2;  // server public key
 
         try {
             MessageDigest instance = MessageDigest.getInstance("SHA-256");
-            String t = s.substring(2);
-            byte[] code = new BigInteger(s.substring(2),16).toByteArray();
-            code = removeLeadingNullBytes(code);
 
-            byte[] byteArray = rSAPublicKey.getModulus().abs().toByteArray();
-            byte[] byteArray2 = rSAPublicKey.getPublicExponent().abs().toByteArray();
-            byte[] byteArray3 = rSAPublicKey2.getModulus().abs().toByteArray();
-            byte[] byteArray4 = rSAPublicKey2.getPublicExponent().abs().toByteArray();
+            byte[] byteArray = rSAPublicKey.getModulus().abs().toByteArray();  // client modulus
+            byte[] byteArray2 = rSAPublicKey.getPublicExponent().abs().toByteArray();  // client exponent
+            byte[] byteArray3 = rSAPublicKey2.getModulus().abs().toByteArray();  // server modulus
+            byte[] byteArray4 = rSAPublicKey2.getPublicExponent().abs().toByteArray();  // server exponent
+            byte[] code = new BigInteger(s.substring(2),16).toByteArray();  // nonce
             byte[] removeLeadingNullBytes = removeLeadingNullBytes(byteArray);
             byte[] removeLeadingNullBytes2 = removeLeadingNullBytes(byteArray2);
             byte[] removeLeadingNullBytes3 = removeLeadingNullBytes(byteArray3);
             byte[] removeLeadingNullBytes4 = removeLeadingNullBytes(byteArray4);
-
-//            Log.d(TAG, "Hash inputs, in order: ");
-//            Log.d(TAG, "   client modulus: " + bytesToHexString(removeLeadingNullBytes));
-//            Log.d(TAG, "  client exponent: " + bytesToHexString(removeLeadingNullBytes2));
-//            Log.d(TAG, "   server modulus: " + bytesToHexString(removeLeadingNullBytes3));
-//            Log.d(TAG, "  server exponent: " + bytesToHexString(removeLeadingNullBytes4));
-//            Log.d(TAG, "            nonce: " + bytesToHexString(bArr));
+            code = removeLeadingNullBytes(code);
 
             instance.update(removeLeadingNullBytes);
             instance.update(removeLeadingNullBytes2);
@@ -366,10 +357,6 @@ public class NetworkUtils {
                             .generateCertificate(new ByteArrayInputStream(certHolder.getEncoded()));
             clientCert = cert;
             Log.d(TAG, String.valueOf(cert.getPublicKey()));
-
-            if (cert.getPublicKey() instanceof RSAPublicKey) {
-                Log.d(TAG, "Client public key is RSAPublicKey");
-            }
 
             /**
              * Load client private key
