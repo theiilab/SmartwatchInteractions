@@ -124,23 +124,29 @@ public class NetworkUtils {
             inputStream = socket.getInputStream();
 
             // Send the Pairing message
-            byte[] combined = pairing();
-            send(combined);
+            byte[] payload = pairing();
+            send(payload);
             receive();
 
             // Send the option message
-            combined = optioning();
-            send(combined);
+            payload = optioning();
+            send(payload);
             receive();
 
             // Send the Configuration message
-            combined = configuring();
-            send(combined);
+            payload = configuring();
+            send(payload);
             receive();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void startPairing(String code) {
+        byte[] payload = encodingSecret(code);
+        send(payload);
+        receive();
     }
 
     private static byte[] pairing () {
@@ -255,7 +261,7 @@ public class NetworkUtils {
         return buff.array();
     }
 
-    public static byte[] encodingSecret(String code) {
+    private static byte[] encodingSecret(String code) {
         byte[] version = new byte[] {8, 2};  // the protocol version 2
         byte[] statusCode = new byte[] {16, (byte) 200, 1};  // Status OK
         byte[] a = new byte[] {(byte) 194, 2, 34, 10};  // ???

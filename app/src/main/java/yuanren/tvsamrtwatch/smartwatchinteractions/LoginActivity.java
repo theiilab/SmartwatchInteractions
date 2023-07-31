@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -27,6 +30,8 @@ public class LoginActivity extends FragmentActivity {
     private FrameLayout container;
     private EditText editText;
     private ActivityLoginBinding binding;
+
+    private boolean isChannelSetUp = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,28 +58,25 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
-        editText.addTextChangedListener(new TextWatcher() {
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 6) {
-                    new PairingAsyncTask().execute(s.toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Perform action on key press
+                    if (editText.getText().length() >= 6) {
+                        new SocketAsyncTask().execute(editText.getText().toString());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Enter the pairing code from the TV", Toast.LENGTH_SHORT);
+                    }
+                    return true;
                 }
+                return false;
             }
         });
         editText.setVisibility(View.GONE);
 
         // start the SSL Socket Connection
-        new ChannelSetUpAsyncTask().execute();
+        new SocketAsyncTask().execute();
     }
 
     @Override
@@ -83,37 +85,28 @@ public class LoginActivity extends FragmentActivity {
         NetworkUtils.stopConnection();
     }
 
-    private class ChannelSetUpAsyncTask extends AsyncTask<Void, String, Void> {
+    private class SocketAsyncTask extends AsyncTask<String, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
-        protected Void doInBackground(Void... voids) {
-            Log.d(TAG, "Start Async Tasks.");
-            NetworkUtils.createSSLConnection(getApplicationContext());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
-            editText.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private class PairingAsyncTask  extends AsyncTask<String, Void, Void> {
-
-        @Override
         protected Void doInBackground(String... strings) {
-            byte[] payload = NetworkUtils.encodingSecret(strings[0]);
-            NetworkUtils.send(payload);
-            NetworkUtils.receive();
+            if (!isChannelSetUp) {
+                NetworkUtils.createSSLConnection(getApplicationContext());
+            } else {
+                NetworkUtils.startPairing(strings[0]);
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            if (!isChannelSetUp) {
+                isChannelSetUp = true;
+                editText.setVisibility(View.VISIBLE);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }
