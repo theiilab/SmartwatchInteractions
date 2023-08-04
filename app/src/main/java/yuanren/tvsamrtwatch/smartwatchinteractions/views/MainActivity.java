@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
     private TextView textView;
     private ActivityMainBinding binding;
+
+    private boolean isChannelSetUp = false;
 
     private String[] dummy_x_ray_items= {"item1", "item2", "item3"};
 
@@ -64,7 +67,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
             }
 
             @Override
@@ -76,29 +79,38 @@ public class MainActivity extends Activity {
             public boolean onTwoPointerTap(View view) {
                 // terminate the socket
                 Log.d(TAG, "Socket manually terminated");
-                NetworkUtils.stopConnection();
+                NetworkUtils.stopSSLPairingConnection();
                 finish();
                 return true;
             }
         });
 
         // start the SSL Socket Connection
-//        new SocketAsyncTask().execute();
+        new SocketAsyncTask().execute();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetworkUtils.stopConnection();
+        NetworkUtils.stopSSLPairingConnection();
     }
 
-    private class SocketAsyncTask extends AsyncTask<Void, String, Void> {
+    private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
-        protected Void doInBackground(Void... voids) {
-            Log.d(TAG, "Start Async Tasks.");
-            NetworkUtils.createSSLConnection(getApplicationContext());
+        protected Void doInBackground(Integer... integers) {
+            if (!isChannelSetUp) {
+                isChannelSetUp = true;
+                NetworkUtils.createSSLCommConnection();
+            } else {
+                NetworkUtils.sendCommand(integers[0]);
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
         }
     }
 }

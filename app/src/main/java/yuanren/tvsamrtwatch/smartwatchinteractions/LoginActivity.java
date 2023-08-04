@@ -51,7 +51,7 @@ public class LoginActivity extends FragmentActivity {
                 if (event.getPointerCount() > 1) {
                     // terminate the socket
                     Log.d(TAG, "Socket manually terminated");
-                    NetworkUtils.stopConnection();
+                    NetworkUtils.stopSSLPairingConnection();
                     finish();
                 }
                 return true;
@@ -82,7 +82,7 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetworkUtils.stopConnection();
+        NetworkUtils.stopSSLPairingConnection();
     }
 
     private class SocketAsyncTask extends AsyncTask<String, String, Void> {
@@ -90,7 +90,7 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected Void doInBackground(String... strings) {
             if (!isChannelSetUp) {
-                NetworkUtils.createSSLConnection(getApplicationContext());
+                NetworkUtils.createSSLPairingConnection(getApplicationContext());
             } else {
                 NetworkUtils.startPairing(strings[0]);
             }
