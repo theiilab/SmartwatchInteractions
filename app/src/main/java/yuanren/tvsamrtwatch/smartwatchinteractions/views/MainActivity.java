@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
             @Override
             public void onSwipeRight(View view) {
                 Log.d(TAG, "Swipe right");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
             }
 
             @Override
@@ -53,16 +54,19 @@ public class MainActivity extends Activity {
                 int id = rand.nextInt(2);
                 textView.setText(dummy_x_ray_items[id]);
                 Log.d(TAG, "Swipe left");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
             }
 
             @Override
             public void onSwipeBottom(View view) {
                 Log.d(TAG, "Swipe down");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
             }
 
             @Override
             public void onSwipeTop(View view) {
                 Log.d(TAG, "Swipe up");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
             }
 
             @Override
@@ -72,7 +76,8 @@ public class MainActivity extends Activity {
 
             @Override
             public boolean onLongClick(View view) {
-                return false;
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
+                return true;
             }
 
             @Override
