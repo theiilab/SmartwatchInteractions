@@ -54,8 +54,8 @@ public class NetworkUtils {
 
     public static final int SERVER_PAIR_PORT = 6467;  // port for pairing
     public static final int SERVER_COMM_PORT = 6466;  // port for sending commands
-    public static final String SERVER_IP = "10.0.0.4";
-//    public static final String SERVER_IP = "192.168.0.111";
+//    public static final String SERVER_IP = "10.0.0.4";
+    public static final String SERVER_IP = "192.168.0.111";
 //    public static final String SERVER_IP = "192.168.0.19";
 
     private static X509Certificate serverCert;
@@ -143,26 +143,28 @@ public class NetworkUtils {
 
             receive();
 
+            // 1st configuration message
+            byte[] payload = configuring1();
+            send(payload);
+            receive();
+
+            // 2nd configuration message
+            payload = configuring2();
+            send(payload);
+            receive();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void sendCommand(int keyCode) {
-        // 1st configuration message
-        byte[] payload = configuring1();
-        send(payload);
-        receive();
-
-        // 2nd configuration message
-        payload = configuring2();
-        send(payload);
-        receive();
-
         // actual command message
-        payload = getCommand(keyCode);
+        byte[] payload = getCommandDown(keyCode);
         send(payload);
-        receive();
+        payload = getCommandUp(keyCode);
+        send(payload);
+        Log.d(TAG,receive().toString());
     }
 
     private static void sendPair(byte[] payload) {
@@ -202,62 +204,13 @@ public class NetworkUtils {
     }
 
     private static byte[] receive() {
-//        byte[] serverLength = new byte[10];
-//        byte[] serverVersion = new byte[10];
-//        byte[] serverStatus = new byte[10];
-//        byte[] rest = new byte[60];
-//        try {
-//            commInputStream.read(serverLength);
-//            commInputStream.read(serverVersion);
-//            commInputStream.read(serverStatus);
-//            commInputStream.read(rest);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return serverStatus;
-        byte[] overall = new byte[1];
-        byte[] tag1 = new byte[1];
-        byte[] wholeMessage = new byte[1];
-        byte[] a = new byte[4];
-        byte[] subMessage = new byte[1];
-        byte[] tag2 = new byte[1];
-        byte[] sizeOfModelName = new byte[1];
-        byte[] modelName = new byte[10];
-        byte[] tag3 = new byte[1];
-        byte[] sizeOfVendorName = new byte[1];
-        byte[] vendorName = new byte[6];
-        byte[] b = new byte[3];
-        byte[] sizeOfVersion = new byte[1];
-        byte[] versionNum = new byte[2];
-        byte[] tag4 = new byte[1];
-        byte[] sizeOfPackage = new byte[1];
-        byte[] appName = new byte[36];
-        byte[] sizeOfAppVersion = new byte[1];
-        byte[] appVersion = new byte[50];
+        byte[] serverResponse = new byte[100];
         try {
-            commInputStream.read(overall);
-            commInputStream.read(tag1);
-            commInputStream.read(wholeMessage);
-            commInputStream.read(a);
-            commInputStream.read(subMessage);
-            commInputStream.read(tag2);
-            commInputStream.read(sizeOfModelName);
-            commInputStream.read(modelName);
-            commInputStream.read(tag3);
-            commInputStream.read(sizeOfVendorName);
-            commInputStream.read(vendorName);
-            commInputStream.read(b);
-            commInputStream.read(sizeOfVersion);
-            commInputStream.read(versionNum);
-            commInputStream.read(tag4);
-            commInputStream.read(sizeOfPackage);
-            commInputStream.read(appName);
-            commInputStream.read(sizeOfAppVersion);
-            commInputStream.read(appVersion);
+            commInputStream.read(serverResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return versionNum;
+        return serverResponse;
     }
 
     private static byte[] pairing () {
@@ -445,24 +398,19 @@ public class NetworkUtils {
     private static byte[] configuring1() {
         byte[] tag1 = new byte[] {10};
         byte[] a = new byte[] {8, (byte) 238, 4, 18};  // ???
-        byte[] tag2 = new byte[] {10};
-        byte[] modelName = new byte[] {83,109,97,114,116,119,97,116,99,104,32,73,110,116,101,114,97,99,116,105,111,110,115};  // model name: Smartwatch Interactions
-        byte[] sizeOfModelName = new byte[] {(byte) modelName.length};
-        byte[] tag3 = new byte[] {18};
-        byte[] vendorName = new byte[] {121,117,97,110,114,101,110};  // vendor name: yuanren
-        byte[] sizeOfVendorName = new byte[] {(byte) vendorName.length};
         byte[] b = new byte[] {24, 1, 34};  // ???
         byte[] appVersionNo = new byte[] {49};  // your app version number : 1
         byte[] sizeOfAppVersionNo = new byte[] {(byte) appVersionNo.length};  // your app version number : 1
-        byte[] tag4 = new byte[] {42};
-        byte[] appName = new byte[] {115,109,97,114,116,119,97,116,99,104,105,110,116,101,114,97,99,116,105,111,110,115};  // app name: smartwatchinteractions
-        byte[] sizeOfAppName = new byte[] {(byte) appName.length};
+        byte[] tag2 = new byte[] {42};
+        byte[] packageName = new byte[] {97, 110, 100, 114, 111, 105, 116, 118, 45, 114, 101, 109, 111, 116, 101};  // package name: androidtv-remote
+        byte[] sizeOfPackage = new byte[] {(byte) packageName.length};
+        byte[] tag3 = new byte[] {50};
         byte[] appVersion = new byte[] {49,46,48,46,48};  // app version: 1.0.0
         byte[] sizeOfAppVersion = new byte[] {(byte) appVersion.length};
 
-        int lengthOfSubMessage = tag1.length + a.length + tag2.length + modelName.length + tag3.length + vendorName.length + b.length + appVersionNo.length + tag4.length + appName.length + appVersion.length;
+        int lengthOfSubMessage = b.length + sizeOfAppVersionNo.length + appVersionNo.length + tag2.length + sizeOfPackage.length + packageName.length + tag3.length + sizeOfAppVersion.length + appVersion.length;
         byte[] sizeOfSubMessage = new byte[] {(byte) lengthOfSubMessage};  // the length of sub message
-        int lengthOfWholeMessage = lengthOfSubMessage + sizeOfModelName.length + sizeOfVendorName.length + sizeOfAppVersionNo.length + sizeOfAppName.length + sizeOfAppVersion.length;
+        int lengthOfWholeMessage = tag1.length + a.length + lengthOfSubMessage;
         byte[] sizeOfWholeMessage = new byte[] {(byte) lengthOfWholeMessage};  // the length of whole message
         byte[] lengthOfOverall = new byte[] {(byte) (lengthOfWholeMessage + 2)};  // the length of total
 
@@ -474,18 +422,13 @@ public class NetworkUtils {
         buff.put(sizeOfWholeMessage);
         buff.put(a);
         buff.put(sizeOfSubMessage);
-        buff.put(tag2);
-        buff.put(sizeOfModelName);
-        buff.put(modelName);
-        buff.put(tag3);
-        buff.put(sizeOfVendorName);
-        buff.put(vendorName);
         buff.put(b);
         buff.put(sizeOfAppVersionNo);
         buff.put(appVersionNo);
-        buff.put(tag4);
-        buff.put(sizeOfAppName);
-        buff.put(appName);
+        buff.put(tag2);
+        buff.put(sizeOfPackage);
+        buff.put(packageName);
+        buff.put(tag3);
         buff.put(sizeOfAppVersion);
         buff.put(appVersion);
 
@@ -504,10 +447,28 @@ public class NetworkUtils {
         return buff.array();
     }
 
-    private static byte[] getCommand(int key) {
+    private static byte[] getCommandDown(int key) {
         byte[] commandTag = new byte[] {82, 4, 8};  // the command tag
         byte[] keyEvent = new byte[] {(byte) key};
-        byte[] action = new byte[] {16, 1};  // (16, 1) for press or (16, 2) for release
+        byte[] action = new byte[] {16, 1};  // (16, 1) for action down or (16, 2) for action up
+
+        int length = commandTag.length + keyEvent.length + action.length;
+        byte[] lengthOfOverall = new byte[] {(byte) length};
+
+        byte[] allByteArray = new byte[length + 1];
+        ByteBuffer buff = ByteBuffer.wrap(allByteArray);
+        buff.put(lengthOfOverall);
+        buff.put(commandTag);
+        buff.put(keyEvent);
+        buff.put(action);
+
+        return buff.array();
+    }
+
+    private static byte[] getCommandUp(int key) {
+        byte[] commandTag = new byte[] {82, 4, 8};  // the command tag
+        byte[] keyEvent = new byte[] {(byte) key};
+        byte[] action = new byte[] {16, 2};  // (16, 1) for action down or (16, 2) for action up
 
         int length = commandTag.length + keyEvent.length + action.length;
         byte[] lengthOfOverall = new byte[] {(byte) length};
