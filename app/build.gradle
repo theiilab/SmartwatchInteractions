@@ -38,5 +38,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'org.bouncycastle:bcpkix-jdk18on:1.72' // Bouncy Castle dependency
     implementation 'org.bouncycastle:bcprov-jdk18on:1.72'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 //    implementation 'com.madgag.spongycastle:bcpkix-jdk15on:1.58.0.0' // Spongy Castle (Bouncy Castle) on Android 2019
 }

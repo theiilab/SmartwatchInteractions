@@ -9,62 +9,82 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Random;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
-    private TextView textView;
     private ActivityMainBinding binding;
-
+    private ImageView movieBg;
+    private TextView movieName;
     private boolean isChannelSetUp = false;
 
-    private String[] dummy_x_ray_items= {"item1", "item2", "item3"};
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        textView = binding.text;
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        movieName = binding.movieName;
+        movieBg = binding.movieBg;
+
+        // load movie
+        MovieList.setupMovies(MovieList.NUM_COLS);
+        movie = MovieList.getFirstMovie();
+
+        setMovieInfo();
 
         // X-Ray sliding interactions
-        textView.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        movieName.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
+                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_RIGHT);
+                setMovieInfo();
+
                 Log.d(TAG, "Swipe right");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
             }
 
             @Override
             public void onSwipeLeft(View view) {
-                Random rand = new Random();
-                int id = rand.nextInt(2);
-                textView.setText(dummy_x_ray_items[id]);
+                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_LEFT);
+                setMovieInfo();
+
                 Log.d(TAG, "Swipe left");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
             }
 
             @Override
             public void onSwipeBottom(View view) {
+                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_DOWN);
+                setMovieInfo();
+
                 Log.d(TAG, "Swipe down");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
             }
 
             @Override
             public void onSwipeTop(View view) {
+                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_UP);
+                setMovieInfo();
+
                 Log.d(TAG, "Swipe up");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
             }
@@ -92,6 +112,14 @@ public class MainActivity extends Activity {
 
         // start the SSL Socket Connection
         new SocketAsyncTask().execute();
+    }
+
+    private void setMovieInfo() {
+        movieName.setText(movie.getTitle());
+        Glide.with(getApplicationContext())
+                .load(movie.getCardImageUrl())
+                .centerCrop()
+                .into(movieBg);
     }
 
     @Override

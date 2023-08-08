@@ -14,8 +14,19 @@
         android:padding="@dimen/inner_frame_layout_padding"
         app:layout_boxedEdges="all">
 
+        <ImageView
+            android:id="@+id/movie_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/movie_bg_shadow"/>
+
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/movie_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
