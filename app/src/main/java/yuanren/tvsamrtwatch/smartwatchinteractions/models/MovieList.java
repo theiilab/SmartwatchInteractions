@@ -224,17 +224,17 @@ public final class MovieList {
                 "https://resizing.flixster.com/ydEdPTmh6k_bkuWwskRYT9CDnCk=/300x300/v2/https://flxt.tmsimg.com/assets/p13937884_v_v8_aa.jpg",  // Venom
                 "https://images.bauerhosting.com/legacy/empire-tmdb/films/1726/images/ZQixhAZx6fH1VNafFXsqa1B8QI.jpg?format=jpg&quality=80&width=960&height=540&ratio=16-9&resize=aspectfill",  //Iron Man
 
-                "https://static.wikia.nocookie.net/harrypotter/images/9/9e/Harry_Potter_and_the_Prisoner_of_Azkaban_poster.jpeg/revision/latest?cb=20220922141058",
-                "https://m.media-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_FMjpg_UX1000_.jpg",
+                "https://i.pinimg.com/1200x/c1/df/39/c1df3993439b5a55c11f8b0f729ad102.jpg",  // HP3
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuijfVuXbPWHRCGB843UoJBhxkwrfw2VybzNKMzog71VyUB1mEDkg0j9Fk7AzWo2ItD-g&usqp=CAU",  // FB
 
-                "https://m.media-amazon.com/images/I/A1vHJnCYNRL._RI_.jpg",
-                "https://deadline.com/wp-content/uploads/2023/03/fyuoirKpkTIjKPf88C81FkGdAVo-1.jpg?w=683",
+                "https://basementrejects.com/wp-content/uploads/2012/07/insomnia-fog.jpg",  // Insomnia
+                "https://upload.wikimedia.org/wikipedia/en/2/2a/Fall_%282022_film%29.jpg",  // Fall
 
-                "https://www.usmagazine.com/wp-content/uploads/2020/11/Mamma-Mia-Cast-Where-Are-They-Now-Feature.jpg?quality=40&strip=all",
-                "https://m.media-amazon.com/images/M/MV5BMzUzNDM2NzM2MV5BMl5BanBnXkFtZTgwNTM3NTg4OTE@._V1_.jpg",
+                "https://i.pinimg.com/640x/c7/7a/6b/c77a6bdff30f5d93abbbdab1e3466ae7.jpg",  // Mamamia
+                "https://sojo.net/sites/default/files/styles/large_rectangle_crop/public/blog/14138269_576769935842944_1998357375766171876_o.jpg?itok=2EqpOLdj",  // Lalaland
 
-                "https://images.moviesanywhere.com/b9a3188acb29ea7a1878f410cad0cf45/5188ee57-26c5-4a7a-b64d-7b3e842a7e9b.jpg",
-                "https://cdnb.artstation.com/p/assets/images/images/046/288/721/large/julian-vanden-bossche-affiche-langdon-min.jpg?1644764038",
+                "https://is4-ssl.mzstatic.com/image/thumb/Features123/v4/b5/3a/27/b53a271e-38dc-b59e-e6dc-f8bcffbeb731/mzl.ioafrsek.png/1200x675mf.jpg",  // Sherlock Holmes
+                "https://cdn-o.fishpond.com/0284/768/355/1398570872/original.jpeg",  // The Da Vinci COde
 
                 "https://www.tvguide.com/a/img/catalog/provider/1/2/1-172519842.jpg",
                 "https://m.media-amazon.com/images/M/MV5BMTYxNDMyOTAxN15BMl5BanBnXkFtZTgwMDg1ODYzNTM@._V1_.jpg",
