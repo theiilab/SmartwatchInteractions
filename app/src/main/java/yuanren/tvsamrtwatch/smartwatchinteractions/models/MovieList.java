@@ -236,11 +236,11 @@ public final class MovieList {
                 "https://is4-ssl.mzstatic.com/image/thumb/Features123/v4/b5/3a/27/b53a271e-38dc-b59e-e6dc-f8bcffbeb731/mzl.ioafrsek.png/1200x675mf.jpg",  // Sherlock Holmes
                 "https://cdn-o.fishpond.com/0284/768/355/1398570872/original.jpeg",  // The Da Vinci COde
 
-                "https://www.tvguide.com/a/img/catalog/provider/1/2/1-172519842.jpg",
-                "https://m.media-amazon.com/images/M/MV5BMTYxNDMyOTAxN15BMl5BanBnXkFtZTgwMDg1ODYzNTM@._V1_.jpg",
+                "https://www.mercurynews.com/wp-content/uploads/2016/08/20100910_105353_flipped2.jpg?w=640",  // Flipped
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbv0t6O-EJar3UUAdtXQtbSWEDjHCCK7eCkb8X4CjyaSPaUzmjTGf8dix1Ll-tnms2B-4&usqp=CAU",  // Crazy Rich Asians
 
-                "https://assets.mycast.io/posters/inception-2-the-big-under-2023-fan-casting-poster-66202-large.jpg?1605643123",
-                "https://image.tmdb.org/t/p/original/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg"
+                "https://assets.mycast.io/posters/inception-2-the-big-under-2023-fan-casting-poster-66202-large.jpg?1605643123",  // Inception
+                "https://image.tmdb.org/t/p/original/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg"  // The Adam Project
         };
 
         int n = title.length;
