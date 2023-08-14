@@ -218,11 +218,11 @@ public final class MovieList {
                 "https://img3.hulu.com/user/v3/artwork/3db7ecba-9c35-4663-bed2-15b2725709c5?base_image_bucket_name=image_manager&base_image=eff07ffa-ac26-462e-8b42-4f14f1c6226e&size=458x687&format=jpeg",  // Jumanji
                 "https://assets-prd.ignimgs.com/2022/01/13/uncharted-newbutton-1642092379328.jpg",  //Uncharted
 
-                "https://image.tmdb.org/t/p/original/8912AsVuS7Sj915apArUFbv6F9L.jpg",
-                "https://m.media-amazon.com/images/M/MV5BMjIxMjgxNTk0MF5BMl5BanBnXkFtZTgwNjIyOTg2MDE@._V1_FMjpg_UX1000_.jpg",
+                "https://i.insider.com/60dba0f08a6397001257af9f?width=1000&format=jpeg&auto=webp",  // The Devil Wears Prada
+                "https://media.newyorker.com/photos/590951571c7a8e33fb38a2e8/master/w_2560%2Cc_limit/wallstreet-580.jpg",  // The Wolf of Wall Street
 
-                "https://www.sonypictures.com/sites/default/files/styles/max_560x840/public/title-key-art/venom_onesheet_1400x2100_rated.png?itok=0tO6umMg",
-                "https://toplist.vn/images/800px/iron-man-2008-863125.jpg",
+                "https://resizing.flixster.com/ydEdPTmh6k_bkuWwskRYT9CDnCk=/300x300/v2/https://flxt.tmsimg.com/assets/p13937884_v_v8_aa.jpg",  // Venom
+                "https://images.bauerhosting.com/legacy/empire-tmdb/films/1726/images/ZQixhAZx6fH1VNafFXsqa1B8QI.jpg?format=jpg&quality=80&width=960&height=540&ratio=16-9&resize=aspectfill",  //Iron Man
 
                 "https://static.wikia.nocookie.net/harrypotter/images/9/9e/Harry_Potter_and_the_Prisoner_of_Azkaban_poster.jpeg/revision/latest?cb=20220922141058",
                 "https://m.media-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_FMjpg_UX1000_.jpg",
