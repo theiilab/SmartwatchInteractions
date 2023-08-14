@@ -160,11 +160,12 @@ public class NetworkUtils {
 
     public static void sendCommand(int keyCode) {
         // actual command message
-        byte[] payload = getCommandDown(keyCode);
+        byte[] payload = getCommandDown(keyCode);  // for action down
         send(payload);
-        payload = getCommandUp(keyCode);
+        payload = getCommandUp(keyCode);  // for action up
         send(payload);
-        Log.d(TAG,receive().toString());
+
+        receive();
     }
 
     private static void sendPair(byte[] payload) {
@@ -204,7 +205,7 @@ public class NetworkUtils {
     }
 
     private static byte[] receive() {
-        byte[] serverResponse = new byte[100];
+        byte[] serverResponse = new byte[200];
         try {
             commInputStream.read(serverResponse);
         } catch (IOException e) {

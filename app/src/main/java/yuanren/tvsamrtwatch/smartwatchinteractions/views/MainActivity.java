@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,11 +28,15 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
+
+    private FrameLayout container;
     private ImageView movieBg;
     private TextView movieName;
     private boolean isChannelSetUp = false;
 
     private Movie movie;
+
+    private boolean isMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class MainActivity extends Activity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        container = binding.container;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
 
@@ -52,10 +58,18 @@ public class MainActivity extends Activity {
         setMovieInfo();
 
         // X-Ray sliding interactions
-        movieName.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
-                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_RIGHT);
+                if (isMenu) {
+                    isMenu = false;
+                    movieBg.setVisibility(View.VISIBLE);
+                    movieName.setVisibility(View.VISIBLE);
+
+                    movie = MovieList.getFirstMovie();
+                } else {
+                    movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_RIGHT);
+                }
                 setMovieInfo();
 
                 Log.d(TAG, "Swipe right");
@@ -64,9 +78,17 @@ public class MainActivity extends Activity {
 
             @Override
             public void onSwipeLeft(View view) {
-                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_LEFT);
-                setMovieInfo();
+                // on the edge between first movie item
+                if (MovieList.getIndex() % MovieList.NUM_COLS == 0) {  // show menu list
+                    isMenu = true;
+                    movieBg.setVisibility(View.GONE);
+                    movieName.setVisibility(View.GONE);
 
+                    Log.d(TAG, "menu");
+                } else { //  slide left on movie list
+                    movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_LEFT);
+                    setMovieInfo();
+                }
                 Log.d(TAG, "Swipe left");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
             }

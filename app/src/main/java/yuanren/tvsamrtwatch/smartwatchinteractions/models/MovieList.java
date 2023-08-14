@@ -25,6 +25,10 @@ public final class MovieList {
 
     private static int index = 0;
 
+    public static int getIndex() {
+        return index;
+    }
+
     public static Movie getFirstMovie() {
         return list == null ? null : list.get(0);
     }
