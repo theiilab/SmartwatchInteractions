@@ -212,11 +212,11 @@ public final class MovieList {
                 "https://i0.wp.com/615film.com/wp-content/uploads/2022/03/the-adam-project-header-image.jpg?fit=1280%2C720&ssl=1"
         };
         String cardImageUrl[] = {
-                "https://flxt.tmsimg.com/assets/p10672282_p_v8_ad.jpg",
-                "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ2IBsC-V_4yWbxP6E-mZnylYRTYq2G1lp8_s2XMzHPxkWqmKHp",
+                "https://image.tmdb.org/t/p/w300/qzUIOTk0E3F1zjvYjcBRTKUTgf9.jpg",  // Kingsman
+                "https://occ-0-3934-1217.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABSnpnCU2Bb-QjJmTVcTU6gG57sYTE-q2UOx2GsLEjFX83tNvgxB5yFtpqyJQGAAB21o_O9VYKdOKPfxe7joIcWaMPhrF3YRfNNBP.jpg?r=afe",  // Red Notice
 
-                "https://occ-0-622-299.1.nflxso.net/dnm/api/v6/evlCitJPPCVCry0BZlEFb5-QjKc/AAAABUd8TVjXGgyMY5xgsqWKbpbKx4XgKm5vXsFRSWUhoYE52kJvEcjqFjfIuAGnjh5NWWLUlfG_mMyALnqZOW67muP5zYH4WGte6YGj.jpg",
-                "https://www.waukeepubliclibrary.org/sites/default/files/Event%20Images/Adult%20Events/MV5BMWEwNjhkYzYtNjgzYy00YTY2LThjYWYtYzViMGJkZTI4Y2MyXkEyXkFqcGdeQXVyNTM0OTY1OQ%40%40._V1_FMjpg_UX1000_.jpg",
+                "https://img3.hulu.com/user/v3/artwork/3db7ecba-9c35-4663-bed2-15b2725709c5?base_image_bucket_name=image_manager&base_image=eff07ffa-ac26-462e-8b42-4f14f1c6226e&size=458x687&format=jpeg",  // Jumanji
+                "https://assets-prd.ignimgs.com/2022/01/13/uncharted-newbutton-1642092379328.jpg",  //Uncharted
 
                 "https://image.tmdb.org/t/p/original/8912AsVuS7Sj915apArUFbv6F9L.jpg",
                 "https://m.media-amazon.com/images/M/MV5BMjIxMjgxNTk0MF5BMl5BanBnXkFtZTgwNjIyOTg2MDE@._V1_FMjpg_UX1000_.jpg",
