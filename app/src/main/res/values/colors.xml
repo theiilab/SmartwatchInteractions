@@ -2,4 +2,7 @@
 <resources>
     <color name="x_ray_bg">#340E36</color>
     <color name="movie_bg_shadow">#99000000</color>
+
+    <color name="background_gradient_start">#FF000000</color>
+    <color name="background_gradient_end">#00DDDDDD</color>
 </resources>
