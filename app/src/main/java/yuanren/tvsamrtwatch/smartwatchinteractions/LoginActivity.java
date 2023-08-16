@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -22,7 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.MainActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 
 public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";

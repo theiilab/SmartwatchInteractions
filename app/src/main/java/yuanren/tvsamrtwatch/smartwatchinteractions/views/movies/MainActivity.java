@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.views;
+package yuanren.tvsamrtwatch.smartwatchinteractions.views.movies;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -32,10 +34,11 @@ public class MainActivity extends Activity {
     private FrameLayout container;
     private ImageView movieBg;
     private TextView movieName;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+
     private boolean isChannelSetUp = false;
-
     private Movie movie;
-
     private boolean isMenu;
 
     @Override
@@ -50,6 +53,15 @@ public class MainActivity extends Activity {
         container = binding.container;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
+        recyclerView = binding.recyclerView;
+
+        LinearLayoutManager ll = new LinearLayoutManager(getApplicationContext());
+        ll.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(ll);
+//        recyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.dimens_10dp)));
+        adapter = new MenuItemListAdapter();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.GONE);
 
         // load movie
         MovieList.setupMovies(MovieList.NUM_COLS);
@@ -63,6 +75,7 @@ public class MainActivity extends Activity {
             public void onSwipeRight(View view) {
                 if (isMenu) {
                     isMenu = false;
+                    recyclerView.setVisibility(View.GONE);
                     movieBg.setVisibility(View.VISIBLE);
                     movieName.setVisibility(View.VISIBLE);
 
@@ -83,6 +96,7 @@ public class MainActivity extends Activity {
                     isMenu = true;
                     movieBg.setVisibility(View.GONE);
                     movieName.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
                     Log.d(TAG, "menu");
                 } else { //  slide left on movie list

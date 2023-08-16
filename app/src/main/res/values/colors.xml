@@ -5,4 +5,6 @@
 
     <color name="background_gradient_start">#FF000000</color>
     <color name="background_gradient_end">#00DDDDDD</color>
+
+    <color name="menu_icon_bg">#2E2F34</color>
 </resources>
