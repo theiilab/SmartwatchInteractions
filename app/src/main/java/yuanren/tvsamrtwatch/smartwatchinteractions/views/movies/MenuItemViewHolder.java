@@ -16,7 +16,7 @@ public class MenuItemViewHolder extends RecyclerView.ViewHolder {
     public MenuItemViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        icon = itemView.findViewById(R.id.icon);
-        name = itemView.findViewById(R.id.name);
+//        icon = itemView.findViewById(R.id.icon);
+//        name = itemView.findViewById(R.id.name);
     }
 }

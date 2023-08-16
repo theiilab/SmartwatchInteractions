@@ -11,16 +11,24 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
@@ -29,15 +37,22 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
-    private ActivityMainBinding binding;
+    private static final int MENU_SEARCH = 0;
+    private static final int MENU_HOME = 1;
+    private static final int MENU_MOVIES = 2;
+    private static final int MENU_TV = 3;
+    private static final int MENU_SETTINGS = 4;
 
+    private ActivityMainBinding binding;
     private FrameLayout container;
     private ImageView movieBg;
     private TextView movieName;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
+    private ScrollView menuContainer;
     private boolean isChannelSetUp = false;
+    private int currentSelectedMenuItem = 1;
     private Movie movie;
     private boolean isMenu;
 
@@ -53,15 +68,18 @@ public class MainActivity extends Activity {
         container = binding.container;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
-        recyclerView = binding.recyclerView;
+        menuContainer = binding.menuContainer;
+//        recyclerView = binding.recyclerView;
+//
+//        LinearLayoutManager ll = new LinearLayoutManager(getApplicationContext());
+//        ll.setOrientation(LinearLayoutManager.VERTICAL);
+//        recyclerView.setLayoutManager(ll);
+////        recyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.dimens_10dp)));
+//        adapter = new MenuItemListAdapter();
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setVisibility(View.GONE);
 
-        LinearLayoutManager ll = new LinearLayoutManager(getApplicationContext());
-        ll.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(ll);
-//        recyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.dimens_10dp)));
-        adapter = new MenuItemListAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setVisibility(View.GONE);
+        menuContainer.setVisibility(View.GONE);
 
         // load movie
         MovieList.setupMovies(MovieList.NUM_COLS);
@@ -75,7 +93,7 @@ public class MainActivity extends Activity {
             public void onSwipeRight(View view) {
                 if (isMenu) {
                     isMenu = false;
-                    recyclerView.setVisibility(View.GONE);
+                    menuContainer.setVisibility(View.GONE);
                     movieBg.setVisibility(View.VISIBLE);
                     movieName.setVisibility(View.VISIBLE);
 
@@ -96,9 +114,7 @@ public class MainActivity extends Activity {
                     isMenu = true;
                     movieBg.setVisibility(View.GONE);
                     movieName.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                    Log.d(TAG, "menu");
+                    menuContainer.setVisibility(View.VISIBLE);
                 } else { //  slide left on movie list
                     movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_LEFT);
                     setMovieInfo();
@@ -146,6 +162,46 @@ public class MainActivity extends Activity {
             }
         });
 
+        menuContainer.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+
+            @Override
+            public void onSwipeRight(View view) {
+
+            }
+
+            @Override
+            public void onSwipeLeft(View view) {
+                Log.d(TAG, "On menu swipe left");
+                menuContainer.setVisibility(View.GONE);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+            }
+
+            @Override
+            public void onSwipeBottom(View view) {
+
+            }
+
+            @Override
+            public void onSwipeTop(View view) {
+
+            }
+
+            @Override
+            public void onClick(View view) {
+
+            }
+
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+
+            @Override
+            public boolean onTwoPointerTap(View view) {
+                return false;
+            }
+        });
+
         // start the SSL Socket Connection
         new SocketAsyncTask().execute();
     }
@@ -156,6 +212,43 @@ public class MainActivity extends Activity {
                 .load(movie.getCardImageUrl())
                 .centerCrop()
                 .into(movieBg);
+    }
+
+    public void onCheckItemClicked(View view) {
+        Log.d(TAG, "Menu item selected");
+
+        Map<Integer, Integer> map = Stream.of(new Object[][] {
+                { R.id.search_icon, MENU_SEARCH},
+                { R.id.search_text, MENU_SEARCH},
+                { R.id.home_icon, MENU_HOME},
+                { R.id.home_text, MENU_HOME},
+                { R.id.movie_icon, MENU_MOVIES},
+                { R.id.movie_text, MENU_MOVIES},
+                { R.id.tv_icon, MENU_TV},
+                { R.id.tv_text, MENU_TV},
+                { R.id.setting_icon, MENU_SETTINGS},
+                { R.id.setting_text, MENU_SETTINGS},
+        }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (Integer) data[1]));
+
+        int id = view.getId();
+        int diff = map.get(id) - currentSelectedMenuItem;
+        performActionBy(diff);
+        new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+    }
+
+    private void performActionBy(int diff) {
+        if (diff == 0) { return; }
+        int count = diff < 0 ? diff * -1 : diff;
+
+        if (diff < 0) {
+            for (int i = 0; i < count; ++i) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
+            }
+        } else {
+            for (int i = 0; i < count; ++i) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
+            }
+        }
     }
 
     @Override
