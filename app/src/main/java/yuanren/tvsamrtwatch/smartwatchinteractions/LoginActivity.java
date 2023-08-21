@@ -27,6 +27,8 @@ public class LoginActivity extends FragmentActivity {
 
     private FrameLayout container;
     private EditText editText;
+
+    private TextView textView;
     private ActivityLoginBinding binding;
 
     private boolean isChannelSetUp = false;
@@ -41,6 +43,7 @@ public class LoginActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         container = binding.container;
+        textView = binding.text;
         editText = binding.verificationCode;
 
         container.setOnTouchListener(new View.OnTouchListener() {
@@ -101,6 +104,7 @@ public class LoginActivity extends FragmentActivity {
             if (!isChannelSetUp) {
                 isChannelSetUp = true;
                 editText.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
             } else {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

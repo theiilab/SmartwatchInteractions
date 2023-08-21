@@ -12,6 +12,14 @@
         android:padding="@dimen/inner_frame_layout_padding"
         app:layout_boxedEdges="all">
 
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:text="Connecting" />
+
         <EditText
             android:id="@+id/verification_code"
             android:layout_width="match_parent"
@@ -21,7 +29,9 @@
             android:imeOptions="actionDone"
             android:singleLine="true"
             android:lines="1"
-            android:text="" />
+            android:text=""
+            android:visibility="invisible"/>
+
 
     </FrameLayout>
 
