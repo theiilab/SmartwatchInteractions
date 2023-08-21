@@ -1,15 +1,15 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.views.movies;
+package yuanren.tvsamrtwatch.smartwatchinteractions.views.nav_menu;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableRecyclerView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 
-public class MenuItemListAdapter extends RecyclerView.Adapter {
+public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
     private int[] icons;
 
     private String[] names;
@@ -22,13 +22,13 @@ public class MenuItemListAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public WearableRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
         return new MenuItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WearableRecyclerView.ViewHolder holder, int position) {
         MenuItemViewHolder menuItemViewHolder = (MenuItemViewHolder) holder;
         menuItemViewHolder.icon.setImageDrawable(holder.itemView.getContext().getDrawable(icons[position]));
         menuItemViewHolder.name.setText(names[position]);

@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.MainActivity;
 
 public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";
