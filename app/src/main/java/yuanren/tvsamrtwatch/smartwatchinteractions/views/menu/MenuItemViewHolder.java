@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.views.nav_menu;
+package yuanren.tvsamrtwatch.smartwatchinteractions.views.menu;
 
 import android.view.View;
 import android.widget.ImageView;

@@ -33,6 +33,10 @@ public final class MovieList {
         return list == null ? null : list.get(0);
     }
 
+    public static Movie getMovie(int id) {
+        return list.get(id);
+    }
+
     public static Movie getNextMovie(int keyEvent) {
         switch (keyEvent) {
             case KeyEvent.KEYCODE_DPAD_LEFT:

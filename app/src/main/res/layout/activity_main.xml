@@ -15,7 +15,7 @@
         android:layout_marginLeft="-35dp"
         android:layout_marginTop="-35dp"
         android:padding="@dimen/inner_frame_layout_padding"
-        app:layout_boxedEdges="all">
+        app:layout_boxedEdges="all" >
 
         <ImageView
             android:id="@+id/movie_bg"
@@ -44,17 +44,6 @@
             android:textAlignment="center"
             android:textSize="19sp"
             android:text="@string/hello_world" />
-
-        <!--  menu item  -->
-        <ScrollView
-            android:id="@+id/menuContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <include layout="@layout/menu_item" />
-
-        </ScrollView>
 
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>
