@@ -7,4 +7,7 @@
     <color name="background_gradient_end">#00DDDDDD</color>
 
     <color name="menu_icon_bg">#3F3E3C</color>
+
+    <color name="code_unfocused_bg">#3f3a44</color>
+    <color name="code_focused_bg">#a060e5</color>
 </resources>

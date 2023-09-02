@@ -19,20 +19,33 @@
             android:layout_gravity="center"
             android:textAlignment="center"
             android:textSize="19sp"
-            android:text="Connecting" />
+            android:text="Connecting ..." />
 
-        <EditText
+        <com.dalimao.corelibrary.VerificationCodeInput
             android:id="@+id/verification_code"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:inputType="textVisiblePassword"
-            android:textAlignment="center"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:lines="1"
-            android:text=""
-            android:visibility="gone"/>
+            app:child_width="30dp"
+            app:child_height="50dp"
+            app:box_bg_normal="@drawable/code_unfocused"
+            app:box_bg_focus="@drawable/code_focused"
+            app:child_h_padding="3dp"
+            app:box="6" />
+
+<!--        <EditText-->
+<!--            android:id="@+id/verification_code"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:inputType="textVisiblePassword"-->
+<!--            android:textAlignment="center"-->
+<!--            android:imeOptions="actionDone"-->
+<!--            android:singleLine="true"-->
+<!--            android:lines="1"-->
+<!--            android:text=""-->
+<!--            android:visibility="gone"/>-->
 
 
     </FrameLayout>
