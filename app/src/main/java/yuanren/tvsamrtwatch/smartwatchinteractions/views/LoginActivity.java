@@ -5,16 +5,18 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
-
-import com.dalimao.corelibrary.VerificationCodeInput;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
@@ -24,9 +26,7 @@ public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";
 
     private FrameLayout container;
-//    private EditText editText;
-
-    private VerificationCodeInput verifiedInput;
+    private EditText editText;
     private TextView textView;
     private ActivityLoginBinding binding;
 
@@ -43,7 +43,7 @@ public class LoginActivity extends FragmentActivity {
 
         container = binding.container;
         textView = binding.text;
-        verifiedInput = binding.verificationCode;
+        editText = binding.verificationCode;
 
         container.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -58,32 +58,22 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
-//        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    // Perform action on key press
-//                    if (editText.getText().length() >= 6) {
-//                        new SocketAsyncTask().execute(editText.getText().toString());
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Enter the pairing code from the TV", Toast.LENGTH_SHORT);
-//                    }
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//        editText.setVisibility(View.GONE);
-        verifiedInput.setOnCompleteListener(new VerificationCodeInput.Listener() {
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onComplete(String content) {
-                Log.d(TAG, "完成输入：" + content);
-                // Perform action on key press
-                    if (content.length() >= 6) {
-                        new SocketAsyncTask().execute(content);
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Perform action on key press
+                    if (editText.getText().length() >= 6) {
+                        new SocketAsyncTask().execute(editText.getText().toString());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Enter the pairing code from the TV", Toast.LENGTH_SHORT);
                     }
+                    return true;
+                }
+                return false;
             }
         });
+        editText.setVisibility(View.GONE);
 
         // start the SSL Socket Connection
         new SocketAsyncTask().execute();
@@ -113,7 +103,7 @@ public class LoginActivity extends FragmentActivity {
             if (!isChannelSetUp) {
                 isChannelSetUp = true;
 //                editText.setVisibility(View.VISIBLE);
-                verifiedInput.setVisibility(View.VISIBLE);
+                editText.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.GONE);
             } else {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
