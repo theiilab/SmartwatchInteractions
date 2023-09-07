@@ -13,10 +13,10 @@
     -->
     <dimen name="inner_frame_layout_padding">5dp</dimen>
 
-    <dimen name="menu_item_size">40dp</dimen>
-    <dimen name="menu_icon_size">30dp</dimen>
-    <dimen name="menu_item_radius">20dp</dimen>
-    <dimen name="menu_item_margin">10dp</dimen>
+    <dimen name="menu_item_size">35dp</dimen>
+    <dimen name="menu_item_radius">35dp</dimen>
+    <dimen name="menu_item_padding">10dp</dimen>
+    <dimen name="menu_item_margin">15dp</dimen>
 
-    <dimen name="menu_item_text_size">16sp</dimen>
+    <dimen name="menu_item_text_size">17sp</dimen>
 </resources>

@@ -46,43 +46,6 @@ public class MenuActivity extends Activity {
         recyclerView.setEdgeItemsCenteringEnabled(true);
     }
 
-    //    public void onCheckItemClicked(View view) {
-//        Log.d(TAG, "Menu item selected");
-//
-//        Map<Integer, Integer> map = Stream.of(new Object[][] {
-//                { R.id.search_icon, MENU_SEARCH},
-//                { R.id.search_text, MENU_SEARCH},
-//                { R.id.home_icon, MENU_HOME},
-//                { R.id.home_text, MENU_HOME},
-//                { R.id.movie_icon, MENU_MOVIES},
-//                { R.id.movie_text, MENU_MOVIES},
-//                { R.id.tv_icon, MENU_TV},
-//                { R.id.tv_text, MENU_TV},
-//                { R.id.setting_icon, MENU_SETTINGS},
-//                { R.id.setting_text, MENU_SETTINGS},
-//        }).collect(Collectors.toMap(data -> (Integer) data[0], data -> (Integer) data[1]));
-//
-//        int id = view.getId();
-//        int diff = map.get(id) - currentSelectedMenuItem;
-//        performActionBy(diff);
-//        new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-//    }
-
-    private void performActionBy(int diff) {
-        if (diff == 0) { return; }
-        int count = diff < 0 ? diff * -1 : diff;
-
-        if (diff < 0) {
-            for (int i = 0; i < count; ++i) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
-            }
-        } else {
-            for (int i = 0; i < count; ++i) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
-            }
-        }
-    }
-
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
