@@ -18,5 +18,5 @@
     <dimen name="menu_item_padding">10dp</dimen>
     <dimen name="menu_item_margin">15dp</dimen>
 
-    <dimen name="menu_item_text_size">17sp</dimen>
+    <dimen name="menu_item_text_size">16sp</dimen>
 </resources>

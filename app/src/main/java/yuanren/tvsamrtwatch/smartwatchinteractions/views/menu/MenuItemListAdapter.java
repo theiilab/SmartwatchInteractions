@@ -25,7 +25,7 @@ public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
     public MenuItemListAdapter() {
         icons = new int[] {R.drawable.baseline_search_24, R.drawable.baseline_home_24, R.drawable.baseline_movie_24, R.drawable.baseline_tv_24, R.drawable.baseline_settings_24};
 
-        names = new String[] {"Search", "Home", "Movies", "TV Channels", "Settings"};
+        names = new String[] {"SEARCH", "HOME", "MOVIES", "TV CHANNELS", "SETTINGS"};
     }
 
     @NonNull

@@ -7,8 +7,9 @@
     <color name="background_gradient_end">#00DDDDDD</color>
 
     <!--    Menu Activity-->
-    <color name="menu_item_bg">#6923D9</color>#6D29D3
-    <color name="menu_icon_bg">#8648ea</color>
+    <color name="menu_text_bg">#F2E6FE</color>
+    <color name="menu_item_bg">#BB86FC</color>#6923D9
+    <color name="menu_icon_bg">#BB86FC</color>
     <color name="menu_icon_search_bg">#F1B508</color>
     <color name="menu_icon_home_bg">#a060e5</color>
     <color name="menu_icon_movies_bg">#4180ED</color>

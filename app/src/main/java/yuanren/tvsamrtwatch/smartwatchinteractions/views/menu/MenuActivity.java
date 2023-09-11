@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
@@ -32,6 +33,10 @@ public class MenuActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // keep screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         recyclerView = binding.recyclerView;
@@ -44,6 +49,7 @@ public class MenuActivity extends Activity {
         adapter = new MenuItemListAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setEdgeItemsCenteringEnabled(true);
+        recyclerView.scrollToPosition(1);  // scroll to HOME by default
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
