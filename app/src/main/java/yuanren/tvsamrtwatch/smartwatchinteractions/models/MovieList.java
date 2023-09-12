@@ -217,7 +217,7 @@ public final class MovieList {
         };
         String cardImageUrl[] = {
                 "https://image.tmdb.org/t/p/w300/qzUIOTk0E3F1zjvYjcBRTKUTgf9.jpg",  // Kingsman
-                "https://occ-0-3934-1217.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABSnpnCU2Bb-QjJmTVcTU6gG57sYTE-q2UOx2GsLEjFX83tNvgxB5yFtpqyJQGAAB21o_O9VYKdOKPfxe7joIcWaMPhrF3YRfNNBP.jpg?r=afe",  // Red Notice
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-NPoAHHYnD7NanifrvDSeN5tWLld6B3WP_vvs2hvFVMDB-7acfRajLnNR7oEwP3dLBb4&usqp=CAU",  // Red Notice
 
                 "https://img3.hulu.com/user/v3/artwork/3db7ecba-9c35-4663-bed2-15b2725709c5?base_image_bucket_name=image_manager&base_image=eff07ffa-ac26-462e-8b42-4f14f1c6226e&size=458x687&format=jpeg",  // Jumanji
                 "https://assets-prd.ignimgs.com/2022/01/13/uncharted-newbutton-1642092379328.jpg",  //Uncharted
