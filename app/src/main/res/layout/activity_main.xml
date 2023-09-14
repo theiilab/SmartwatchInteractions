@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,11 +10,8 @@
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_marginLeft="-35dp"
-        android:layout_marginTop="-35dp"
-        android:padding="@dimen/inner_frame_layout_padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_boxedEdges="all" >
 
         <ImageView
@@ -27,14 +24,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/movie_bg_shadow"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@color/movie_bg_shadow"/>
+            android:background="@drawable/default_background"/>
 
         <TextView
             android:id="@+id/movie_name"
@@ -42,8 +34,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textAlignment="center"
-            android:textSize="19sp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/menu_text_bg"
             android:text="@string/hello_world" />
 
     </FrameLayout>
-</androidx.wear.widget.BoxInsetLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
