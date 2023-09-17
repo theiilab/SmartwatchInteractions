@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@drawable/default_background"/>
+            android:background="@drawable/movie_title_frame"/>
 
         <TextView
             android:id="@+id/movie_name"
