@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class LoginActivity extends FragmentActivity {
     private ActivityLoginBinding binding;
 
     private boolean isChannelSetUp = false;
+    private String pinCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,9 @@ public class LoginActivity extends FragmentActivity {
                 return true;
             }
         });
+
+        // set for always Cap letter (upper case)
+        editText.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
