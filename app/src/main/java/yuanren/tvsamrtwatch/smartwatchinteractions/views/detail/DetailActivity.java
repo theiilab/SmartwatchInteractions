@@ -1,11 +1,19 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.detail;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
@@ -18,6 +26,13 @@ public class DetailActivity extends Activity {
     public static final String MOVIE_ID = "selectedMovieId";
 
     private ActivityDetailBinding binding;
+    private ConstraintLayout container;
+    private ImageView movieBg;
+    private TextView title;
+    private TextView studio;
+    private TextView category;
+    private ImageButton playIB;
+
     private Movie movie;
 
     @Override
@@ -29,8 +44,37 @@ public class DetailActivity extends Activity {
 
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
+        container = binding.container;
+        movieBg = binding.movieBg;
+        title = binding.title;
+        studio = binding.studio;
+        category = binding.category;
+        playIB = binding.play;
 
-        Log.d(TAG, movie.getTitle());
+        // get selected movie
+        movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
+        title.setText(movie.getTitle());
+        studio.setText(movie.getStudio());
+        category.setText(movie.getCategory());
+        Glide.with(getApplicationContext())
+                .load(movie.getCardImageUrl())
+                .centerCrop()
+                .into(movieBg);
+
+        playIB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), );
+//                startActivity(intent);
+            }
+        });
+
+        container.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DetailActivity.super.onBackPressed();
+                return true;
+            }
+        });
     }
 }
