@@ -7,13 +7,14 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/menu_item_padding"
     android:background="@drawable/shape_menu_item">
-    <ImageView
+    <ImageButton
         android:id="@+id/icon"
         android:layout_width="@dimen/menu_item_size"
         android:layout_height="@dimen/menu_item_size"
         android:layout_marginLeft="@dimen/menu_item_margin"
         android:layout_gravity="center"
         android:src="@drawable/baseline_search_24"
+        android:background="@color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -30,5 +31,16 @@
         android:text="menu item"
         app:layout_constraintBaseline_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/icon"/>
+
+    <ImageView
+        android:id="@+id/indicator"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginRight="@dimen/menu_item_margin"
+        android:src="@drawable/baseline_circle_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

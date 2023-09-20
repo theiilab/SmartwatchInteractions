@@ -17,6 +17,11 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
     public static final String TAG = "MenuItemListAdapter";
+    public static final int MENU_SEARCH = 0;
+    public static final int MENU_HOME = 1;
+    public static final int MENU_MOVIES = 2;
+    public static final int MENU_TV = 3;
+    public static final int MENU_SETTINGS = 4;
     public static int currentSelectedMenuItem = 1;
     private int[] icons;
 
@@ -46,6 +51,7 @@ public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
                 int diff = menuItemViewHolder.getLayoutPosition() - currentSelectedMenuItem;
                 performActionBy(diff);
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
                 currentSelectedMenuItem = menuItemViewHolder.getLayoutPosition();
             }
         });

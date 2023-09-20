@@ -13,10 +13,21 @@
     -->
     <dimen name="inner_frame_layout_padding">5dp</dimen>
 
+    <!--    menu-->
     <dimen name="menu_item_size">35dp</dimen>
     <dimen name="menu_item_radius">35dp</dimen>
     <dimen name="menu_item_padding">10dp</dimen>
     <dimen name="menu_item_margin">15dp</dimen>
-
     <dimen name="menu_item_text_size">16sp</dimen>
+
+    <!--    detail-->
+    <dimen name="detail_item_size">24dp</dimen>
+    <dimen name="detail_icon_size">14dp</dimen>
+    <dimen name="detail_icon_size_lg">32dp</dimen>
+    <dimen name="detail_icon_radius">12dp</dimen>
+    <dimen name="detail_icon_radius_lg">16dp</dimen>
+    <dimen name="detail_margin_parent">15dp</dimen>
+    <dimen name="detail_margin_in_between">5dp</dimen>
+    <dimen name="detail_margin_in_between_lg">10dp</dimen>
+    <dimen name="detail_text_size">10sp</dimen>
 </resources>

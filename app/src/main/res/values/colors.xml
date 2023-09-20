@@ -3,8 +3,18 @@
     <color name="x_ray_bg">#340E36</color>
     <color name="movie_bg_shadow">#99000000</color>
 
-    <color name="background_gradient_start">#DD000000</color>
-    <color name="background_gradient_end">#00DDDDDD</color>
+    <color name="background_gradient_start">#00DDDDDD</color>
+    <color name="background_gradient_center">#E1000000</color>
+    <color name="background_gradient_end">#FF000000</color>
+
+    <color name="primary_color">#BB86FC</color>
+    <color name="primary_color_opaque">#99BB86FC</color>
+    <color name="secondary_color">#7F39FB</color>
+    <color name="secondary_color_opaque">#997F39FB</color>
+    <color name="primary_text_color">#F2E6FE</color>
+    <color name="secondary_text_color">#908899</color>
+    <color name="alternative_color_opaque">#1DFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <!--    Menu Activity-->
     <color name="menu_text_bg">#F2E6FE</color>

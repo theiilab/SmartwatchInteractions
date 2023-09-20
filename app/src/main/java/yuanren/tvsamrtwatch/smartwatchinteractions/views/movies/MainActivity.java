@@ -22,15 +22,13 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
-    private static final int MENU_SEARCH = 0;
-    private static final int MENU_HOME = 1;
-    private static final int MENU_MOVIES = 2;
-    private static final int MENU_TV = 3;
-    private static final int MENU_SETTINGS = 4;
+
 
     private ActivityMainBinding binding;
     private FrameLayout container;
@@ -78,6 +76,7 @@ public class MainActivity extends Activity {
                 if (MovieList.getIndex() % MovieList.NUM_COLS == 0) {  // show menu list
                     currentSelectedMovieIndex = MovieList.getIndex();
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_HOME);
                     startActivity(intent);
                 } else { //  slide left on movie list
                     movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_LEFT);
@@ -106,6 +105,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                intent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
+                startActivity(intent);
             }
 
             @Override

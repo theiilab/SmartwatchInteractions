@@ -7,6 +7,7 @@ import androidx.wear.widget.WearableLinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,11 +25,12 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 
 public class MenuActivity extends Activity {
     public static final String TAG = "MenuActivity";
+    public static final String MENU_ITEM_TYPE = "TYPE";
 
     private ActivityMenuBinding binding;
     private WearableRecyclerView recyclerView;
     private WearableRecyclerView.Adapter adapter;
-    public int currentSelectedMenuItem = 1;
+    public int currentSelectedMenuItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +42,15 @@ public class MenuActivity extends Activity {
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         recyclerView = binding.recyclerView;
+        currentSelectedMenuItem = getIntent().getIntExtra(MENU_ITEM_TYPE, 1);
 
-        Log.d(TAG, "MenuActivity");
-
-        recyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
         CustomScrollingLayoutCallback customScrollingLayoutCallback = new CustomScrollingLayoutCallback();
         recyclerView.setLayoutManager(new WearableLinearLayoutManager(this, customScrollingLayoutCallback));
         adapter = new MenuItemListAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setEdgeItemsCenteringEnabled(true);
-        recyclerView.scrollToPosition(1);  // scroll to HOME by default
+        recyclerView.smoothScrollToPosition(currentSelectedMenuItem);  //scroll to HOME item to the center of the screen (not effective)
+
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
