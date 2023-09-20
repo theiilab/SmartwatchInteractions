@@ -23,6 +23,9 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
+        <meta-data
+            android:name="yuanren.tvsamrtwatch.smartwatchinteractions.models.MyGlideAppModule"
+            android:value="AppGlideModule" />
 
         <activity
             android:name=".views.LoginActivity"

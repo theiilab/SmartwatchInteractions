@@ -83,6 +83,8 @@ public class MenuActivity extends Activity implements ClickListener {
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
         currentSelectedMenuItem = position;
+
+
     }
 
     @Override
