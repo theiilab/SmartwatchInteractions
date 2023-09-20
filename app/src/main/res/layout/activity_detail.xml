@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.detail.DetailActivity">
+
+    <!--    movie bg-->
+    <ImageView
+        android:id="@+id/movie_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/movie"/>
+
+    <!--    cover-->
+    <View
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/default_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/img_blend_gradient_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!--    movie title-->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:textSize="24sp"
+        android:textColor="@color/primary_text_color"
+        android:text="Avatar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!--    studio-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/studio_container"
+        android:layout_width="@dimen/detail_item_size"
+        android:layout_height="@dimen/detail_item_size"
+        android:layout_marginLeft="@dimen/detail_margin_parent"
+        android:backgroundTint="@color/alternative_color_opaque"
+        app:cardCornerRadius="@dimen/detail_icon_radius"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title">
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_local_movies_24"/>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/studio"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/detail_item_size"
+        android:layout_marginLeft="@dimen/detail_margin_in_between"
+        android:gravity="center"
+        android:text="Universal Pictures"
+        android:textStyle="bold"
+        android:textSize="@dimen/detail_text_size"
+        android:textColor="@color/secondary_text_color"
+        app:layout_constraintLeft_toRightOf="@id/studio_container"
+        app:layout_constraintTop_toTopOf="@id/studio_container"/>
+
+    <!--    category-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/category_container"
+        android:layout_width="@dimen/detail_item_size"
+        android:layout_height="@dimen/detail_item_size"
+        android:layout_marginLeft="@dimen/detail_margin_in_between_lg"
+        android:backgroundTint="@color/alternative_color_opaque"
+        app:cardCornerRadius="@dimen/detail_icon_radius"
+        app:layout_constraintLeft_toRightOf="@id/studio"
+        app:layout_constraintTop_toTopOf="@id/studio_container">
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_grid_view_24"/>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/detail_item_size"
+        android:layout_marginLeft="@dimen/detail_margin_in_between"
+        android:gravity="center"
+        android:text="Mysteries"
+        android:textSize="@dimen/detail_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/secondary_text_color"
+        app:layout_constraintLeft_toRightOf="@id/category_container"
+        app:layout_constraintTop_toTopOf="@id/category_container"/>
+
+    <!--    buttons-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/replay"
+        android:layout_width="@dimen/detail_icon_size_lg"
+        android:layout_height="@dimen/detail_icon_size_lg"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="@dimen/detail_margin_in_between_lg"
+        android:backgroundTint="@color/alternative_color_opaque"
+        app:cardCornerRadius="@dimen/detail_icon_radius_lg"
+        app:layout_constraintRight_toLeftOf="@id/play"
+        app:layout_constraintTop_toTopOf="@id/play">
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_replay_24"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/my_list"
+        android:layout_width="@dimen/detail_icon_size_lg"
+        android:layout_height="@dimen/detail_icon_size_lg"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="@dimen/detail_margin_in_between_lg"
+        android:backgroundTint="@color/alternative_color_opaque"
+        app:cardCornerRadius="@dimen/detail_icon_radius_lg"
+        app:layout_constraintLeft_toRightOf="@id/play"
+        app:layout_constraintTop_toTopOf="@id/play">
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_playlist_add_24"/>
+    </androidx.cardview.widget.CardView>
+
+    <!--    play button-->
+    <View
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/shape_luminated_circle"
+        app:layout_constraintTop_toTopOf="@id/play_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/play_bg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/baseline_circle_24"
+        android:layout_marginTop="@dimen/detail_margin_in_between_lg"
+        app:layout_constraintTop_toBottomOf="@id/studio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </ImageView>
+
+    <ImageButton
+        android:id="@+id/play"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/baseline_play_arrow_24"
+        app:layout_constraintTop_toTopOf="@id/play_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

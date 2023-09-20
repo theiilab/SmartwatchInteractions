@@ -40,6 +40,9 @@
         <activity
             android:name=".views.menu.MenuActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.detail.DetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
