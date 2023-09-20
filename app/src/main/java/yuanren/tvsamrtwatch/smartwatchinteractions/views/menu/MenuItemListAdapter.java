@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.wear.widget.WearableRecyclerView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.ClickListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
@@ -22,12 +23,18 @@ public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
     public static final int MENU_MOVIES = 2;
     public static final int MENU_TV = 3;
     public static final int MENU_SETTINGS = 4;
-    public static int currentSelectedMenuItem = 1;
+    private ClickListener clickListenerCallBack;
     private int[] icons;
 
     private String[] names;
 
     public MenuItemListAdapter() {
+
+    }
+
+    public MenuItemListAdapter(ClickListener clickListener) {
+        this.clickListenerCallBack = clickListener;
+
         icons = new int[] {R.drawable.baseline_search_24, R.drawable.baseline_home_24, R.drawable.baseline_movie_24, R.drawable.baseline_tv_24, R.drawable.baseline_settings_24};
 
         names = new String[] {"SEARCH", "HOME", "MOVIES", "TV CHANNELS", "SETTINGS"};
@@ -48,11 +55,15 @@ public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
         menuItemViewHolder.menuItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int diff = menuItemViewHolder.getLayoutPosition() - currentSelectedMenuItem;
-                performActionBy(diff);
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+                clickListenerCallBack.onItemClick(v, menuItemViewHolder.getLayoutPosition());
+            }
+        });
 
-                currentSelectedMenuItem = menuItemViewHolder.getLayoutPosition();
+        menuItemViewHolder.menuItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clickListenerCallBack.onLongItemClick(v, menuItemViewHolder.getLayoutPosition());
+                return true;
             }
         });
     }
@@ -62,32 +73,4 @@ public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
         return icons.length;
     }
 
-    private void performActionBy(int diff) {
-        if (diff == 0) { return; }
-        int count = diff < 0 ? diff * -1 : diff;
-
-        if (diff < 0) {
-            for (int i = 0; i < count; ++i) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
-            }
-        } else {
-            for (int i = 0; i < count; ++i) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
-            }
-        }
-    }
-
-    private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
-        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-        @Override
-        protected Void doInBackground(Integer... integers) {
-            NetworkUtils.sendCommand(integers[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
-        }
-    }
 }

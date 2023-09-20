@@ -21,4 +21,6 @@ public class MenuItemViewHolder extends WearableRecyclerView.ViewHolder {
         icon = itemView.findViewById(R.id.icon);
         name = itemView.findViewById(R.id.name);
     }
+
+
 }
