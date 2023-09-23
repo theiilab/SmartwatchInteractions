@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +18,9 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 
+import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
@@ -32,8 +36,10 @@ public class MainActivity extends Activity {
 
     private ActivityMainBinding binding;
     private FrameLayout container;
+    private FrameLayout movieCard;
     private ImageView movieBg;
     private TextView movieName;
+    private TabLayout dots;
     private boolean isChannelSetUp = false;
     private Movie movie;
 
@@ -49,8 +55,10 @@ public class MainActivity extends Activity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         container = binding.container;
+        movieCard = binding.movieCard;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
+        dots = binding.dots;
 
         // load movie
         MovieList.setupMovies(MovieList.NUM_COLS);
@@ -61,15 +69,6 @@ public class MainActivity extends Activity {
             @Override
             public void onSwipeRight(View view) {
                 Log.d(TAG, "Swipe right");
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
-
-                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_RIGHT);
-                setMovieInfo();
-            }
-
-            @Override
-            public void onSwipeLeft(View view) {
-                Log.d(TAG, "Swipe left");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 // on the edge between first movie item
@@ -79,9 +78,15 @@ public class MainActivity extends Activity {
                     intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_HOME);
                     startActivity(intent);
                 } else { //  slide left on movie list
-                    movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_LEFT);
-                    setMovieInfo();
+                    changeMovie(KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
+            }
+
+            @Override
+            public void onSwipeLeft(View view) {
+                Log.d(TAG, "Swipe left");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
+                changeMovie(KeyEvent.KEYCODE_DPAD_LEFT);
             }
 
             @Override
@@ -137,6 +142,33 @@ public class MainActivity extends Activity {
                 .load(movie.getCardImageUrl())
                 .centerCrop()
                 .into(movieBg);
+    }
+
+    private void changeMovie(int keyEvent) {
+        // set up animation for task update
+        int out = keyEvent == KeyEvent.KEYCODE_DPAD_LEFT ? R.anim.left_out : R.anim.right_out;
+        int in = keyEvent == KeyEvent.KEYCODE_DPAD_LEFT ? R.anim.right_in : R.anim.left_in;
+
+        Animation slideOut = AnimationUtils.loadAnimation(getApplicationContext(), out);
+        Animation slideIn = AnimationUtils.loadAnimation(getApplicationContext(), in);
+        slideOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                movie = MovieList.getNextMovie(keyEvent);
+                movieCard.startAnimation(slideIn);
+                setMovieInfo();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        movieCard.startAnimation(slideOut);
     }
 
     @Override
