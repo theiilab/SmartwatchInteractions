@@ -92,19 +92,17 @@ public class MainActivity extends Activity {
             @Override
             public void onSwipeBottom(View view) {
                 Log.d(TAG, "Swipe down");
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
 
-                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_DOWN);
-                setMovieInfo();
+                changeMovie(KeyEvent.KEYCODE_DPAD_DOWN);
             }
 
             @Override
             public void onSwipeTop(View view) {
                 Log.d(TAG, "Swipe up");
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
 
-                movie = MovieList.getNextMovie(KeyEvent.KEYCODE_DPAD_UP);
-                setMovieInfo();
+                changeMovie(KeyEvent.KEYCODE_DPAD_UP);
             }
 
             @Override
@@ -146,8 +144,26 @@ public class MainActivity extends Activity {
 
     private void changeMovie(int keyEvent) {
         // set up animation for task update
-        int out = keyEvent == KeyEvent.KEYCODE_DPAD_LEFT ? R.anim.left_out : R.anim.right_out;
-        int in = keyEvent == KeyEvent.KEYCODE_DPAD_LEFT ? R.anim.right_in : R.anim.left_in;
+        int out = 0;
+        int in = 0;
+        switch (keyEvent) {
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                out = R.anim.left_out;
+                in = R.anim.right_in;
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                out = R.anim.right_out;
+                in = R.anim.left_in;
+                break;
+            case KeyEvent.KEYCODE_DPAD_UP:
+                out = R.anim.up_out;
+                in = R.anim.down_in;
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                out = R.anim.down_out;
+                in = R.anim.up_in;
+                break;
+        }
 
         Animation slideOut = AnimationUtils.loadAnimation(getApplicationContext(), out);
         Animation slideIn = AnimationUtils.loadAnimation(getApplicationContext(), in);

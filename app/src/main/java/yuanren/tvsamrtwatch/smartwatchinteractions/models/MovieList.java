@@ -46,10 +46,10 @@ public final class MovieList {
                 index = Math.max(0, index - 1);
                 break;
             case KeyEvent.KEYCODE_DPAD_UP:
-                index = index - NUM_COLS < 0 ? index : index - NUM_COLS;
+                index = index + NUM_COLS > NUM_COLS * NUM_MOVIE_CATEGORY ? index : index + NUM_COLS;
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                index = index + NUM_COLS > NUM_COLS * NUM_MOVIE_CATEGORY ? index : index + NUM_COLS;
+                index = index - NUM_COLS < 0 ? index : index - NUM_COLS;
                 break;
             default:
                 return null;
