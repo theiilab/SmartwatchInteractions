@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/menu_item_padding"
-    android:background="@drawable/shape_menu_item">
+    android:background="@drawable/selector_menu_item">
     <ImageButton
         android:id="@+id/icon"
         android:layout_width="@dimen/menu_item_size"
