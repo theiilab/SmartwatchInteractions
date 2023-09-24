@@ -16,6 +16,10 @@
     <color name="alternative_color_opaque">#1DFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <!--    main-->
+    <color name="page_indicator_selected_color">#DD7F39FB</color>
+    <color name="page_indicator_unselected_color">#55FFFFFF</color>
+
     <!--    Menu Activity-->
     <color name="menu_text_bg">#F2E6FE</color>
     <color name="menu_item_bg">#BB86FC</color>#6923D9
