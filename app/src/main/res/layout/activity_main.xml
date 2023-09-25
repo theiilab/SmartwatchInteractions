@@ -69,18 +69,5 @@
                 android:textColor="@color/menu_text_bg"
                 android:text="@string/hello_world" />
         </FrameLayout>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/dots"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="12dp"
-            android:layout_gravity="bottom"
-            app:tabBackground="@drawable/selector_main_navigation_dot"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            app:tabPaddingStart="3dp"
-            app:tabPaddingEnd="3dp"/>
-
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

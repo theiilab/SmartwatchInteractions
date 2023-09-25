@@ -40,7 +40,6 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 
-import javax.net.SocketFactory;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
@@ -68,6 +67,8 @@ public class NetworkUtils {
     private static OutputStream commOutputStream;
     private static InputStream commInputStream;
     private static Path path;
+
+    private static PingPongWatcher pingPongWatcher;
 
     public static void stopSSLPairingConnection() {
         try {
@@ -129,6 +130,23 @@ public class NetworkUtils {
         receivePair();
     }
 
+    public static void stopSSLCommConnection() {
+        try {
+            if (commOutputStream != null) {
+                commSocket.close();
+                commInputStream.close();
+                commOutputStream.close();
+
+                if (pingPongWatcher != null) {
+                    pingPongWatcher.interrupt();
+                }
+                Log.i(TAG, "Client communication socket terminated.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void createSSLCommConnection() {
         try {
             commSocket = (SSLSocket) socketFactory.createSocket(SERVER_IP, SERVER_COMM_PORT);
@@ -141,16 +159,22 @@ public class NetworkUtils {
             commOutputStream = commSocket.getOutputStream();
             commInputStream = commSocket.getInputStream();
 
+            Log.d(TAG, "After communication SSL connected");
             receive();
 
             // 1st configuration message
             byte[] payload = configuring1();
             send(payload);
+            Log.d(TAG, "After 1st configuration");
+            receive();  // server will respond with 2 message
             receive();
 
             // 2nd configuration message
             payload = configuring2();
+            Log.d(TAG, "After 2nd configuration");
             send(payload);
+            receive();  // server will respond with 3 message
+            receive();
             receive();
 
         } catch (IOException e) {
@@ -165,7 +189,12 @@ public class NetworkUtils {
         payload = getCommandUp(keyCode);  // for action up
         send(payload);
 
-        receive();
+        if (pingPongWatcher == null) {
+            Log.d(TAG, "ping pong thread fire!");
+            pingPongWatcher = new PingPongWatcher();
+            pingPongWatcher.start();
+        }
+
     }
 
     private static void sendPair(byte[] payload) {
@@ -208,10 +237,21 @@ public class NetworkUtils {
         byte[] serverResponse = new byte[200];
         try {
             commInputStream.read(serverResponse);
+            printResponse(serverResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return serverResponse;
+    }
+
+
+    private static void printResponse(byte[] payload) {
+        String s = "";
+
+        for (byte b: payload) {
+            s += String.valueOf(b) + ",";
+        }
+        Log.d(TAG, "Server response: " + s);
     }
 
     private static byte[] pairing () {
@@ -609,6 +649,39 @@ public class NetworkUtils {
             Log.d(TAG,"Certificate exported successfully!");
         } catch (CertificateException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static class PingPongWatcher extends Thread {
+        @Override
+        public void run() {
+            byte[] response = new byte[50];
+            byte[] response2 = new byte[50];
+            try {
+                while (true) {
+                    while (commInputStream.read(response) != -1) { // received ping message from server
+                        Log.d(TAG, "Server pings");
+                        printResponse(response);
+                        pairingInputStream.read(response2);
+                        printResponse(response2);
+
+                        byte[] head = new byte[] {10, 66, 8};
+                        int pingSemaphore = 0;
+                        for (int i = 0; i < head.length; ++i) {
+                            if (response[i] == head[i]) {
+                                pingSemaphore += 1;
+                            }
+                        }
+
+                        if (pingSemaphore == 3) {
+                            send(new byte[] {74, 2, 8, 25});  // client pong
+                        }
+                    }
+//                    sleep(1000);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

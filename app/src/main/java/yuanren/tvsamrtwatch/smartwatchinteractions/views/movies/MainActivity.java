@@ -39,7 +39,6 @@ public class MainActivity extends Activity {
     private FrameLayout movieCard;
     private ImageView movieBg;
     private TextView movieName;
-    private TabLayout dots;
     private boolean isChannelSetUp = false;
     private Movie movie;
 
@@ -58,7 +57,6 @@ public class MainActivity extends Activity {
         movieCard = binding.movieCard;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
-        dots = binding.dots;
 
         // load movie
         MovieList.setupMovies(MovieList.NUM_COLS);
@@ -191,6 +189,7 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         NetworkUtils.stopSSLPairingConnection();
+        NetworkUtils.stopSSLCommConnection();
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
