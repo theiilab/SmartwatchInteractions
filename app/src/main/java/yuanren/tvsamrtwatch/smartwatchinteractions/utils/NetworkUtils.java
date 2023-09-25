@@ -160,22 +160,22 @@ public class NetworkUtils {
             commInputStream = commSocket.getInputStream();
 
             Log.d(TAG, "After communication SSL connected");
-            receive();
+//            receive();
 
             // 1st configuration message
             byte[] payload = configuring1();
             send(payload);
             Log.d(TAG, "After 1st configuration");
-            receive();  // server will respond with 2 message
-            receive();
+//            receive();  // server will respond with 2 message
+//            receive();
 
             // 2nd configuration message
             payload = configuring2();
             Log.d(TAG, "After 2nd configuration");
             send(payload);
-            receive();  // server will respond with 3 message
-            receive();
-            receive();
+//            receive();  // server will respond with 3 message
+//            receive();
+//            receive();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -189,11 +189,11 @@ public class NetworkUtils {
         payload = getCommandUp(keyCode);  // for action up
         send(payload);
 
-        if (pingPongWatcher == null) {
-            Log.d(TAG, "ping pong thread fire!");
-            pingPongWatcher = new PingPongWatcher();
-            pingPongWatcher.start();
-        }
+//        if (pingPongWatcher == null) {
+//            Log.d(TAG, "ping pong thread fire!");
+//            pingPongWatcher = new PingPongWatcher();
+//            pingPongWatcher.start();
+//        }
 
     }
 

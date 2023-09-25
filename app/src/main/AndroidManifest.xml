@@ -46,6 +46,9 @@
         <activity
             android:name=".views.detail.DetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.search.SearchActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
