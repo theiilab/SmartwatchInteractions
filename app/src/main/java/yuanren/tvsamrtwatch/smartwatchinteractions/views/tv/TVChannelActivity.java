@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.views.search;
+package yuanren.tvsamrtwatch.smartwatchinteractions.views.tv;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,29 +12,32 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityTvchannelBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.tv.TVChannelActivity;
 
-public class SearchActivity extends Activity {
-    private ActivitySearchBinding binding;
+public class TVChannelActivity extends Activity {
+    private static int channel = 1;
+    private ActivityTvchannelBinding binding;
     private ConstraintLayout container;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        binding = ActivityTvchannelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         container = binding.container;
+        textView = binding.textView;
 
         container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
@@ -42,7 +45,7 @@ public class SearchActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_SEARCH);
+                intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_TV);
                 startActivity(intent);
             }
 
@@ -53,12 +56,16 @@ public class SearchActivity extends Activity {
 
             @Override
             public void onSwipeBottom(View view) {
-
+                channel -= 1;
+                textView.setText(String.valueOf(channel));
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
             }
 
             @Override
             public void onSwipeTop(View view) {
-
+                channel += 1;
+                textView.setText(String.valueOf(channel));
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
             }
 
             @Override
@@ -76,6 +83,7 @@ public class SearchActivity extends Activity {
                 return false;
             }
         });
+
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {

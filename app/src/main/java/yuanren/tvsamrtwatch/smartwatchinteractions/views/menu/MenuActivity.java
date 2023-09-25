@@ -20,6 +20,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.ClickListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.search.SearchActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.tv.TVChannelActivity;
 
 public class MenuActivity extends Activity implements ClickListener {
     public static final String TAG = "MenuActivity";
@@ -75,6 +76,7 @@ public class MenuActivity extends Activity implements ClickListener {
     @Override
     public void onItemClick(View v, int position) {
         int diff = position - currentSelectedMenuItem;
+        Log.d(TAG, "diff: " + String.valueOf(diff));
         performActionBy(diff);
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
@@ -87,11 +89,13 @@ public class MenuActivity extends Activity implements ClickListener {
                 startActivity(intent);
                 break;
             case MenuItemListAdapter.MENU_HOME:
+            case MenuItemListAdapter.MENU_MOVIES:
                 intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 break;
             case MenuItemListAdapter.MENU_TV:
-                Log.d(TAG, "TV");
+                intent = new Intent(getApplicationContext(), TVChannelActivity.class);
+                startActivity(intent);
                 break;
         }
     }

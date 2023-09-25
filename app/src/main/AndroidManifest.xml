@@ -49,6 +49,9 @@
         <activity
             android:name=".views.search.SearchActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.tv.TVChannelActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
