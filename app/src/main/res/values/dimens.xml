@@ -33,4 +33,7 @@
 
     <!--    tv-->
     <dimen name="tv_text_size">16sp</dimen>
+
+    <!--    play back-->
+    <dimen name="playback_text_size">10sp</dimen>
 </resources>

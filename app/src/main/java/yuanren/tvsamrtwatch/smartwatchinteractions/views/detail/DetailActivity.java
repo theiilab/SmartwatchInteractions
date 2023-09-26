@@ -1,12 +1,16 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.detail;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -20,6 +24,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBin
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 
 public class DetailActivity extends Activity {
     public static final String TAG = "DetailActivity";
@@ -64,17 +71,36 @@ public class DetailActivity extends Activity {
         playIB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), );
-//                startActivity(intent);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
+                Intent intent = new Intent(getApplicationContext(), PlaybackActivity.class);
+                intent.putExtra(PlaybackActivity.MOVIE_ID, movie.getId());
+                startActivity(intent);
             }
         });
 
         container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
+
                 DetailActivity.super.onBackPressed();
                 return true;
             }
         });
+    }
+
+    private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            NetworkUtils.sendCommand(integers[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+        }
     }
 }
