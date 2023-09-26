@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textAlignment="center"
+        android:textSize="@dimen/tv_text_size"
         android:text="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
