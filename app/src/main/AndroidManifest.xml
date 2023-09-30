@@ -55,6 +55,9 @@
         <activity
             android:name=".views.playback.PlaybackActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.x_ray.XRayListActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

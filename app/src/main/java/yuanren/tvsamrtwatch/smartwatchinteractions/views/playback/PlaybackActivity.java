@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 
 public class PlaybackActivity extends Activity {
     public static final String MOVIE_ID = "selectedMovieId";
@@ -140,6 +142,11 @@ public class PlaybackActivity extends Activity {
 
             @Override
             public boolean onTwoPointerTap(View view) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
+
+                Intent intent = new Intent(getApplicationContext(), XRayListActivity.class);
+                intent.putExtra(XRayListActivity.MOVIE_ID, movie.getId());
+                startActivity(intent);
                 return false;
             }
         });

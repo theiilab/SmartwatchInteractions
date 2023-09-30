@@ -4,5 +4,5 @@
     <solid android:color="#00000000" />
     <stroke android:width="1dip"
         android:color="@color/code_focused_bg"/>
-    <corners android:radius="5dp"/>
+    <corners android:radius="@dimen/x_ray_list_cornor_radius"/>
 </shape>

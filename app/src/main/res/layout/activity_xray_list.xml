@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    tools:context=".views.x_ray.XRayListActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/img_blend_bg"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/info_container"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:clipChildren="true"
+        android:background="@color/transparent"
+        app:cardCornerRadius="@dimen/x_ray_list_cornor_radius"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/img_x_ray_card"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/info_image"
+            android:layout_width="70dp"
+            android:layout_height="118dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="1dp"/>
+        <TextView
+            android:id="@+id/info_details"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/secondary_color_opaque"
+            android:textAlignment="center"
+            android:textSize="@dimen/x_ray_list_text_size"
+            android:textColor="@color/primary_text_color"
+            android:textStyle="bold"
+            android:text="Tru-Spec Men's Gen-ii Adjustable Boonie"/>
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
