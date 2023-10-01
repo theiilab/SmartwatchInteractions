@@ -56,14 +56,14 @@ public class TVChannelActivity extends Activity {
 
             @Override
             public void onSwipeBottom(View view) {
-                channel -= 1;
+                channel = Math.max(1, channel + 1);
                 textView.setText(String.valueOf(channel));
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
             }
 
             @Override
             public void onSwipeTop(View view) {
-                channel += 1;
+                channel = Math.min(100, channel + 1);
                 textView.setText(String.valueOf(channel));
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
             }
