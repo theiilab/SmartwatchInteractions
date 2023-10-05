@@ -68,7 +68,10 @@ public class NetworkUtils {
     private static InputStream commInputStream;
     private static Path path;
 
-    private static PingPongWatcher pingPongWatcher;
+    private static boolean isCommConnectionAlive = false;
+    private static boolean isPingPongWatcherAlive = false;
+
+    private static PingPongWatcher pingPongWatcher = new PingPongWatcher();;
 
     public static void stopSSLPairingConnection() {
         try {
@@ -160,22 +163,22 @@ public class NetworkUtils {
             commInputStream = commSocket.getInputStream();
 
             Log.d(TAG, "After communication SSL connected");
-//            receive();
+            receive();
 
             // 1st configuration message
             byte[] payload = configuring1();
             send(payload);
             Log.d(TAG, "After 1st configuration");
-//            receive();  // server will respond with 2 message
-//            receive();
+            receive();  // server will respond with 2 message
+            receive();
 
             // 2nd configuration message
             payload = configuring2();
             Log.d(TAG, "After 2nd configuration");
             send(payload);
-//            receive();  // server will respond with 3 message
-//            receive();
-//            receive();
+            receive();  // server will respond with 3 message
+            receive();
+            receive();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -183,17 +186,26 @@ public class NetworkUtils {
     }
 
     public static void sendCommand(int keyCode) {
+
+        if (!isCommConnectionAlive) {
+            Log.d(TAG, "Create comm connection");
+            createSSLCommConnection();
+            isCommConnectionAlive = true;
+        }
         // actual command message
         byte[] payload = getCommandDown(keyCode);  // for action down
         send(payload);
         payload = getCommandUp(keyCode);  // for action up
         send(payload);
 
-//        if (pingPongWatcher == null) {
-//            Log.d(TAG, "ping pong thread fire!");
-//            pingPongWatcher = new PingPongWatcher();
-//            pingPongWatcher.start();
-//        }
+        if (!isPingPongWatcherAlive) {
+            Log.d(TAG, "ping pong thread fire!");
+            pingPongWatcher.start();
+            isPingPongWatcherAlive = true;
+        } else  {
+            Log.d(TAG, "ping pong thread re-fire!");
+            pingPongWatcher.run();
+        }
 
     }
 
@@ -656,29 +668,29 @@ public class NetworkUtils {
         @Override
         public void run() {
             byte[] response = new byte[50];
-            byte[] response2 = new byte[50];
+            int pingSemaphore = 0;
             try {
                 while (true) {
                     while (commInputStream.read(response) != -1) { // received ping message from server
                         Log.d(TAG, "Server pings");
                         printResponse(response);
-                        pairingInputStream.read(response2);
-                        printResponse(response2);
 
-                        byte[] head = new byte[] {10, 66, 8};
-                        int pingSemaphore = 0;
-                        for (int i = 0; i < head.length; ++i) {
-                            if (response[i] == head[i]) {
-                                pingSemaphore += 1;
-                            }
-                        }
+                        pingSemaphore += 1;
 
                         if (pingSemaphore == 3) {
-                            send(new byte[] {74, 2, 8, 25});  // client pong
+                            Log.d(TAG, "Prepare to re-create the comm connection");
+                            isCommConnectionAlive = false;
+                            pingSemaphore = 0;
+                            break;
                         }
                     }
-//                    sleep(1000);
+
+                    if (!isCommConnectionAlive) {
+                        break;
+                    }
                 }
+                Log.d(TAG, "Ping pong watcher stopped");
+                interrupt();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

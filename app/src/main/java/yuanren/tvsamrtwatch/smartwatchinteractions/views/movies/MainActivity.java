@@ -123,6 +123,7 @@ public class MainActivity extends Activity {
                 // terminate the socket
                 Log.d(TAG, "Socket manually terminated");
                 NetworkUtils.stopSSLPairingConnection();
+                NetworkUtils.stopSSLCommConnection();
                 finish();
                 return true;
             }
@@ -183,6 +184,13 @@ public class MainActivity extends Activity {
             }
         });
         movieCard.startAnimation(slideOut);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        isChannelSetUp = true;
     }
 
     @Override
