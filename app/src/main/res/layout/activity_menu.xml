@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/img_blend_bg">
+        android:background="@drawable/img_blend_circle_bg">
 
         <androidx.wear.widget.WearableRecyclerView
             android:id="@+id/recyclerView"
