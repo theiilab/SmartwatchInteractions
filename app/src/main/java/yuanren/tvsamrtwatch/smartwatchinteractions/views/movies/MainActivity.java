@@ -57,6 +57,7 @@ public class MainActivity extends Activity {
         movieCard = binding.movieCard;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
+        isChannelSetUp = false;
 
         // load movie
         MovieList.setupMovies(MovieList.NUM_COLS);

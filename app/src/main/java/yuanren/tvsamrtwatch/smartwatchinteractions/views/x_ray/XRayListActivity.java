@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListe
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.XRayItem;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray_content.XRayContentActivity;
 
 public class XRayListActivity extends Activity {
     public static final String TAG = "XRayListActivity";
@@ -91,7 +93,10 @@ public class XRayListActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "tap");
+                Intent intent = new Intent(getApplicationContext(), XRayContentActivity.class);
+                intent.putExtra(XRayContentActivity.MOVIE_ID, movie.getId());
+                intent.putExtra(XRayContentActivity.XRAY_ID, data.get(index).getItemId());
+                startActivity(intent);
             }
 
             @Override
