@@ -25,6 +25,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity {
     private Movie movie;
 
     public int currentSelectedMovieIndex = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +124,6 @@ public class MainActivity extends Activity {
             public boolean onTwoPointerTap(View view) {
                 // terminate the socket
                 Log.d(TAG, "Socket manually terminated");
-                NetworkUtils.stopSSLPairingConnection();
                 NetworkUtils.stopSSLCommConnection();
                 finish();
                 return true;
@@ -196,7 +197,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetworkUtils.stopSSLPairingConnection();
         NetworkUtils.stopSSLCommConnection();
     }
 
@@ -206,7 +206,7 @@ public class MainActivity extends Activity {
         protected Void doInBackground(Integer... integers) {
             if (!isChannelSetUp) {
                 isChannelSetUp = true;
-                NetworkUtils.createSSLCommConnection();
+                NetworkUtils.createSSLCommConnection(getApplicationContext());
             } else {
                 NetworkUtils.sendCommand(integers[0]);
             }

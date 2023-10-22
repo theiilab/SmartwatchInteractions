@@ -37,12 +37,19 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.BuildConfig;
 
 public class CertificateGenerator {
     public static final String TAG = "CertificateGenerator";
-    public static X509Certificate serverCert;
-    public static X509Certificate clientCert;
-    private static Path path;
+    public X509Certificate serverCert;
+    public X509Certificate clientCert;
+    private Path path;
 
-    public static SSLSocketFactory getSocketFactory(Context context) {
-        generateCertificate(context);
+    private Context context;
+
+    public CertificateGenerator(Context context) {
+        this.context = context;
+    }
+
+
+    public SSLSocketFactory getSocketFactory() {
+        generateCertificate();
 
         try {
 
@@ -143,7 +150,7 @@ public class CertificateGenerator {
         return null;
     }
 
-    private static void generateCertificate(Context context) {
+    private void generateCertificate() {
         path = Paths.get(context.getFilesDir().getAbsolutePath());
 
         try {
@@ -174,5 +181,13 @@ public class CertificateGenerator {
         } catch (CertificateException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public X509Certificate getServerCert() {
+        return serverCert;
+    }
+
+    public X509Certificate getClientCert() {
+        return clientCert;
     }
 }

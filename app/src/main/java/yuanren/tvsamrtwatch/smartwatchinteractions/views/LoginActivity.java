@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 
 public class LoginActivity extends FragmentActivity {
@@ -32,7 +33,7 @@ public class LoginActivity extends FragmentActivity {
     private ActivityLoginBinding binding;
 
     private boolean isChannelSetUp = false;
-    private String pinCode = "";
+    public PairingManager pairingManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,15 @@ public class LoginActivity extends FragmentActivity {
         textView = binding.text;
         editText = binding.verificationCode;
 
+        pairingManager = new PairingManager(getApplicationContext());
+
         container.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getPointerCount() > 1) {
                     // terminate the socket
                     Log.d(TAG, "Socket manually terminated");
-                    NetworkUtils.stopSSLPairingConnection();
+                    pairingManager.stopSSLPairingConnection();
                     finish();
                 }
                 return true;
@@ -87,7 +90,7 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetworkUtils.stopSSLPairingConnection();
+        pairingManager.stopSSLPairingConnection();
     }
 
     private class SocketAsyncTask extends AsyncTask<String, String, Void> {
@@ -95,9 +98,9 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected Void doInBackground(String... strings) {
             if (!isChannelSetUp) {
-                NetworkUtils.createSSLPairingConnection(getApplicationContext());
+                pairingManager.createSSLPairingConnection(getApplicationContext());
             } else {
-                NetworkUtils.startPairing(strings[0]);
+                pairingManager.startPairing(strings[0]);
             }
             return null;
         }
