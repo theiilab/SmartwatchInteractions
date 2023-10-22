@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.utils;
+package yuanren.tvsamrtwatch.smartwatchinteractions.network;
 
 import android.content.Context;
 import android.os.Build;

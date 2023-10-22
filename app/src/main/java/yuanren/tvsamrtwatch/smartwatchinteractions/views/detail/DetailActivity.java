@@ -1,7 +1,6 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.detail;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,13 +17,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
-import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 
 public class DetailActivity extends Activity {

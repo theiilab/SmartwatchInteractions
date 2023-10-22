@@ -1,7 +1,6 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.search;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
@@ -15,10 +14,9 @@ import android.view.WindowManager;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.tv.TVChannelActivity;
 
 public class SearchActivity extends Activity {
     private ActivitySearchBinding binding;

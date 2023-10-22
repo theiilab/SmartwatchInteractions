@@ -18,14 +18,13 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.tabs.TabLayout;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;

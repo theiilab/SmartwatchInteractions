@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -29,8 +28,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.XRayItem;
-import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray_content.XRayContentActivity;
 
 public class XRayListActivity extends Activity {

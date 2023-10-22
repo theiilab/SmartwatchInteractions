@@ -18,7 +18,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayConte
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.XRayItem;
-import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 
 public class XRayContentActivity extends Activity {
     public static final String MOVIE_ID = "selectedMovieId";

@@ -1,20 +1,14 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.menu;
 
-import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.wear.widget.WearableRecyclerView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.ClickListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.utils.NetworkUtils;
 
 public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
     public static final String TAG = "MenuItemListAdapter";
