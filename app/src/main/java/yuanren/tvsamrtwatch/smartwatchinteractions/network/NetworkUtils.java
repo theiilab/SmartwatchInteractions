@@ -47,6 +47,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.BuildConfig;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate.CertificateGenerator;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate.SelfSignedCertificate;
 
 public class NetworkUtils {
     public static final String TAG = "NetworkUtils";
@@ -57,8 +59,6 @@ public class NetworkUtils {
 //    public static final String SERVER_IP = "192.168.0.111";
 //    public static final String SERVER_IP = "192.168.0.19";
 
-    private static X509Certificate serverCert;
-    private static X509Certificate clientCert;
     private static SSLSocketFactory socketFactory;
     private static SSLSocket pairingSocket;
     private static OutputStream pairingOutputStream;
@@ -88,15 +88,8 @@ public class NetworkUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     public static void createSSLPairingConnection(Context context) {
-        generateCertificate(context);
-
-        // Create an SSLSocket and connect to the server
-        String caCrtFile = path.resolve("server.pem").toString();  // Run this command in terminal: openssl s_client -showcerts -connect 10.0.0.4:6467 > ~/Desktop/server.pem, and drag the server.pem under device external storage/data/data/YOUR_APP/files/
-        String crtFile = path.resolve("client.pem").toString();
-        String keyFile = path.resolve("private.pem").toString();
-
         try {
-            socketFactory = getSocketFactory(caCrtFile, crtFile, keyFile, "");
+            socketFactory = CertificateGenerator.getSocketFactory(context);
             pairingSocket = (SSLSocket) socketFactory.createSocket(SERVER_IP, SERVER_PAIR_PORT);
 
             // Perform SSL handshake
@@ -402,8 +395,8 @@ public class NetworkUtils {
     }
 
     private static byte[] computeAlphaValue(String s) {
-        PublicKey publicKey = clientCert.getPublicKey();
-        PublicKey publicKey2 = serverCert.getPublicKey();
+        PublicKey publicKey = CertificateGenerator.clientCert.getPublicKey();
+        PublicKey publicKey2 = CertificateGenerator.serverCert.getPublicKey();
 
         if (!(publicKey instanceof RSAPublicKey)|| !(publicKey2 instanceof RSAPublicKey)) {
             Log.e(TAG, "Expecting RSA public key");
@@ -536,133 +529,7 @@ public class NetworkUtils {
         return buff.array();
     }
 
-    private static SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile,
-                                                    final String password) {
-        try {
 
-            /**
-             * Add BouncyCastle as a Security Provider
-             */
-            Security.addProvider(new BouncyCastleProvider());
-
-            /**
-             * Load Certificate Authority (CA) certificate
-             */
-            PEMParser reader = new PEMParser(new FileReader(caCrtFile));
-            X509CertificateHolder caCertHolder = (X509CertificateHolder) reader.readObject();
-            reader.close();
-
-            //build the CA certificate
-            X509Certificate caCert = (X509Certificate) CertificateFactory.getInstance("X.509")
-                    .generateCertificate(new ByteArrayInputStream(caCertHolder.getEncoded()));
-            serverCert = caCert;
-
-            /**
-             * Load client certificate
-             */
-            reader = new PEMParser(new FileReader(crtFile));
-            X509CertificateHolder certHolder = (X509CertificateHolder) reader.readObject();
-            reader.close();
-
-            //build the certificate
-            X509Certificate cert = (X509Certificate) CertificateFactory.getInstance("X.509")
-                            .generateCertificate(new ByteArrayInputStream(certHolder.getEncoded()));
-            clientCert = cert;
-            Log.d(TAG, String.valueOf(cert.getPublicKey()));
-
-            /**
-             * Load client private key
-             */
-            reader = new PEMParser(new FileReader(keyFile));
-            Object keyObject = reader.readObject();
-            reader.close();
-            Log.d(TAG, String.valueOf(keyObject.toString()));
-
-            PEMDecryptorProvider provider = new JcePEMDecryptorProviderBuilder().build(password.toCharArray());
-            JcaPEMKeyConverter keyConverter = new JcaPEMKeyConverter();
-
-            PrivateKey key;
-            if (keyObject instanceof PEMEncryptedKeyPair) {
-                // Encrypted key - we will use provided password
-                key = keyConverter.getPrivateKey(((PEMEncryptedKeyPair) keyObject).decryptKeyPair(provider).getPrivateKeyInfo());
-            } else {
-                // Unencrypted key - no password needed
-                key = keyConverter.getPrivateKey(((PEMKeyPair) keyObject).getPrivateKeyInfo());
-            }
-
-            /**
-             * CA certificate is used to authenticate server
-             */
-            KeyStore caKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            caKeyStore.load(null, null);
-            caKeyStore.setCertificateEntry("ca-certificate", caCert);
-
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(caKeyStore);
-
-            /**
-             * Client key and certificates are sent to server so it can authenticate the client
-             */
-            KeyStore clientKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            clientKeyStore.load(null, null);
-            clientKeyStore.setCertificateEntry("certificate", cert);
-            clientKeyStore.setKeyEntry("private-key", key, password.toCharArray(),
-                    new Certificate[]{cert});
-
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(
-                    KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(clientKeyStore, password.toCharArray());
-
-            /**
-             * Create SSL socket factory
-             */
-            SSLContext context = SSLContext.getInstance("TLS"); // TLSv1.2
-            context.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
-
-            /**
-             * Return the newly created socket factory object
-             */
-            return context.getSocketFactory();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private static void generateCertificate(Context context) {
-        path = Paths.get(context.getFilesDir().getAbsolutePath());
-
-        try {
-            // Avoid regenerating if the certificate already existed
-            if (Files.exists(path.resolve("client.pem"))) {
-                Log.d(TAG, "Certificate already existed.");
-                return;
-            }
-            SelfSignedCertificate certificate = new SelfSignedCertificate(BuildConfig.APPLICATION_ID);
-            Log.d(TAG, "Certificate generated successfully!");
-
-            // Export the certificate to PEM file
-            try (JcaPEMWriter writer = new JcaPEMWriter(new FileWriter(path.resolve("client.pem").toFile()))) {
-                writer.writeObject(certificate.cert()); // public key
-                writer.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // Export the certificate to PEM file
-            try (JcaPEMWriter writer = new JcaPEMWriter(new FileWriter(path.resolve("private.pem").toFile()))) {
-                writer.writeObject(certificate.key()); // private key
-                writer.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.d(TAG,"Certificate exported successfully!");
-        } catch (CertificateException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private static class PingPongWatcher extends Thread {
         @Override
