@@ -83,7 +83,9 @@ public class CertificateGenerator {
             X509CertificateHolder certHolder = (X509CertificateHolder) reader.readObject();
             reader.close();
 
-            //build the certificate
+            /**
+             * build the certificate
+             */
             X509Certificate cert = (X509Certificate) CertificateFactory.getInstance("X.509")
                     .generateCertificate(new ByteArrayInputStream(certHolder.getEncoded()));
             clientCert = cert;
@@ -154,7 +156,9 @@ public class CertificateGenerator {
         path = Paths.get(context.getFilesDir().getAbsolutePath());
 
         try {
-            // Avoid regenerating if the certificate already existed
+            /**
+             *  Avoid regenerating if the certificate already existed
+             */
             if (Files.exists(path.resolve("client.pem"))) {
                 Log.d(TAG, "Certificate already existed.");
                 return;
@@ -162,7 +166,9 @@ public class CertificateGenerator {
             SelfSignedCertificate certificate = new SelfSignedCertificate(BuildConfig.APPLICATION_ID);
             Log.d(TAG, "Certificate generated successfully!");
 
-            // Export the certificate to PEM file
+            /**
+             * Export the certificate to PEM file
+             */
             try (JcaPEMWriter writer = new JcaPEMWriter(new FileWriter(path.resolve("client.pem").toFile()))) {
                 writer.writeObject(certificate.cert()); // public key
                 writer.flush();
@@ -170,7 +176,9 @@ public class CertificateGenerator {
                 e.printStackTrace();
             }
 
-            // Export the certificate to PEM file
+            /**
+             * Export the certificate to PEM file
+             */
             try (JcaPEMWriter writer = new JcaPEMWriter(new FileWriter(path.resolve("private.pem").toFile()))) {
                 writer.writeObject(certificate.key()); // private key
                 writer.flush();
