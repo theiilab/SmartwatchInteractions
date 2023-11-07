@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -28,28 +29,10 @@ public class NetworkUtils {
     private static OutputStream commOutputStream;
     private static InputStream commInputStream;
 
-    private static boolean isCommConnectionAlive = false;
+    //    private static boolean isCommConnectionAlive = false;
     private static boolean isPingPongWatcherAlive = false;
 
     private static PingPongWatcher pingPongWatcher = new PingPongWatcher();;
-
-
-    public static void stopSSLCommConnection() {
-        try {
-            if (commOutputStream != null) {
-                commSocket.close();
-                commInputStream.close();
-                commOutputStream.close();
-
-                if (pingPongWatcher != null) {
-                    pingPongWatcher.interrupt();
-                }
-                Log.i(TAG, "Client communication socket terminated.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void createSSLCommConnection(Context ct) {
         context = ct;
@@ -89,13 +72,30 @@ public class NetworkUtils {
         }
     }
 
+    public static void stopSSLCommConnection() {
+        try {
+            if (commOutputStream != null) {
+                commSocket.close();
+                commInputStream.close();
+                commOutputStream.close();
+
+                if (pingPongWatcher != null) {
+                    pingPongWatcher.interrupt();
+                }
+                Log.i(TAG, "Client communication socket terminated.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void sendCommand(int keyCode) {
 
-        if (!isCommConnectionAlive) {
-            Log.d(TAG, "Create comm connection");
-            createSSLCommConnection(context);
-            isCommConnectionAlive = true;
-        }
+//        if (!isCommConnectionAlive) {
+//            Log.d(TAG, "Create comm connection");
+//            createSSLCommConnection(context);
+//            isCommConnectionAlive = true;
+//        }
         // actual command message
         byte[] payload = getCommandDown(keyCode);  // for action down
         send(payload);
@@ -106,11 +106,7 @@ public class NetworkUtils {
             Log.d(TAG, "ping pong thread fire!");
             pingPongWatcher.start();
             isPingPongWatcherAlive = true;
-        } else  {
-            Log.d(TAG, "ping pong thread re-fire!");
-            pingPongWatcher.run();
         }
-
     }
 
     private static void send(byte[] payload) {
@@ -133,18 +129,6 @@ public class NetworkUtils {
         }
         return serverResponse;
     }
-
-
-    private static void printResponse(byte[] payload) {
-        String s = "";
-
-        for (byte b: payload) {
-            s += String.valueOf(b) + ",";
-        }
-        Log.d(TAG, "Server response: " + s);
-    }
-
-
 
     private static byte[] configuring1() {
         byte[] tag1 = new byte[] {10};
@@ -234,33 +218,41 @@ public class NetworkUtils {
         return buff.array();
     }
 
+    private static void printResponse(byte[] payload) {
+        String s = "";
+
+        for (byte b: payload) {
+            s += String.valueOf(b) + ",";
+        }
+        Log.d(TAG, "Server response: " + s);
+    }
+
     private static class PingPongWatcher extends Thread {
         @Override
         public void run() {
             byte[] response = new byte[50];
-            int pingSemaphore = 0;
+            int semaphore = 0;
             try {
                 while (true) {
                     while (commInputStream.read(response) != -1) { // received ping message from server
                         Log.d(TAG, "Server pings");
                         printResponse(response);
 
-                        pingSemaphore += 1;
+                        // wait for 3 pings
+                        semaphore++;
 
-                        if (pingSemaphore == 3) {
-                            Log.d(TAG, "Prepare to re-create the comm connection");
-                            isCommConnectionAlive = false;
-                            pingSemaphore = 0;
-                            break;
+                        byte pong = 0;
+                        if (response[0] == 8) {
+                            pong = response[1];
+                        }
+
+                        if (semaphore == 3) {
+                            semaphore = 0;
+                            send(new byte[]{4, 74, 2, 8, response[1]});
+                            Log.d(TAG, "Sending: " + response[1]);
                         }
                     }
-
-                    if (!isCommConnectionAlive) {
-                        break;
-                    }
                 }
-                Log.d(TAG, "Ping pong watcher stopped");
-                interrupt();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
