@@ -27,14 +27,14 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
         return gestureDetector.onTouchEvent(event);
     }
 
-    public abstract void onSwipeRight(View view);
-    public abstract void onSwipeLeft(View view);
-    public abstract void onSwipeBottom(View view);
-    public abstract void onSwipeTop(View view);
-    public abstract void onClick(View view);
-    public abstract boolean onLongClick(View view);
+    public void onSwipeRight(View view){}
+    public void onSwipeLeft(View view){}
+    public void onSwipeBottom(View view){}
+    public void onSwipeTop(View view){}
+    public void onClick(View view){}
+    public boolean onLongClick(View view){return false;}
 
-    public abstract boolean onTwoPointerTap(View view);
+    public boolean onTwoPointerTap(View view){return false;}
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 

@@ -43,36 +43,6 @@ public class SearchActivity extends Activity {
                 intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_SEARCH);
                 startActivity(intent);
             }
-
-            @Override
-            public void onSwipeLeft(View view) {
-
-            }
-
-            @Override
-            public void onSwipeBottom(View view) {
-
-            }
-
-            @Override
-            public void onSwipeTop(View view) {
-
-            }
-
-            @Override
-            public void onClick(View view) {
-
-            }
-
-            @Override
-            public boolean onLongClick(View view) {
-                return false;
-            }
-
-            @Override
-            public boolean onTwoPointerTap(View view) {
-                return false;
-            }
         });
     }
 

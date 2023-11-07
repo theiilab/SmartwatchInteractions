@@ -80,26 +80,11 @@ public class XRayListActivity extends Activity {
             }
 
             @Override
-            public void onSwipeBottom(View view) {
-
-            }
-
-            @Override
-            public void onSwipeTop(View view) {
-
-            }
-
-            @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), XRayContentActivity.class);
                 intent.putExtra(XRayContentActivity.MOVIE_ID, movie.getId());
                 intent.putExtra(XRayContentActivity.XRAY_ID, data.get(index).getItemId());
                 startActivity(intent);
-            }
-
-            @Override
-            public boolean onLongClick(View view) {
-                return false;
             }
 
             @Override

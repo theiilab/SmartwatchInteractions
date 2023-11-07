@@ -110,16 +110,6 @@ public class PlaybackActivity extends Activity {
             }
 
             @Override
-            public void onSwipeBottom(View view) {
-
-            }
-
-            @Override
-            public void onSwipeTop(View view) {
-
-            }
-
-            @Override
             public void onClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
