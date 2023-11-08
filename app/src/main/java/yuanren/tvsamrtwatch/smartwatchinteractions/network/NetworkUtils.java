@@ -232,8 +232,9 @@ public class NetworkUtils {
         public void run() {
             byte[] response = new byte[50];
             int semaphore = 0;
+            int turn = 0;
             try {
-                while (true) {
+//                while (true) {
                     while (commInputStream.read(response) != -1) { // received ping message from server
                         Log.d(TAG, "Server pings");
                         printResponse(response);
@@ -248,12 +249,24 @@ public class NetworkUtils {
 
                         if (semaphore == 3) {
                             semaphore = 0;
-                            send(new byte[]{4, 74, 2, 8, response[1]});
-                            Log.d(TAG, "Sending: " + response[1]);
+
+                            if (pong < 0) {
+                                turn = pong == -128 ? turn + 1: turn;
+                                pong += 256;
+                            }
+
+                            if (turn == 0) {
+                                send(new byte[]{4, 74, 2, 8, pong});
+                                Log.d(TAG, "Sending: 4, 74, 2, 8, " + pong);
+                            } else {
+                                send(new byte[]{5, 74, 3, 8, pong, (byte) turn});
+                                Log.d(TAG, "Sending: 5, 74, 3, 8, " + pong + ", " + turn);
+                            }
                         }
                     }
-                }
+//                }
             } catch (IOException e) {
+                Log.d(TAG,e.getMessage());
                 throw new RuntimeException(e);
             }
         }
