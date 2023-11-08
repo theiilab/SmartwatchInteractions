@@ -37,6 +37,20 @@ public final class MovieList {
         return list.get(id);
     }
 
+    public static boolean isToOutOfRow(int keyEvent) {
+        if (keyEvent == KeyEvent.KEYCODE_DPAD_UP) {
+            if (index + NUM_COLS >= NUM_COLS * NUM_MOVIE_CATEGORY) {
+                return true;
+            }
+        }
+        if (keyEvent == KeyEvent.KEYCODE_DPAD_DOWN) {
+            if (index - NUM_COLS < 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static Movie getNextMovie(int keyEvent) {
         switch (keyEvent) {
             case KeyEvent.KEYCODE_DPAD_LEFT:

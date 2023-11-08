@@ -33,15 +33,12 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapte
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
 
-
     private ActivityMainBinding binding;
     private FrameLayout container;
     private FrameLayout movieCard;
     private ImageView movieBg;
     private TextView movieName;
-    private boolean isChannelSetUp = false;
     private Movie movie;
-
     public int currentSelectedMovieIndex = 0;
 
 
@@ -58,7 +55,6 @@ public class MainActivity extends Activity {
         movieCard = binding.movieCard;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
-        isChannelSetUp = false;
 
         // load movie
         MovieList.setupMovies(MovieList.NUM_COLS);
@@ -131,7 +127,7 @@ public class MainActivity extends Activity {
         });
 
         // start the SSL Socket Connection
-        new SocketAsyncTask().execute();
+        new SetUpSocketAsyncTask().execute();
     }
 
     private void setMovieInfo() {
@@ -143,6 +139,10 @@ public class MainActivity extends Activity {
     }
 
     private void changeMovie(int keyEvent) {
+        if (MovieList.isToOutOfRow(keyEvent)) {
+            return;
+        }
+
         // set up animation for task update
         int out = 0;
         int in = 0;
@@ -188,28 +188,30 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        isChannelSetUp = true;
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         NetworkUtils.stopSSLCommConnection();
+    }
+
+    private class SetUpSocketAsyncTask extends AsyncTask<Integer, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            NetworkUtils.createSSLCommConnection(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+        }
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            if (!isChannelSetUp) {
-                isChannelSetUp = true;
-                NetworkUtils.createSSLCommConnection(getApplicationContext());
-            } else {
-                NetworkUtils.sendCommand(integers[0]);
-            }
+            NetworkUtils.sendCommand(integers[0]);
             return null;
         }
 
