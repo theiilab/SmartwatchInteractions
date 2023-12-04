@@ -27,6 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"
+            android:backgroundTint="@color/primary_color"
+            android:textCursorDrawable="@color/primary_color"
             android:inputType="textVisiblePassword"
             android:textAlignment="center"
             android:imeOptions="actionDone"
