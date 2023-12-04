@@ -5,13 +5,46 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000"
     tools:context=".views.search.SearchActivity">
-
-    <TextView
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/img_search_bg"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/default_background_reversed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/search_name"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:editable="false"
+        android:backgroundTint="@color/primary_color"
+        android:textCursorDrawable="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <yuanren.tvsamrtwatch.smartwatchinteractions.views.search.DrawingView
+        android:id="@+id/drawingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:gravity="center"
-        android:textAlignment="center"
-        android:text="Search" />
+        android:background="@drawable/default_background"
+        android:src="@drawable/baseline_check_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

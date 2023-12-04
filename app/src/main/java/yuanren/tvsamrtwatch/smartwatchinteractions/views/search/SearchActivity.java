@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
@@ -21,6 +23,10 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapte
 public class SearchActivity extends Activity {
     private ActivitySearchBinding binding;
     private ConstraintLayout container;
+    private EditText searchName;
+    private DrawingView drawingView;
+    private ImageButton submitBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,9 @@ public class SearchActivity extends Activity {
         setContentView(binding.getRoot());
 
         container = binding.container;
+        searchName = binding.searchName;
+        drawingView = binding.drawingView;
+        submitBtn = binding.submit;
 
         container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
