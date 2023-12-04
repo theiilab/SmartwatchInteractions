@@ -1,6 +1,5 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.models;
+package yuanren.tvsamrtwatch.smartwatchinteractions.data;
 
-import android.util.Log;
 import android.view.KeyEvent;
 
 import java.util.ArrayList;
@@ -8,6 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 
 public final class MovieList {
     public static final int NUM_REAL_MOVIE = 2; // the number of real movie in each row

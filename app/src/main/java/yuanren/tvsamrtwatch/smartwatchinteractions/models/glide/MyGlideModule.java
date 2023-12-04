@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.models;
+package yuanren.tvsamrtwatch.smartwatchinteractions.models.glide;
 
 import android.content.Context;
 
@@ -15,6 +15,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 import java.io.InputStream;
 import okhttp3.OkHttpClient;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.glide.UnsafeOkHttpClient;
 
 
 @GlideModule

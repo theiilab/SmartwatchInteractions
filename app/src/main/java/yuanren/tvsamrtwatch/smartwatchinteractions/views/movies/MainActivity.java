@@ -21,11 +21,10 @@ import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
+import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;

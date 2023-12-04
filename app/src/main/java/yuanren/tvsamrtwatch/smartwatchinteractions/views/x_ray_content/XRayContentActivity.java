@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayContentBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.XRayItem;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
+import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 
 public class XRayContentActivity extends Activity {

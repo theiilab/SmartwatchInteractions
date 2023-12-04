@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.OnGestureRegisterListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
+import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 

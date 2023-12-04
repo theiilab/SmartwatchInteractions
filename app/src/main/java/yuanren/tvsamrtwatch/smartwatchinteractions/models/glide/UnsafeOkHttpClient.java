@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.models;
+package yuanren.tvsamrtwatch.smartwatchinteractions.models.glide;
 
 import java.security.cert.CertificateException;
 

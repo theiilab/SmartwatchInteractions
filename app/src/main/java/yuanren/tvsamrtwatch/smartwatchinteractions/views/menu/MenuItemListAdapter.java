@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.wear.widget.WearableRecyclerView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.ClickListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
 
 public class MenuItemListAdapter extends WearableRecyclerView.Adapter {
     public static final String TAG = "MenuItemListAdapter";

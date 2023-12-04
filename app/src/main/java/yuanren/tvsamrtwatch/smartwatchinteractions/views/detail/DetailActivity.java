@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.Movie;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
+import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 

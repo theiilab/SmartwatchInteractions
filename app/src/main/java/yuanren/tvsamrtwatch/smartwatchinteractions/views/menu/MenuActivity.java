@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMenuBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.ClickListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.search.SearchActivity;

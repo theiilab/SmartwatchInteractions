@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.models;
+package yuanren.tvsamrtwatch.smartwatchinteractions.models.listener;
 
 import android.content.Context;
 import android.util.Log;
