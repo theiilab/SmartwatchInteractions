@@ -25,7 +25,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegi
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.QDollarRecognizer;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Result;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
 

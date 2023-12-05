@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.network;
+package yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate.CertificateGenerator;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.certificate.CertificateGenerator;
 
 public class AndroidTVRemoteService {
     public static final String TAG = "NetworkUtils";

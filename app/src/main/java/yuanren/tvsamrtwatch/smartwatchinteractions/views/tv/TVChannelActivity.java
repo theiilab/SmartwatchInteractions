@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityTvchannelBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
 

@@ -17,7 +17,7 @@ import android.view.WindowManager;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMenuBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.search.SearchActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.tv.TVChannelActivity;

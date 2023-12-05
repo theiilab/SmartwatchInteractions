@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate;
+package yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.certificate;
 
 import android.content.Context;
 import android.util.Log;

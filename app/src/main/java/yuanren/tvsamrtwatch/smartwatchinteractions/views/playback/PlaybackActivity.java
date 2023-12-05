@@ -21,7 +21,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackB
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 
 public class PlaybackActivity extends Activity {

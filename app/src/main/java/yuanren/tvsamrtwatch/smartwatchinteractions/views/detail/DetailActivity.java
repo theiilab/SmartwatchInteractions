@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 
 public class DetailActivity extends Activity {

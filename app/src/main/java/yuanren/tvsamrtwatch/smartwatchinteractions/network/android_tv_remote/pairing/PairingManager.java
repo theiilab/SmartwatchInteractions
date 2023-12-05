@@ -1,4 +1,4 @@
-package yuanren.tvsamrtwatch.smartwatchinteractions.network.pairing;
+package yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing;
 
 import android.content.Context;
 import android.os.Build;
@@ -20,8 +20,8 @@ import java.util.Arrays;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate.CertificateGenerator;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.certificate.CertificateGenerator;
 
 public class PairingManager {
     public static final String TAG = "PairingManager";
