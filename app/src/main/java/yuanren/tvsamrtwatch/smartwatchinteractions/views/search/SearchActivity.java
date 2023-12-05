@@ -84,6 +84,13 @@ public class SearchActivity extends Activity {
                 text = text.length() == 0 ? "" : text.substring(0, text.length() - 1);
                 searchName.setText(text);
             }
+
+            @Override
+            public boolean onLongClick(View view) {
+                onBackPressed();
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
+                return false;
+            }
         });
 
         drawingView.setOnTouchListener(new View.OnTouchListener() {
