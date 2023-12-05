@@ -89,8 +89,8 @@ public class SearchActivity extends Activity {
 
             @Override
             public boolean onLongClick(View view) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
                 onBackPressed();
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
                 return false;
             }
         });
@@ -153,6 +153,11 @@ public class SearchActivity extends Activity {
         strokePoints.clear();
         strokeNum = 1;
         drawingView.clear();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
