@@ -20,16 +20,12 @@ import java.util.Arrays;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate.CertificateGenerator;
 
 public class PairingManager {
     public static final String TAG = "PairingManager";
     public static final int SERVER_PAIR_PORT = 6467;  // port for pairing
-
-    private static final String SERVER_IP = "10.0.0.4";
-//    private static final String SERVER_IP = "192.168.0.111";
-//    private static final String SERVER_IP = "192.168.0.19";
-
     private SSLSocket pairingSocket;
     private OutputStream pairingOutputStream;
     private InputStream pairingInputStream;
@@ -56,7 +52,7 @@ public class PairingManager {
     public void createSSLPairingConnection(Context context) {
         try {
             SSLSocketFactory socketFactory = generator.getSocketFactory();
-            pairingSocket = (SSLSocket) socketFactory.createSocket(SERVER_IP, SERVER_PAIR_PORT);
+            pairingSocket = (SSLSocket) socketFactory.createSocket(AndroidTVRemoteService.SERVER_IP, SERVER_PAIR_PORT);
 
             // Perform SSL handshake
             pairingSocket.startHandshake();

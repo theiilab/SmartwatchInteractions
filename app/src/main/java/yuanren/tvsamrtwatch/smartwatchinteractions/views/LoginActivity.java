@@ -20,7 +20,6 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 

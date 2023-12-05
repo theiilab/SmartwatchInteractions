@@ -17,7 +17,7 @@ import android.view.WindowManager;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMenuBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.search.SearchActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.tv.TVChannelActivity;
@@ -113,7 +113,7 @@ public class MenuActivity extends Activity implements ClickListener {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            NetworkUtils.sendCommand(integers[0]);
+            AndroidTVRemoteService.sendCommand(integers[0]);
             return null;
         }
 

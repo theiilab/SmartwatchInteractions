@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityTvchannelBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
 
@@ -68,7 +68,7 @@ public class TVChannelActivity extends Activity {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            NetworkUtils.sendCommand(integers[0]);
+            AndroidTVRemoteService.sendCommand(integers[0]);
             return null;
         }
 

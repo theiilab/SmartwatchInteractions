@@ -7,19 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.certificate.CertificateGenerator;
 
-public class NetworkUtils {
+public class AndroidTVRemoteService {
     public static final String TAG = "NetworkUtils";
 
 
     public static final int SERVER_COMM_PORT = 6466;  // port for sending commands
-    public static final String SERVER_IP = "10.0.0.4";
+    public static final String SERVER_IP = "10.0.0.136";
 //    public static final String SERVER_IP = "192.168.0.111";
 //    public static final String SERVER_IP = "192.168.0.19";
 

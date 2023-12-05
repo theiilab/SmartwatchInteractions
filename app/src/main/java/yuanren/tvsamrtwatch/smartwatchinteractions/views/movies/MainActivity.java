@@ -24,7 +24,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBindi
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
@@ -119,7 +119,7 @@ public class MainActivity extends Activity {
             public boolean onTwoPointerTap(View view) {
                 // terminate the socket
                 Log.d(TAG, "Socket manually terminated");
-                NetworkUtils.stopSSLCommConnection();
+                AndroidTVRemoteService.stopSSLCommConnection();
                 finish();
                 return true;
             }
@@ -189,14 +189,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetworkUtils.stopSSLCommConnection();
+        AndroidTVRemoteService.stopSSLCommConnection();
     }
 
     private class SetUpSocketAsyncTask extends AsyncTask<Integer, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            NetworkUtils.createSSLCommConnection(getApplicationContext());
+            AndroidTVRemoteService.createSSLCommConnection(getApplicationContext());
             return null;
         }
 
@@ -210,7 +210,7 @@ public class MainActivity extends Activity {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            NetworkUtils.sendCommand(integers[0]);
+            AndroidTVRemoteService.sendCommand(integers[0]);
             return null;
         }
 

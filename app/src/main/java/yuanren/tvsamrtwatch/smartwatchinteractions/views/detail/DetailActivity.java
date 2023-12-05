@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 
 public class DetailActivity extends Activity {
@@ -89,7 +89,7 @@ public class DetailActivity extends Activity {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            NetworkUtils.sendCommand(integers[0]);
+            AndroidTVRemoteService.sendCommand(integers[0]);
             return null;
         }
 

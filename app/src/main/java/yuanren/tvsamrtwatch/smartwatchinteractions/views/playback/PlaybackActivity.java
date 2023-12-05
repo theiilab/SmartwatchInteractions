@@ -21,7 +21,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackB
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 
 public class PlaybackActivity extends Activity {
@@ -161,7 +161,7 @@ public class PlaybackActivity extends Activity {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
-            NetworkUtils.sendCommand(integers[0]);
+            AndroidTVRemoteService.sendCommand(integers[0]);
             return null;
         }
 
