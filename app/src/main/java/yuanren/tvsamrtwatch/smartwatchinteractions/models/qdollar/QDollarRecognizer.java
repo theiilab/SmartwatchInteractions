@@ -121,7 +121,7 @@ public class QDollarRecognizer {
     }
 
     private double[] computeLowerBound(ArrayList<Point> pt1, ArrayList<Point> pt2, int step, int[][] lut) {
-        int n = pt1.size();
+        int n = Math.min(pt1.size(), pt2.size());
         double[] lb = new double[n / step + 1];
         double[] sat = new double[n];
         lb[0] = 0.0;
