@@ -29,6 +29,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Result;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.NetworkUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 
 public class SearchActivity extends Activity {
     private static final String TAG = "SearchActivity";
@@ -71,7 +72,6 @@ public class SearchActivity extends Activity {
             }
         });
 
-//        searchName.setInputType(InputType.TYPE_NULL);
         searchName.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
@@ -104,31 +104,26 @@ public class SearchActivity extends Activity {
                         return false;
                     }
 
+                    // classify gestures
                     Result result = recognizer.classify(strokePoints);
 
                     Log.d(TAG, "num of points: " + String.valueOf(strokePoints.size()));
                     Log.d(TAG, result.name);
                     Log.d(TAG, String.valueOf(result.score));
-                    if (result.score > 0.5) {
-                        text += result.name;
-                        searchName.setText(text);
 
-                        //clear everything
-                        clearData();
-                    } else {
-                        strokeNum += 1;
+                    // increase num of strokes
+                    strokeNum += 1;
 
-                        timeHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                text += result.name;
-                                searchName.setText(text);
+                    timeHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            text += result.name;
+                            searchName.setText(text);
 
-                                //clear everything
-                                clearData();
-                            }
-                        }, 1000);
-                    }
+                            //clear everything
+                            clearData();
+                        }
+                    }, 1000);
                 }
                 return false;
             }
