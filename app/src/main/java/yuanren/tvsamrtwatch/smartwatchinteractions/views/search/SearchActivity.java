@@ -26,6 +26,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.QDollarRecognizer;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Result;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SocketService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
 
@@ -81,6 +82,9 @@ public class SearchActivity extends Activity {
             public void onSwipeLeft(View view) {
                 text = text.length() == 0 ? "" : text.substring(0, text.length() - 1);
                 searchName.setText(text);
+
+                // send command to TV
+                new SocketAsyncTask2().execute(text);
             }
 
             @Override
@@ -127,6 +131,9 @@ public class SearchActivity extends Activity {
 
                             //clear everything
                             clearData();
+
+                            // send command to TV
+                            new SocketAsyncTask2().execute(text);
                         }
                     }, 1000);
                 }
@@ -148,11 +155,32 @@ public class SearchActivity extends Activity {
         drawingView.clear();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SocketService.stopConnection();
+    }
+
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(Integer... integers) {
             AndroidTVRemoteService.sendCommand(integers[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+        }
+    }
+
+    private class SocketAsyncTask2 extends AsyncTask<String, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(String... strings) {
+            SocketService.createConnection();
+            SocketService.send(strings[0]);
             return null;
         }
 
