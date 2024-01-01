@@ -1,8 +1,7 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.playback;
 
-import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,14 +12,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.bumptech.glide.Glide;
+
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
-import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 
@@ -28,6 +34,7 @@ public class PlaybackActivity extends Activity {
     public static final String MOVIE_ID = "selectedMovieId";
     private ActivityPlaybackBinding binding;
     private ConstraintLayout container;
+    private ImageView movieBg;
     private ImageButton control;
     private TextView title;
     private Movie movie;
@@ -43,12 +50,23 @@ public class PlaybackActivity extends Activity {
         setContentView(binding.getRoot());
 
         container = binding.container;
+        movieBg = binding.movieBg;
         control = binding.control;
         title = binding.title;
 
         // get selected movie
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
         title.setText(movie.getTitle());
+        Glide.with(getApplicationContext())
+                .load(movie.getCardImageUrl())
+                .centerCrop()
+                .into(movieBg);
+
+        // start rotation anim for movie disk
+        AnimatorSet rotate = (AnimatorSet) AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.rotate);
+        rotate.setInterpolator(new LinearInterpolator());
+        rotate.setTarget(movieBg);
+        rotate.start();
 
         container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
@@ -110,19 +128,6 @@ public class PlaybackActivity extends Activity {
             }
 
             @Override
-            public void onClick(View view) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-
-                if (isPlayed) {
-                    isPlayed = false;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
-                } else {
-                    isPlayed = true;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
-                }
-            }
-
-            @Override
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
@@ -149,9 +154,11 @@ public class PlaybackActivity extends Activity {
                 if (isPlayed) {
                     isPlayed = false;
                     control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
+                    rotate.pause();
                 } else {
                     isPlayed = true;
                     control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
+                    rotate.resume();
                 }
             }
         });
