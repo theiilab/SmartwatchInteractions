@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -70,6 +71,9 @@ public class XRayListActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_RIGHT);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
@@ -77,10 +81,16 @@ public class XRayListActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_LEFT);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
             public void onClick(View view) {
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                 Intent intent = new Intent(getApplicationContext(), XRayContentActivity.class);
                 intent.putExtra(XRayContentActivity.MOVIE_ID, movie.getId());
                 intent.putExtra(XRayContentActivity.XRAY_ID, data.get(index).getItemId());
@@ -91,6 +101,9 @@ public class XRayListActivity extends Activity {
             public boolean onTwoPointerTap(View view) {
                 Log.d(TAG, "onTwoPointerTap");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 finish();
                 return false;

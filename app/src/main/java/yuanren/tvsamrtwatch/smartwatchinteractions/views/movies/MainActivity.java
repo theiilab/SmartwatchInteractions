@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -66,6 +67,9 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Swipe right");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
                 // on the edge between first movie item
                 if (MovieList.getIndex() % MovieList.NUM_COLS == 0) {  // show menu list
                     currentSelectedMovieIndex = MovieList.getIndex();
@@ -73,7 +77,7 @@ public class MainActivity extends Activity {
                     intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_HOME);
                     startActivity(intent);
                 } else { //  slide left on movie list
-                    changeMovie(KeyEvent.KEYCODE_DPAD_RIGHT);
+                    changeMovie(view, KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
             }
 
@@ -81,7 +85,7 @@ public class MainActivity extends Activity {
             public void onSwipeLeft(View view) {
                 Log.d(TAG, "Swipe left");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
-                changeMovie(KeyEvent.KEYCODE_DPAD_LEFT);
+                changeMovie(view, KeyEvent.KEYCODE_DPAD_LEFT);
             }
 
             @Override
@@ -89,7 +93,7 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Swipe down");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
 
-                changeMovie(KeyEvent.KEYCODE_DPAD_DOWN);
+                changeMovie(view, KeyEvent.KEYCODE_DPAD_DOWN);
             }
 
             @Override
@@ -97,22 +101,19 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Swipe up");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
 
-                changeMovie(KeyEvent.KEYCODE_DPAD_UP);
+                changeMovie(view, KeyEvent.KEYCODE_DPAD_UP);
             }
 
             @Override
             public void onClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
                 Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 intent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
                 startActivity(intent);
-            }
-
-            @Override
-            public boolean onLongClick(View view) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
-                return true;
             }
 
             @Override
@@ -137,7 +138,7 @@ public class MainActivity extends Activity {
                 .into(movieBg);
     }
 
-    private void changeMovie(int keyEvent) {
+    private void changeMovie(View view, int keyEvent) {
         if (MovieList.isToOutOfRow(keyEvent)) {
             return;
         }
@@ -184,6 +185,9 @@ public class MainActivity extends Activity {
             }
         });
         movieCard.startAnimation(slideOut);
+
+        // provide haptic feedback
+        view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
     }
 
     @Override

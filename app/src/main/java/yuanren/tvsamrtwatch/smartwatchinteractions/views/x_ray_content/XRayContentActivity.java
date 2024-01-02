@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -75,6 +76,9 @@ public class XRayContentActivity extends Activity {
             @Override
             public boolean onLongClick(View v) {
                 XRayContentActivity.super.onBackPressed();
+
+                // provide haptic feedback
+                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
                 return false;
             }
         });

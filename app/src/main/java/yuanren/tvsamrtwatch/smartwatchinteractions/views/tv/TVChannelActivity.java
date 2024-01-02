@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,6 +43,9 @@ public class TVChannelActivity extends Activity {
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_TV);
                 startActivity(intent);
@@ -52,6 +56,9 @@ public class TVChannelActivity extends Activity {
                 channel = Math.max(1, channel - 1);
                 textView.setText(String.valueOf(channel));
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
@@ -59,6 +66,9 @@ public class TVChannelActivity extends Activity {
                 channel = Math.min(100, channel + 1);
                 textView.setText(String.valueOf(channel));
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
         });
 

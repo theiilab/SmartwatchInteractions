@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,6 +66,9 @@ public class SearchActivity extends Activity {
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_SEARCH);
                 startActivity(intent);
@@ -76,6 +80,9 @@ public class SearchActivity extends Activity {
             public void onSwipeRight(View view) {
                 text += " ";
                 searchName.setText(text);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
@@ -85,11 +92,18 @@ public class SearchActivity extends Activity {
 
                 // send command to TV
                 new SocketAsyncTask2().execute(text);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                 onBackPressed();
                 return false;
             }
@@ -128,6 +142,9 @@ public class SearchActivity extends Activity {
                         public void run() {
                             text += result.name;
                             searchName.setText(text);
+
+                            // provide haptic feedback
+                            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                             //clear everything
                             clearData();

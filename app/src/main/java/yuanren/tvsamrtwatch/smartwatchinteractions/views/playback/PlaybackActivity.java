@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -73,8 +74,13 @@ public class PlaybackActivity extends Activity {
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
+                // change icon
                 control.setImageDrawable(getDrawable(R.drawable.baseline_fast_forward_24));
 
+                // start animation
                 Animation fadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -102,8 +108,13 @@ public class PlaybackActivity extends Activity {
             public void onSwipeLeft(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
+                // change icon
                 control.setImageDrawable(getDrawable(R.drawable.baseline_fast_rewind_24));
 
+                // start animation
                 Animation fadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -131,13 +142,19 @@ public class PlaybackActivity extends Activity {
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                 PlaybackActivity.super.onBackPressed();
-                return false;
+                return true;
             }
 
             @Override
             public boolean onTwoPointerTap(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 Intent intent = new Intent(getApplicationContext(), XRayListActivity.class);
                 intent.putExtra(XRayListActivity.MOVIE_ID, movie.getId());
@@ -160,6 +177,9 @@ public class PlaybackActivity extends Activity {
                     control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
                     rotate.resume();
                 }
+
+                // provide haptic feedback
+                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
             }
         });
     }

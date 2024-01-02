@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -67,6 +68,9 @@ public class DetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
+                // provide haptic feedback
+                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 Intent intent = new Intent(getApplicationContext(), PlaybackActivity.class);
                 intent.putExtra(PlaybackActivity.MOVIE_ID, movie.getId());
