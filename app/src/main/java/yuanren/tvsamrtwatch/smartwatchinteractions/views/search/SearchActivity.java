@@ -83,10 +83,10 @@ public class SearchActivity extends Activity {
             public void afterTextChanged(Editable s) {
                 searchName.requestFocus();
                 searchName.setPressed(true);
-                searchName.setSelection(searchName.getText().length()); // Move the cursor to the end
+                searchName.setSelection(text.length()); // Move the cursor to the end
 
                 // send command to TV
-                new SocketAsyncTask2().execute(searchName.getText().toString());
+                new SocketAsyncTask2().execute(text);
             }
         });
 
@@ -152,8 +152,12 @@ public class SearchActivity extends Activity {
                     timeHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            text += result.name;
-                            searchName.setText(text);
+                            if (result.score > 0) {
+                                text += result.name;
+                                searchName.setText(text);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Try Again", Toast.LENGTH_SHORT);
+                            }
 
                             // provide haptic feedback
                             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
