@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,20 +61,32 @@ public class SearchActivity extends Activity {
         drawingView = binding.drawingView;
         submitBtn = binding.submit;
 
+        searchName.setShowSoftInputOnFocus(false);
+        searchName.setPressed(true);
+        searchName.setSelection(0); // set cursor visible at the beginning
+        searchName.requestFocus();
+
         // set up letter recognizer
         recognizer = new QDollarRecognizer(getApplicationContext());
 
-        container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        searchName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSwipeRight(View view) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+            }
 
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_SEARCH);
-                startActivity(intent);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchName.requestFocus();
+                searchName.setPressed(true);
+                searchName.setSelection(searchName.getText().length()); // Move the cursor to the end
+
+                // send command to TV
+                new SocketAsyncTask2().execute(searchName.getText().toString());
             }
         });
 
@@ -89,9 +104,6 @@ public class SearchActivity extends Activity {
             public void onSwipeLeft(View view) {
                 text = text.length() == 0 ? "" : text.substring(0, text.length() - 1);
                 searchName.setText(text);
-
-                // send command to TV
-                new SocketAsyncTask2().execute(text);
 
                 // provide haptic feedback
                 view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
@@ -148,9 +160,6 @@ public class SearchActivity extends Activity {
 
                             //clear everything
                             clearData();
-
-                            // send command to TV
-                            new SocketAsyncTask2().execute(text);
                         }
                     }, 1000);
                 }
