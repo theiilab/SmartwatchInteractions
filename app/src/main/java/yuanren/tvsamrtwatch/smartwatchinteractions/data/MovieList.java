@@ -360,7 +360,7 @@ public final class MovieList {
                 "Sofia Boutella;• Born in Algeria\n• Age: 40 (1982)\n• Height: 5′ 5″\n• Nationality: Algerian, French;Sofia Boutella is an Algerian actress, model, and dancer.",
                 "Cutler and Gross GR03 Square Glasses;$439;• Lens Width: 50mm\n• Bridge Width: 18mm\n• Temple Length: 145mm\n\nThis optical frame is packed with considered design details and technical elements which elevate both its form and function. Angular exterior bevelling, coupled with a high nose bridge reflect the stylistic inspirations for this frame, whilst weight-saving interior milling maximises wearability and comfort.",
                 "Navy Wool-Blend Tailored Suit;$311;• 43% Virgin Wool\n• 53% Polyester\n• 4% Lycra\n• Weight: 280 Gms\n\nDurable and lightweight, this two-piece navy suit is ideal for business trips abroad. Designed on Savile Row, it has contrast burgundy lining and features elastane within the fabric composition – allowing any creases to drop out easily.",
-                "Edward in Black Calf with Rubber Sole Shoes;£575;• Leather linings\n• Comes with Dust bags\n• Handmade in England\n\nThese black calf Oxford semi-brogues featuring brogue detail on cap, vamp & top of quarters is a essential business shoe. Flawlessly hand-finished in England in a round-toe shape, this slick pair will put you in good stead for years to come.",
+                "Edward in Black Calf with Rubber Sole Shoes;$575;• Leather linings\n• Comes with Dust bags\n• Handmade in England\n\nThese black calf Oxford semi-brogues featuring brogue detail on cap, vamp & top of quarters is a essential business shoe. Flawlessly hand-finished in England in a round-toe shape, this slick pair will put you in good stead for years to come.",
                 "Navy and Blue Stripe Repp Silk Tie;$225;• 100% Silk\n• Handmade in London, England\n• 8cm x 147cm\n\nA striped repp silk tie is one of the most enduring pieces of neckwear available, redolent of earlier periods of style, while retaining a distinctly modern feel.",
                 "Tag Heuer Connected Modular 45 Watch;$2050;• Calibre E4 - 45 mm\n\nStriking the perfect blend between innovation and high-end watchmaking, this TAG Heuer Connected Watch reveals an elegant 45mm steel case with sharp and sporty lugs, and integrated steel chronograph pushers. A new dimension where luxury meets performance."
         };
@@ -518,7 +518,7 @@ public final class MovieList {
                 "1"
         };
         String xRay4Name[] = {
-                "Dwayne Johnson",
+                "Tom Holland",
                 "Ryan Reynolds",
                 "Mark Wahlberg",
                 "Neck Ruffle Fit and Flare Dress",
@@ -538,7 +538,7 @@ public final class MovieList {
                 "https://res.cloudinary.com/teepublic/image/private/s--CXeMIyX5--/t_Resized%20Artwork/c_crop,x_10,y_10/c_fit,w_465/c_crop,g_north_west,h_620,w_465,x_0,y_0/g_north_west,u_upload:v1446840653:production:blanks:f6q1psnlmvhpoighmph1,x_-391,y_-276/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1603477063/production/designs/15352737_0.jpg"
         };
         String xRay4Description[] = {
-                "Tom Holland ;• Born in Kingston upon Thames, United Kingdom\n• Age: 26 (1996)\n• Height: 5′ 8″\n• Nationality: British;Thomas Stanley Holland is an English actor. His accolades include a British Academy Film Award, three Saturn Awards, a Guinness World Record and an appearance on the Forbes 30 Under 30 Europe list. Some publications have called him one of the most popular actors of his generation.",
+                "Tom Holland;• Born in Kingston upon Thames, United Kingdom\n• Age: 26 (1996)\n• Height: 5′ 8″\n• Nationality: British;Thomas Stanley Holland is an English actor. His accolades include a British Academy Film Award, three Saturn Awards, a Guinness World Record and an appearance on the Forbes 30 Under 30 Europe list. Some publications have called him one of the most popular actors of his generation.",
                 "Ryan Reynolds;• Born in San Diego, CA, American\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Sophia Taylor Ramsey Ali is an American actress. She is best known for her work in the MTV romantic comedy series Faking It, the ABC medical drama series Grey's Anatomy, and The Wilds.",
                 "Mark Wahlberg;• Born in Boston, MA, American\n• Age: 51 (1971)\n• Height: 5′ 8″\n• Nationality: American;Mark Robert Michael Wahlberg, former stage name Marky Mark, is an American actor, businessman, and former rapper. His work as a leading man spans the comedy, drama, and action genres.",
                 "Neck Ruffle Fit and Flare Dress;$128;• 100% Polyester/Rayon\n• Length: Regular 36, Petite 34\n\nThis one features fun ruffle details and a flattering fit and flare style. This piece perfectly pairs with heels or booties for your next event.",
@@ -714,7 +714,7 @@ public final class MovieList {
         String xRay7Description[] = {
                 "Tom Hardy;• Born in London, United Kingdom\n• Age: 45 (1977)\n• Height: 5′ 9″\n• Nationality: British;Edward Thomas Hardy CBE is an English actor. After studying acting at the Drama Centre London, he made his film debut in Ridley Scott's Black Hawk Down.",
                 "Michelle Williams;• Born in Kalispell, MT, American\n• Age: 42 (1980)\n• Height: 5′ 4″\n• Nationality: American;Michelle Ingrid Williams is an American actress. Known primarily for starring in small-scale independent films with dark or tragic themes, she has received various accolades, including two Golden Globe Awards and a Primetime Emmy Award, in addition to nominations for five Academy Awards and a Tony Award.",
-                "Marc Jacobs Painted Flower Wrap Dress;$695;• Silk 100%\n• Brand: Marc Jacobs\n• Length: 112 cm\n• Waist tie detail, surplice front\n• Dry clean only\n\nThis Marc Jacobs Painted Flower Wrap Dress is a colorful fashion statement featuring dark florals and a sleek wrap silhouette at midi length. Crafted from finest quality silk, it is easy-to-pack and multi-purpose, especially in vacation time.",
+                "Marc Jacobs Painted Flower Wrap Dress;$695;• 100% Silk\n• Brand: Marc Jacobs\n• Length: 112 cm\n• Waist tie detail, surplice front\n• Dry clean only\n\nThis Marc Jacobs Painted Flower Wrap Dress is a colorful fashion statement featuring dark florals and a sleek wrap silhouette at midi length. Crafted from finest quality silk, it is easy-to-pack and multi-purpose, especially in vacation time.",
                 "Valentino Garavani Carry Secrets Clutch;$2280;• Brand: Valentino Garavani \n• Black and gold leather (Goat), gold-tone metal\n• Clasp fastening at top\n• Made in Italy\n\nValentino Garavani's 'Carry Secrets' clutch will keep your treasured possessions safe. Crafted from leather with a structured gold-tone metal frame, it's embellished with countless crystals to depict a dragon motif that was originally showcased in 1969. Let yours be the focal point of an all-black outfit.",
                 "Stretch Zip Hoodie;$99;• 100% Wool\n• 2 front pockets for comfort\n• Machine Wash Cold\n\nThe go everywear hoodie now in our exclusive stretch fleece.",
                 "Premium Slub Crew Grey Tee;$50;• 100% Cotton\n• 6.6 oz./sq. yard\n• Premium slub jersey\n• Machine wash\n\nMade with our substantial and custom premium slub fabric that we spent over a year developing. This fabric is non-see through and non-torquing compared to other fabrics on the market. Rich, varied texture that holds its shape. A polished look that looks great on its own or under a jacket.",
@@ -931,7 +931,7 @@ public final class MovieList {
                 "1"
         };
         String xRay11Name[] = {
-                "Al Pacino",
+                "Alfredo Pacino",
                 "Hilary Swank",
 
                 "TAG HEUER Carrera Watch",
@@ -952,7 +952,7 @@ public final class MovieList {
         };
         String xRay11Description[] = {
                 "Alfredo James Pacino;• Born in East Harlem, New York, NY, American\n• Age: 83 (1940)\n• Height: 5′ 6″\n• Nationality: American;Alfredo James Pacino is an American actor. Considered one of the greatest and most influential actors of the 20th century, Pacino has received numerous accolades: including an Academy Award, two Tony Awards, and two Primetime Emmy Awards, making him one of the few performers to have achieved the Triple Crown of Acting.",
-                "Michelle Williams;• Born in Lincoln, NE, American\n• Age: 49 (1974)\n• Height: 5′ 6″\n• Nationality: American;Hilary Ann Swank is an American actress and film producer. Swank first became known in 1992 for her role on the television series Camp Wilder and made her film debut with a minor role in Buffy the Vampire Slayer.",
+                "Hilary Swank;• Born in Lincoln, NE, American\n• Age: 49 (1974)\n• Height: 5′ 6″\n• Nationality: American;Hilary Ann Swank is an American actress and film producer. Swank first became known in 1992 for her role on the television series Camp Wilder and made her film debut with a minor role in Buffy the Vampire Slayer.",
 
                 "TAG HEUER Carrera Date Watch;$3200;• Type: Automatic Watch\n• Size: 39 mm\n• Material: Steel\n\nThis TAG Heuer Carrera is ready for anything. Its brushed silver sunray dial is a statement of luxury, beautifully highlighted by the functional and elegant rhodium-plated TAG Heuer logo and Super-Luminova® hands and indexes.",
                 "Lined Journal Notebook;$8.99;• 5-x-8-inch inches\n• Faux Leather\n\nThis lined journal notebook features durable and water-resistant vegan leather cover, can protect the pages inside for years and provide a comfortable writing surface.rounded corners, 160 pages, ribbon bookmark & elastic closure band.",
@@ -1017,7 +1017,7 @@ public final class MovieList {
 
                 "iPhone SE;$479;• Size: 128 GB\n• Color: Midnight\n• 4.7-inch Retina HD display\n• Up to 15 hours of video playback\n• A15 Bionic chip for lightning-fast performance\n• 7MP FaceTime HD camera with Smart HDR 4, Photographic Styles, Portrait mode, and 1080p video recording\n\n",
                 "DEERC D20 Mini Drone;$50;• Brand: Valentino Garavani \n• Black and gold leather (Goat), gold-tone metal\n• Clasp fastening at top\n• Made in Italy\n\n",
-                "lululemon Align™ Ribbed High-Rise Pant;$99;• High Rise, 25\" Length\n• Designed for Yoga\n• Buttery-Soft, Ribbed Nulu™ Fabric\n\nThis collection’s great for low-impact workouts like yoga or whenever you want to feel really, really comfortable.",
+                "lululemon Align™ Ribbed High-Rise Pant;$99;• High Rise\n• Length: 25\"\n• Designed for Yoga\n• Buttery-Soft, Ribbed Nulu™ Fabric\n\nThis collection’s great for low-impact workouts like yoga or whenever you want to feel really, really comfortable.",
                 "Sunchaser UPF Tank;$59;• 100% Recycled Polyester/Spandex\n• UPF 50+ sun protection \n• Semi-fitted\n• 25.75 Body length\n\nFor m edium to high impact workouts at the gym, studio, or outdoors",
                 "Seamless Ribbed Bodysuit;$14.21;• 92% nylon, 8% spandex\n• Slim-fitted\n•  Hand wash cold\n\nA ribbed knit bodysuit featuring a seamless fit and a halter neckline."
         };
@@ -1054,7 +1054,7 @@ public final class MovieList {
         };
         String xRay13Name[] = {
                 "Amanda Seyfried",
-                "Michelle Williams",
+                "Rachel McDowall",
                 "Ashley Lilley",
 
                 "Smiling Eyes Top",
