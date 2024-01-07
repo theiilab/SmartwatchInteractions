@@ -109,7 +109,7 @@ public final class MovieList {
                 "Fantastic Beasts and Where to Find Them",
                 "Insomnia",
                 "Fall",
-                "Mamamia",
+                "Mama Mia",
                 "Lala Land",
                 "Sherlock Holmes",
                 "The Da Vinci Code",
@@ -362,7 +362,7 @@ public final class MovieList {
                 "Navy Wool-Blend Tailored Suit;$311;• 43% Virgin Wool\n• 53% Polyester\n• 4% Lycra\n• Weight: 280 Gms\n\nDurable and lightweight, this two-piece navy suit is ideal for business trips abroad. Designed on Savile Row, it has contrast burgundy lining and features elastane within the fabric composition – allowing any creases to drop out easily.",
                 "Edward in Black Calf with Rubber Sole Shoes;$575;• Leather linings\n• Comes with Dust bags\n• Handmade in England\n\nThese black calf Oxford semi-brogues featuring brogue detail on cap, vamp & top of quarters is a essential business shoe. Flawlessly hand-finished in England in a round-toe shape, this slick pair will put you in good stead for years to come.",
                 "Navy and Blue Stripe Repp Silk Tie;$225;• 100% Silk\n• Handmade in London, England\n• 8cm x 147cm\n\nA striped repp silk tie is one of the most enduring pieces of neckwear available, redolent of earlier periods of style, while retaining a distinctly modern feel.",
-                "Tag Heuer Connected Modular 45 Watch;$2050;• Calibre E4 - 45 mm\n\nStriking the perfect blend between innovation and high-end watchmaking, this TAG Heuer Connected Watch reveals an elegant 45mm steel case with sharp and sporty lugs, and integrated steel chronograph pushers. A new dimension where luxury meets performance."
+                "Tag Heuer Connected Modular 45 Watch;$2050;• Model: Connected Calibre E4\n• Width: 45 mm\n\nStriking the perfect blend between innovation and high-end watchmaking, this TAG Heuer Connected Watch reveals an elegant 45mm steel case with sharp and sporty lugs, and integrated steel chronograph pushers. A new dimension where luxury meets performance."
         };
         String xRay1Merchandise[] = {
                 "",
@@ -483,7 +483,7 @@ public final class MovieList {
                 "Riparo Motorsports Half Finger Gloves;$41.5;• Material: Leather\n• Color: Black\n• Sport Type: Cycling\n\nThese genuine leather gloves have the quality and the features you would expect from a pair of quality driving gloves , including soft supple leather and a snap closure on the wrist strap.",
                 "Army Camo Multicam Pants;$99.99;• 50% cotton\n• 50% nylon\n• Machine Wash\n\nThere are some core features include: double layer seat /knee areas for durability ,a rugged metal YKK zipper is used for the fly, knees are slightly articulated, and a simple velcro strap system in built into the waist to allow for size adjustments.",
                 "Tru-Spec Men's Gen-ii Adjustable Boonie;$16.5;• 100% Cotton\n• Hand Wash Only\n\nThese stylish hats that meet US military specs are constructed from 65/35 poly-cotton rip-stop with an flexible drawstring chin strap with cardlock for an easy fit",
-                "Fitted Short Sleeve Crop Top;$17.99;• 63% Rayon\n• 33% Polyester\n• 4% Spandex\n• Hand Wash Only\n\nThis round neck short sleeve crop top will have you feeling wild for it. Keep it trendy and pair it with our flowy ankle length maxi skirt or for a more casual look wear it with our favorite high waisted skinny jeans."
+                "Fitted Short Sleeve Crop Top;$17.99;• 63% Rayon\n• 33% Polyester\n• 4% Spandex\n• Machine Wash\n\nThis round neck short sleeve crop top will have you feeling wild for it. Keep it trendy and pair it with our flowy ankle length maxi skirt or for a more casual look wear it with our favorite high waisted skinny jeans."
         };
         String xRay3Merchandise[] = {
                 "",
@@ -519,7 +519,7 @@ public final class MovieList {
         };
         String xRay4Name[] = {
                 "Tom Holland",
-                "Ryan Reynolds",
+                "Sophia Ali",
                 "Mark Wahlberg",
                 "Neck Ruffle Fit and Flare Dress",
                 "Vegan Leather Moto Jacket",
@@ -534,14 +534,14 @@ public final class MovieList {
                 "https://images.express.com/is/image/expressfashion/0094_07827535_2073_a001?cache=on&wid=960&fmt=jpeg&qlt=85,1&resmode=sharp2&op_usm=1,1,5,0&defaultImage=Photo-Coming-Soon",
                 "https://i5.walmartimages.com/asr/07e91197-7e60-4e48-bbeb-510cb2ac420d.bc276ee358e5d9372ac695090fb73a38.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
                 "https://bonobos-prod-s3.imgix.net/products/286106/original/JACKET_BOMBER-JACKET_BOT01535N1233G_1.jpg?1675112807=&auto=format&fit=clip&cs=srgb&w=768&q=75",
-                "https://n.nordstrommedia.com/id/sr3/815b0f7a-6a5c-42be-b9b7-f19ca5653451.jpeg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2",
+                "https://jcpenney.scene7.com/is/image/JCPenney/beff20c9-7b19-11e8-b7c1-2f0fb63ca7ca?hei=550&wid=550&op_usm=.4%2C.8%2C0%2C0&resmode=sharp2&op_sharpen=1",
                 "https://res.cloudinary.com/teepublic/image/private/s--CXeMIyX5--/t_Resized%20Artwork/c_crop,x_10,y_10/c_fit,w_465/c_crop,g_north_west,h_620,w_465,x_0,y_0/g_north_west,u_upload:v1446840653:production:blanks:f6q1psnlmvhpoighmph1,x_-391,y_-276/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1603477063/production/designs/15352737_0.jpg"
         };
         String xRay4Description[] = {
                 "Tom Holland;• Born in Kingston upon Thames, United Kingdom\n• Age: 26 (1996)\n• Height: 5′ 8″\n• Nationality: British;Thomas Stanley Holland is an English actor. His accolades include a British Academy Film Award, three Saturn Awards, a Guinness World Record and an appearance on the Forbes 30 Under 30 Europe list. Some publications have called him one of the most popular actors of his generation.",
-                "Ryan Reynolds;• Born in San Diego, CA, American\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Sophia Taylor Ramsey Ali is an American actress. She is best known for her work in the MTV romantic comedy series Faking It, the ABC medical drama series Grey's Anatomy, and The Wilds.",
+                "Sophia Ali;• Born in San Diego, CA, American\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Sophia Taylor Ramsey Ali is an American actress. She is best known for her work in the MTV romantic comedy series Faking It, the ABC medical drama series Grey's Anatomy, and The Wilds.",
                 "Mark Wahlberg;• Born in Boston, MA, American\n• Age: 51 (1971)\n• Height: 5′ 8″\n• Nationality: American;Mark Robert Michael Wahlberg, former stage name Marky Mark, is an American actor, businessman, and former rapper. His work as a leading man spans the comedy, drama, and action genres.",
-                "Neck Ruffle Fit and Flare Dress;$128;• 100% Polyester/Rayon\n• Length: Regular 36, Petite 34\n\nThis one features fun ruffle details and a flattering fit and flare style. This piece perfectly pairs with heels or booties for your next event.",
+                "Neck Ruffle Fit and Flare Dress;$128;• 100% Polyester/Rayon\n• Length: Regular 136cm, Petite 134cm\n\nThis one features fun ruffle details and a flattering fit and flare style. This piece perfectly pairs with heels or booties for your next event.",
                 "Vegan Leather Moto Jacket;$128;• Machine wash cold, tumble dry low\n\nWater resistant outer shell for extra protection against inclement weather.",
                 "The Boulevard Bomber;$89;• 60% Cotton, 40% Nylon\n• Dry clean only\n\nClassic bomber style with rib collar, cuff and hem | Single welt hand pockets with snap | Water repellent | Fully lined.",
                 "Relax Fit Men's Jeans;$69.5;• 1% elastane (Lycra®), 100% cotton\n• Zip fly\n• 5-pocket styling\n• Machine wash cold\n\nA comfortable classic, introduced in 1985 and loved ever since. After the '70s were over, things got more relaxed, including Levi's® jeans. This pair features extra room throughout with a slight, tailor-like taper at the leg.",
@@ -640,7 +640,7 @@ public final class MovieList {
                 "Kyle Chandler",
                 "Ralph Lauren Polo Shirt",
                 "TAG Heuer Watch",
-                "Ray-Ban sunglasses",
+                "Ray-Ban Sunglasses",
                 "Ralph Lauren Polo Jacket",
                 "Navy Blue Tie"
         };
@@ -658,7 +658,7 @@ public final class MovieList {
                 "Kyle Chandler;• Born in Buffalo, NY, American\n• Age: 57 (1965)\n• Height: 6′ 0″\n• Nationality: American;Kyle Martin Chandler is an American actor. Making his screen acting debut in a 1988 television film, Quiet Victory: The Charlie Wedemeyer Story, Chandler's first regular television role was in the ABC drama Homefront.",
                 "The Iconic Mesh Polo Shirt;$110;• 100% Cotton\n• Length: 28.5\" front & 29.5\" back\n• Machine washable\n\nOver the decades, Ralph Lauren has reimagined his signature style in a wide array of colors and fits, yet all retain the quality and attention to detail of the iconic original. This relaxed version is made with our highly breathable cotton mesh, which offers a textured look and a soft feel. ",
                 "TAG Heuer Professional 1000;$3850;• Brand: TAG Heuer\n• Band/Strap: Bracelet\n• Case Material: Gold Plated\n• Case Size: 38 mm\n\nFor more than 160 years, TAG Heuer has led, never followed, setting its own rules and driving watchmaking into uncharted territories. Its timepieces are not faithful reflections of tradition, but true representatives of design and engineering at their most innovative and awe-inspiring.",
-                "Ray-Ban ® RB4147 sunglasses;$151;• Frame shape: Square\n• Frame color: Polished Black\n• Frame material: Nylon\n• Len height: 48.5mm\n• Bridge width: 60 15mm\n\nRay-Ban ® RB4147 sunglasses are fashionable and bold with larger rounded square lenses in propionate plastic frames which offer maximum sun protection while embracing a chic Hollywood look.",
+                "Ray-Ban ® RB4147 Sunglasses;$151;• Frame shape: Square\n• Frame color: Polished Black\n• Frame material: Nylon\n• Len height: 48.5mm\n• Bridge width: 60 15mm\n\nRay-Ban ® RB4147 sunglasses are fashionable and bold with larger rounded square lenses in propionate plastic frames which offer maximum sun protection while embracing a chic Hollywood look.",
                 "Ralph Lauren Polo Soft Wool Oxford Suit Jacket;$698;• Shell: wool\n• Undercollar: mulberry silk\n• Length: 30\" front & 29.5\" back\n• Double vent\n\nThis Polo Soft jacket is tailored from lightweight wool oxford that's both breathable and wrinkle-resistant. Its fit puts a modern spin on classic preppy style with a natural shoulder and a half-canvassed construction.",
                 "Navy Blue Tie;$38.5;• 100% Silk\n• Blade width: 7.6 cm\n• Handmade\n\nThis Navy & White Circles Silk Tie is simple but  perfect pair for a navy suit as it compliments rather than clash. This tie is also 100% Macclesfield Silk."
         };
@@ -767,15 +767,15 @@ public final class MovieList {
                 "https://cdn.shopify.com/s/files/1/0419/1525/products/1024x1024-Men-Racer-Black-122122-1_1024x1024.jpg?v=1672325278",
                 "https://dd4784dac49866101be5-b98bf53fe71a9e56b6bc9ef824d36d5b.ssl.cf1.rackcdn.com/productImage_0-UJbj4AKZ-zoom.jpg",
                 "https://footnycs.com/cdn/shop/products/1d554141-f453-4b02-bef3-3ec3f9673c8a.jpg?v=1671445185&width=493",
-                "https://cdn.shopify.com/s/files/1/0297/3584/5948/products/W2229-02_5sx7wrirk_1024x1024@2x.jpg?v=1637209917",
+                "https://www.watchbrandsdirect.com/cdn/shop/products/DGP42BGLDMP-N_main_large.jpg?v=1571438856",
                 "https://www.jcrew.com/s7-img-facade/BE895_GY5980?hei=850&crop=0,0,680,0"
         };
         String xRay8Description[] = {
                 "Robert Downey Jr;• Born in New York, NY, American\n• Age: 58 (1965)\n• Height: 5′ 8″\n• Nationality: American;Robert John Downey Jr. is an American actor and producer. His career has been characterized by critical and popular success in his youth, followed by a period of substance abuse and legal troubles, before a resurgence of commercial success later in his career.",
                 "Terrence Howard;• Born in Chicago, IL, American\n• Age: 54 (1969)\n• Height: 6′ 0″\n• Nationality: American;Terrence Dashon Howard is an American actor, rapper, singer, and producer. Having his first major roles in the 1995 films Dead Presidents and Mr. Holland's Opus, Howard broke into the mainstream with a succession of television and cinema roles between 2004 and 2006. ",
 
-                "Racer Jacket;$349;• Premium Black Lambskin Leather\n• Plush Polyester Interior with Leather Trimmings\n• Long-Lasting Metal Zipper\n• Banded Collar with Ideal® Snap Button\n• Dry clean only\n\nThis streamlined leather jacket has been thoughtfully handcrafted to let the quality of the materials speak for themselves. With twin side torso welt pockets, a snap buttoned collar and premium lambskin leather, this represents Thursday versatility at its finest.",
-                "Painted Grey T-Shirt;$28;• Brand: Valentino Garavani \n• 50% Polyester\n• 25% Rayon\n• 25% Cotton\n• Machine wash cold\n\nThese grey t-shirts feature a quote by Wendell Berry that reads \"What I Stand For is What I Stand On\"",
+                "Racer Jacket;$349;• Outer: Lambskin Leather\n• Inner: Polyester Interior with Leather Trimmings\n• Long-Lasting Metal Zipper\n• Banded Collar with Ideal® Snap Button\n• Dry clean only\n\nThis streamlined leather jacket has been thoughtfully handcrafted to let the quality of the materials speak for themselves. With twin side torso welt pockets, a snap buttoned collar and premium lambskin leather, this represents Thursday versatility at its finest.",
+                "Painted Grey T-Shirt;$28;• Brand: Levi's \n• 50% Polyester\n• 25% Rayon\n• 25% Cotton\n• Machine wash cold\n\nThese grey t-shirts feature a quote by Wendell Berry that reads \"What I Stand For is What I Stand On\"",
                 "Air Force Army Jacket;$85.99;• Material: Polyester,Cotton\n• Thickness: Standard\n• Detachable Part: Hat Detachable\n• Machine Wash Cold\n\nPerfect for a day at the range, smores around the campfire, or training on the toughest terrains.",
                 "Bvlgari Diagono Retrograde Moonphase;$19980;• Model: DGP42GMP\n• Movement: Automatic\n• Case: 18K rose gold, 42mm\n• Dial: Black with gold batons and Arabic numerals\n• Strap: Brown crocodile with deployant buckle \n• Special Features: Moon phase calendar, day, date, second hand\n\n",
                 "Cashmere Crewneck Sweater;$138;• 100% Cashmere\n• Crewneck\n• Hand wash\n\nWe source cashmere that is certified to the AbTF's The Good Cashmere Standard®, which ensures the welfare of the cashmere goats, protects natural resources and improves the working conditions of farmers and farmworkers in Inner Mongolia."
@@ -895,10 +895,10 @@ public final class MovieList {
                 "Dan Fogler;• Born in New York, NY, American\n• Age: 46 (1976)\n• Height: 5′ 7″\n• Nationality: American;Daniel Kevin Fogler is an American actor, comedian and writer. He has appeared in films including Balls of Fury, Good Luck Chuck, Fantastic Beasts and Where to Find Them series",
 
                 "Wool Coat;$559.99;• 100% Wool\n• Lapel collar\n• 2 side pockets\n• Dry Clean Only\n• Dry clean only\n\nTransform yourself into the most famous Magizoologist in the history of wizardry with this jacket from Fantastic Beasts And Where To Find Them.",
-                "Wand;$39;• Brand: Valentino Garavani \n• Material: Resin\n• Style: Antique\n• Length: 35cm\n\nThe Wand of Newt Scamander in Collector's Box is a meticulous recreation of the wand prop used in Fantastic Beasts and Where to Find Them, crafted with high quality materials. Officially licensed by Warner Bros.",
-                "Vintiquewise Old Style Suitcase;$69.51;• Material: Wood, Polywood Faux Leathe\n• Size: 13” x 8.5” x 4.5”\n\nOur warm and welcoming steamer trunk brings back days of old time. Remember how excited you are when you were a little kid to look into your grandma's old chest, our decorative trunks will bring back those memories and help you create some new ones too.",
+                "Wand;$39;• Material: Resin\n• Style: Antique\n• Length: 35cm\n\nThe Wand of Newt Scamander in Collector's Box is a meticulous recreation of the wand prop used in Fantastic Beasts and Where to Find Them, crafted with high quality materials. Officially licensed by Warner Bros.",
+                "Vintiquewise Old Style Suitcase;$69.51;• Material: Wood, Plywood Faux Leather\n• Size: 13” x 8.5” x 4.5”\n\nOur warm and welcoming steamer trunk brings back days of old time. Remember how excited you are when you were a little kid to look into your grandma's old chest, our decorative trunks will bring back those memories and help you create some new ones too.",
                 "Lace Up Boot;$150;• 100% Leather\n• Heel 1.25\"\n• Synthetic sole\n\nThe lightly distressed leather upper on this boot from Frye gives it a natural, broken-in-look that's amazingly hip and stylish. A fully laced vamp, a breathable, leather-lined footbed, and stacked wooden heel combine together for a look that is versatile, sophisticated, and charming.",
-                "Slim Fit Western Vest Waistcoat;$49.5;• 95% Polyester\n• West cowboy style\n• Slim fit\n• Machine Wash Cold\n\nThis mens suede vest is western cowboy style.It shows the handsomeness and free-and-easy personality of the American west cowboy style. You can pair this suede vest with dress shirt, jacket, jeans, western cowboy hat, stilt felt hat and boots."
+                "Slim Fit Western Vest Waistcoat;$49.5;• 95% Polyester, 5% cotton\n• West cowboy style\n• Slim fit\n• Machine Wash Cold\n\nThis mens suede vest is western cowboy style.It shows the handsomeness and free-and-easy personality of the American west cowboy style. You can pair this suede vest with dress shirt, jacket, jeans, western cowboy hat, stilt felt hat and boots."
         };
         String xRay10Merchandise[] = {
                 "",
@@ -956,8 +956,8 @@ public final class MovieList {
 
                 "TAG HEUER Carrera Date Watch;$3200;• Type: Automatic Watch\n• Size: 39 mm\n• Material: Steel\n\nThis TAG Heuer Carrera is ready for anything. Its brushed silver sunray dial is a statement of luxury, beautifully highlighted by the functional and elegant rhodium-plated TAG Heuer logo and Super-Luminova® hands and indexes.",
                 "Lined Journal Notebook;$8.99;• 5-x-8-inch inches\n• Faux Leather\n\nThis lined journal notebook features durable and water-resistant vegan leather cover, can protect the pages inside for years and provide a comfortable writing surface.rounded corners, 160 pages, ribbon bookmark & elastic closure band.",
-                "Modern Classic Wave Suit Jacket;$150;• 30% recycled polyester\n• Notch lapel with 2-button front closure\n• Double back vent\n• Three exterior pockets, two interior pockets\n\nDiscover the heritage craftsmanship of this timeless piece with its soft, smooth, blended luxe fabrication and wrinkle-resistant properties.",
-                "Classic Jackie Cardigan;$99;• 100% Wool\n• Ribbed cuffs\n• Machine Wash Cold\n\nStay warm while keeping your style in tact in this women's Croft & Barrow cardigan.",
+                "Modern Classic Wave Suit Jacket;$150;• 70% Wool, 30% recycled polyester\n• Notch lapel with 2-button front closure\n• Double back vent\n• 3 exterior pockets, 2 interior pockets\n\nDiscover the heritage craftsmanship of this timeless piece with its soft, smooth, blended luxe fabrication and wrinkle-resistant properties.",
+                "Classic Jackie Cardigan;$99;• 100% Wool\n• Ribbed cuffs\n• Hand wash\n\nStay warm while keeping your style in tact in this women's Croft & Barrow cardigan.",
                 "Bryce Glasses;$25;• Size: 53-18-138 (mm)\n• Weight: 14g\n• Material: metal\n• Shape: Rectangle\n• Rim: Full-Rim\n\nThe classy, minimalist look of Bryce is perfect for neatening up any outfit. The Silver metal construction of this frame give it a bold and defined look, while the thin temples and lens frames make them lightweight and comfortable."
 
         };
@@ -996,7 +996,7 @@ public final class MovieList {
                 "Grace Fulton",
 
                 "iPhone SE",
-                "DEERC D20 Mini Drone",
+                "DEERC Mini Drone",
                 "lululemon High-Rise Pant",
                 "Sunchaser UPF Tank",
                 "Seamless Ribbed Bodysuit"
@@ -1016,7 +1016,7 @@ public final class MovieList {
                 "Grace Fulton;• Born in American\n• Age: 26 (1996)\n• Height: 5′ 7″\n• Nationality: American;Grace Caroline Currey is an American actress and dancer. She is best known for playing Mary Bromfield in the DC Extended Universe films Shazam! and reprising the role in Shazam! Fury of the Gods. She also joined the The Conjuring Universe in Annabelle: Creation as Carol.",
 
                 "iPhone SE;$479;• Size: 128 GB\n• Color: Midnight\n• 4.7-inch Retina HD display\n• Up to 15 hours of video playback\n• A15 Bionic chip for lightning-fast performance\n• 7MP FaceTime HD camera with Smart HDR 4, Photographic Styles, Portrait mode, and 1080p video recording\n\n",
-                "DEERC D20 Mini Drone;$50;• Brand: Valentino Garavani \n• Black and gold leather (Goat), gold-tone metal\n• Clasp fastening at top\n• Made in Italy\n\n",
+                "DEERC Mini Drone;$50;• Model: D20\n• Video Capture Resolution： 720P\n• Item Weight: 69 g\n• Maximum Range: 100 Meters\n\n",
                 "lululemon Align™ Ribbed High-Rise Pant;$99;• High Rise\n• Length: 25\"\n• Designed for Yoga\n• Buttery-Soft, Ribbed Nulu™ Fabric\n\nThis collection’s great for low-impact workouts like yoga or whenever you want to feel really, really comfortable.",
                 "Sunchaser UPF Tank;$59;• 100% Recycled Polyester/Spandex\n• UPF 50+ sun protection \n• Semi-fitted\n• 25.75 Body length\n\nFor m edium to high impact workouts at the gym, studio, or outdoors",
                 "Seamless Ribbed Bodysuit;$14.21;• 92% nylon, 8% spandex\n• Slim-fitted\n•  Hand wash cold\n\nA ribbed knit bodysuit featuring a seamless fit and a halter neckline."
@@ -1041,7 +1041,7 @@ public final class MovieList {
 
 
 
-        // Mamamia
+        // Mama Mia
         String xRay13Type[] = {
                 "0",
                 "0",
@@ -1140,7 +1140,7 @@ public final class MovieList {
                 "Emma Stone;• Born in Scottsdale, AZ, American\n• Age: 34 (1989)\n• Height: 5′ 6″\n• Nationality: American;Emily Jean \"Emma\" Stone is an American actress. She is the recipient of various accolades, including an Academy Award, a British Academy Film Award, and a Golden Globe Award. In 2017, she was the world's highest-paid actress and named by Time magazine as one of the 100 most influential people in the world.",
                 "Ryan Gosling;• Born in London, Canada\n• Age: 42 (1980)\n• Height: 6′ 0″\n• Nationality: Canadian;Ryan Thomas Gosling is a Canadian actor. Prominent in both independent film and major studio features of varying genres, his films have accrued a worldwide box office gross of over 1.9 billion USD.",
 
-                "Cocktail Floral Party Dress;$25.9;• 95% Polyester, 5% Spandex\n• Elastic closure\n• Featuring square neck\n• Adorable cap sleeves\n• Dry clean only\n\n",
+                "Cocktail Floral Party Dress;$25.9;• 95% Polyester, 5% Spandex\n• Elastic closure\n• Featuring square neck\n• Adorable cap sleeves\n• Machine wash\n\n",
                 "Mollie Tote;$428;• Double face leather \n• Zip-top closure, fabric lining\n• Handles with 10.25\" drop\n• 13.25\" (L) x 11\" (H) x 5\" (W)\n\nThis impeccably-crafted tote by Coach features signature chambray and smooth leather, a zip-top closure, fabric lining, side open compartments, and comfortable 4 3/4\" handles with a detachable 22\" strap for crossbody wear.",
                 "Kurt Geiger Chelsea satin sandals;$220;• Upper: fabric\n• Lining: leather\n• 95mm-heel sandal\n\nThe undeniably striking Chelsea from Kurt Geiger ticks all the city-girl style boxes. Designed in must-have sleek blue and featuring intricate gold-tone heel tip, this sandal demands attention.",
                 "The Perfect White Shirt;$125;• 98% Cotton, 2% Lycra\n• Spread Collar\n• Mitered Barrel Cuff\n• Stretch\n\nWoven of a cutting-edge, high density luxurious fabric, it eliminates see-through. A touch of lycra lends stretch to make even the longest business trip less tiresome. The no wrinkle, non-iron technology ensures that you always look crisp and pulled together, even when stepping off a plane after many hours aboard. ",
@@ -1200,11 +1200,11 @@ public final class MovieList {
                 "Robert Downey Jr;• Born in New York, NY, American\n• Age: 58 (1965)\n• Height: 5′ 8″\n• Nationality: American;Robert John Downey Jr. is an American actor and producer. His career has been characterized by critical and popular success in his youth, followed by a period of substance abuse and legal troubles, before a resurgence of commercial success later in his career.",
                 "Jude Law;• Born in London, United Kingdom\n• Age: 50 (1972)\n• Height: 5′ 10″\n• Nationality: British;David Jude Heyworth Law is an English actor. He received a British Academy Film Award, as well as nominations for two Academy Awards, two Tony Awards, and four Golden Globe Awards. In 2007, he received an Honorary César and was named a knight of the Order of Arts and Letters by the French government.",
 
-                "John Bull Top Hat;$89.95;• 100% Wool\n•  2.5-inch brim\n• 6.5-inch flared crown\n• 2-inch grosgrain hat band\n• Dry clean only\n\n100 percent wool felt body and smooth leather sweatband makes this the perfect men’s top hat for serious collectors and formal wear lovers.",
-                "Double Breasted Long Wool Coat;$229;• 100% Wool\n• Double breasted style with wide notch lapel\n• Two exterior and two inside pockets\n• Chocolate brown color finishing\n\nThis chocolate brown wool coat is constructed from premium quality wool blend and classic fit to give you warmth and style altogether.This coat will keep you cozy during hours of wear on a cold and windy days.",
+                "John Bull Top Hat;$89.95;• 100% Wool\n• 2.5-inch brim\n• 6.5-inch flared crown\n• 2-inch grosgrain hat band\n• Dry clean only\n\n100 percent wool felt body and smooth leather sweatband makes this the perfect men’s top hat for serious collectors and formal wear lovers.",
+                "Double Breasted Long Wool Coat;$229;• 100% Wool\n• Double breasted style with wide notch lapel\n• 2 exterior and 2 inside pockets\n• Chocolate brown color finishing\n\nThis chocolate brown wool coat is constructed from premium quality wool blend and classic fit to give you warmth and style altogether.This coat will keep you cozy during hours of wear on a cold and windy days.",
                 "Wool Suit;$895;• 100% Wool\n• Fit back length: 74 cm\n• Fit foot width: 36 cm\n• Notched lapels\n• Welt chest pockets\n\nA two-piece suit created in virgin wool by BOSS Menswear. Offering reliable wearing comfort thanks to the natural stretch in the fabric, this narrow-cut ensemble comprises pants with a hook-and-zipper closure, and a two-button jacket with notch lapels and flap pockets.",
                 "Luther Blend Overcoat;$495;• 100% Cotton\n• Three-button closure, four-button cuffs\n• Notched lapel\n• Dry clean\n\nAdd a touch of class to your cold-weather look with the classic fit and warm design of this Luther overcoat from Lauren Ralph Lauren.",
-                "Chrome Fritz Custom Engrave Handle;$68;• 100% brass hanle\n• 3 engraving options\n\nTake personalization to the next level with this gorgeous cane that has an engraving plate right in the handle. With three engraving styles to choose from, this stylish 100% brass handle is chrome plated and has an ornate scroll design that's sure to wow all who see it."
+                "Chrome Fritz Custom Engrave Handle;$68;• 100% brass handle\n• 3 engraving options\n\nTake personalization to the next level with this gorgeous cane that has an engraving plate right in the handle. With three engraving styles to choose from, this stylish 100% brass handle is chrome plated and has an ornate scroll design that's sure to wow all who see it."
         };
         String xRay15Merchandise[] = {
                 "",
@@ -1262,10 +1262,10 @@ public final class MovieList {
                 "Audrey Tautou;• Born in Beaumont, France\n• Age: 46 (1976)\n• Height: 5′ 3″\n• Nationality: French;Audrey Justine Tautou is a French actress. She made her acting debut at the age of 18 on television and her feature film debut in Venus Beauty Institute, for which she received critical acclaim and won the César Award for Most Promising Actress.",
 
                 "LED UV Flashlight;$8.99;• Material: Aluminum\n• Power Source: Battery powered\n• Dimensions: 1.2\"D x 1.08\"W x 3.74\"H\n\nVansky UV flashlight black light is Perfect for Revealing Dry Dog, Cat and Rodent Stains and smudgy Spots that Couldn't See With the Naked Eye. Easily Spot Scorpions, Authenticate currency,Official Identification cards,Passports.The black light can also act as Nail Dryer.",
-                "The Relaxed Oxford Shirt;$88;• 100% Organic Cotton\n• Relaxed fit\n• Machine wash cold, tumble dry low\n• Relaxed fit\n• Machine wash\n\nThis style uses organic cotton. Organic cotton is better for the soil and water, and it’s safer for the workers.",
-                "Lauren Conrad Fitted Blazer;$58;• Polyester, rayon, spandex\n• Button front\n• Rolled 3/4-length sleeves\n• Machine wash\n\nWhether you dress it up or down, this women's LC Lauren Conrad blazer is a charming choice.",
+                "The Relaxed Oxford Shirt;$88;• 100% Organic Cotton\n• Relaxed fit\n• Machine wash cold, tumble dry low\n\nThis style uses organic cotton. Organic cotton is better for the soil and water, and it’s safer for the workers.",
+                "Lauren Conrad Fitted Blazer;$58;• 95% Polyester, 3% rayon, 2% spandex\n• Button front\n• Rolled 3/4-length sleeves\n• Machine wash\n\nWhether you dress it up or down, this women's LC Lauren Conrad blazer is a charming choice.",
                 "French Dress Shirt;$95;• 100% Non-iron 2-ply cotton\n• Straight collar\n• French cuffs\n• Break resistant buttons\n• Dry clean only\n\nCut generously for a fit that offers maximum comfort.",
-                "Classic Fit Suit Separates Tuxedo Coat;$334.99;• 100% wool\n• Two button\n• Satin notch lapel\n• Side vents\n• Dry clean only\n\nCreate a memorable formal look with this fine wool tuxedo coat from Lauren By Ralph Lauren. With suit separates you can choose coat, pant, and/or vest sizes separately for an ideal fit. This fine coat features 100% wool fabric woven with natural stretch for the best fit and comfort."
+                "Classic Fit Suit Separates Tuxedo Coat;$334.99;• 100% Wool\n• Two buttons\n• Satin notch lapel\n• Side vents\n• Dry clean only\n\nCreate a memorable formal look with this fine wool tuxedo coat from Lauren By Ralph Lauren. With suit separates you can choose coat, pant, and/or vest sizes separately for an ideal fit. This fine coat features 100% wool fabric woven with natural stretch for the best fit and comfort."
         };
         String xRay16Merchandise[] = {
                 "",
@@ -1322,8 +1322,8 @@ public final class MovieList {
                 "Callan McAuliffe;• Born in Clontarf, Australia\n• Age: 28 (1995)\n• Height: 5′ 10″\n• Nationality: Australian;Callan Ryan Claude McAuliffe is an Australian actor, known for his roles as Bryce Loski in Flipped and Sam Goode in I Am Number Four. He appeared as young Jay Gatsby in the 2013 film The Great Gatsby. From 2017 to 2022 he starred on The Walking Dead as Alden.",
 
                 "Button Knit Cardigan;$39.99;• 90% polyester,10% polyamide\n• Knitted braided fabric\n• V-neck\n• Long sleeve\n• Button up\n\nRecycled polyester is obtained from polyester textile waste, marine litter or PET plastic bottles that are used to produce new fabric.",
-                "School Uniform Yellow Long Sleeve Shirt;$9.99;• 60% Cotton, 40% polyester\n• Polo collar\n• Tapout\n\nTopped with a flat-knit collar and three-button placket, this polo shirt is crafted in organic cotton with a bubble structure.",
-                "A-Line Vintage Skirt;$45;• 50% Cotton, 50% polyester\n• One pocket in each side\n• A-line silhouette\n• Classic plaid pattern\n\nBrown and multicolor vintage knee-length pleated skirt featuring plaid pattern throughout, tonal stitching and concealed hook-and-eye closure at waist front.",
+                "School Uniform Yellow Long Sleeve Shirt;$9.99;• 60% Cotton, 40% polyester\n• Polo collar\n• Machine wash cold\n\nTopped with a flat-knit collar and three-button placket, this polo shirt is crafted in organic cotton with a bubble structure.",
+                "A-Line Vintage Skirt;$45;• 50% Cotton, 50% polyester\n• 2 pockets\n• A-line silhouette\n• Classic plaid pattern\n\nBrown and multicolor vintage knee-length pleated skirt featuring plaid pattern throughout, tonal stitching and concealed hook-and-eye closure at waist front.",
                 "Striped Knit Oxford Shirt;$69.99;• 100% Cotton\n• Slim fit\n• Button-down point collar\n• Machine wash\n\nAlthough it takes its name from England's most famous academic institution, the oxford shirt has its origins on the backs of early British polo players, who wore shirts made from oxford cloth on the field and used pins to keep their collars in place during rigorous play.",
                 "Flex Taper Pants;$18;• 98% Cotton, 2% spandex\n• Elasticized comfort waistband\n• Straight through hip and thigh\n• Machine wash\n\nWith an easy elasticized waistband, OGC pants are the ultimate combo of comfort chops & style cred. Dressier than sweats, relaxier than dress pants"
         };
@@ -1387,7 +1387,7 @@ public final class MovieList {
 
                 "Lurex Maxi Dress;$995;• Brand: M Missoni\n• 100% Silk\n• V-neck\n• Sleeveless\n• Specialist Cleaning\n\nSensual maxi dress detailed with faded colour striped pattern embellished with all-over gold tone lurex inserts and detailed with double spaghetti strap creating a criss cross effect at back, fitted high waist and flared skirt",
                 "Jil Sander Disc Earrings;$532;• Material: 100% 925 silver\n• Diameter: 6 cm\n\nJil Sander pair of disc earrings in in golden silver featuring engraved logo and snap closure. For pierced ears only. Antioxidant treatment and nickel tested.",
-                "Audi R8 Coupe;$158600;• 562 hp V10\n• 20\" 5-V-spoke-evo design wheels, bi-color anthracite finish\n• Sport suspension for RWD\n• Audi virtual cockpit with Sport mode\n• 18-way power seats with pneumatic side and leg bolsters\n\n",
+                "Audi R8 Coupe;$158600;• Model: 562 hp V10\n• 20\" 5-V-spoke-evo design wheels, bi-color anthracite finish\n• Sport suspension for RWD\n• Audi virtual cockpit with Sport mode\n• 18-way power seats with pneumatic side and leg bolsters\n\n",
                 "Delave Linen Sport Coat;$225;• 100% Linen\n• Tailored fit\n• Notched collar\n• Boat-shaped chest pockets\n\nA smart and timeless tailored piece, this lightweight men’s sport coat is cut from 100% Delave linen - a top tier linen with a high-low heathered look and unique texture.",
                 "Stripe-Trim Dog-Print Silk Blouse;$49.5;• 100% Silk\n• Spread collar, hidden placket\n• Long sleeves, button cuffs\n• Relaxed silhouette\n\nStella McCartney dog-print blouse with striped collar, sleeve, and cuff."
         };
@@ -1506,11 +1506,11 @@ public final class MovieList {
                 "Ryan Reynolds;• Born in Vancouver, Canada\n• Age: 46 (1976)\n• Height: 6′ 2″\n• Nationality: American, Canadian;Ryan Rodney Reynolds began his career starring in the Canadian teen soap opera Hillside, and had minor roles before landing the lead role on the sitcom Two Guys and a Girl between 1998 and 2001.",
                 "Walker Scobell;• Born in Los Angeles, CA, American\n• Age: 14 (2009)\n• Height: 4′ 11″\n• Nationality: American;Walker Scobell is best recognized for his role in the sci-fi film The Adam Project. He also appeared in the film Secret Headquarters in the same year. He began acting while in elementary school.",
 
-                "Tactical Flashlights Torch;$14.99;• Super bright with 5 Modes\n• Adjustable focus-adjustable focus for Use in different situations\n• Waterproof\n• Widely Use-easy to carry with you as a backup\n\n",
+                "Tactical Flashlights Torch;$14.99;• Super bright with 5 Modes\n• Adjustable focus-adjustable focus for Use in different situations\n• Waterproof\n• Widely use-easy to carry with you as a backup\n\n",
                 "Deluxe Blended Coveralls;$54.99;• 65% Polyester, 35% cotton\n• Double-ended zipper\n\nThese men's long sleeve coveralls are spacious enough to layer underneath and are comfortable enough to wear during long, tough days. Put them on to work on vehicles and other tasks.",
                 "Vest Gilet;$55.98;• 100% Polyester\n• Micro-elastic\n• Regular Fit\n• Machine wash cold\n\nOutdoor work fishing travel photo vest perfect for casual daily wear and outdoor activities, such as traveling, safari, cycling, camping, hiking, sports, working, fishing, photography, sightseeing, hunting, bird watching, river guide adventures, and any other activities.",
                 "Flannel Plaid Casual Shirt;$18.49;• 100% Cotton\n• Flannel\n• Button closure\n• Machine wash\n\nClassically styled with a pointed collar and button front, long sleeve, chest pocket, curved shirttail hem, suitable for both boys and girls from little, big to youth.",
-                "Stainless Photo Necklace;$69.3;• Custom photo pendant\n• Engraving options\n• Variety of rolo chain lengths\n\nCreate a unique dog tag photo necklace with Eve's Addiction's new photo jewelry. This stunning Stainless Photo Necklace can be customized in seconds with your own photo!"
+                "Stainless Photo Necklace;$69.3;Length: 20\"\n• Custom photo pendant\n• Engraving options\n\nCreate a unique dog tag photo necklace with Eve's Addiction's new photo jewelry. This stunning Stainless Photo Necklace can be customized in seconds with your own photo!"
         };
         String xRay20Merchandise[] = {
                 "",
