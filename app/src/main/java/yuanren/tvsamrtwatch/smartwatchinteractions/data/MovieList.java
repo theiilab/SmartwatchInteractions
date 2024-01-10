@@ -15,7 +15,7 @@ public final class MovieList {
     public static final int NUM_REAL_MOVIE = 2; // the number of real movie in each row
     public static final int NUM_DUMMY_MOVIE = 5; // the number of distinct dummy movies (change in func setUpDummyMovies accordingly)
     public static final int NUM_COLS = 20;
-    public static final int NUM_MOVIE_CATEGORY = 10; // change MOVIE_CATEGORY accordingly
+    public static final int NUM_MOVIE_CATEGORY = 12; // change MOVIE_CATEGORY accordingly
     private static  final String KEY_TYPE = "type";
     private static  final String KEY_NAME = "name";
     private static  final String KEY_IMAGE = "image";
@@ -91,10 +91,12 @@ public final class MovieList {
             "Adventure",
             "Fantasy",
             "Musicals",
-            "Mysteries"
+            "Mysteries",
+            "Sports",
+            "Crime"
     };
 
-    public static List<Movie> setupMovies(int length) {
+    public static List<Movie> setupMovies() {
         list = new ArrayList<>();
         String title[] = {
                 "The King's Man",
@@ -116,7 +118,11 @@ public final class MovieList {
                 "Flipped",
                 "Crazy Rich Asians",
                 "Inception",
-                "The Adam Project"
+                "The Adam Project",
+                "Space Jam",
+                "Million Dollar Baby",
+                "Death on the Nile",
+                "Pain Hustler"
         };
 
         String description = "Fusce id nisi turpis. Praesent viverra bibendum semper. "
@@ -145,7 +151,11 @@ public final class MovieList {
                 "Warner Bros. Pictures",
                 "Warner Bros. Pictures",
                 "Warner Bros. Pictures",
-                "Netflix"
+                "Netflix",
+                "Warner Bros. Pictures",
+                "Warner Bros. Pictures",
+                "20th Century Studios",
+                "Netflix",
         };
         String category[] = {
                 MOVIE_CATEGORY[3],
@@ -168,6 +178,10 @@ public final class MovieList {
                 MOVIE_CATEGORY[1],
                 MOVIE_CATEGORY[5],
                 MOVIE_CATEGORY[5],
+                MOVIE_CATEGORY[10],
+                MOVIE_CATEGORY[10],
+                MOVIE_CATEGORY[11],
+                MOVIE_CATEGORY[11],
         };
         String videoUrl[] = {
                 "https://streamable.com/l/59by34/mp4-high.mp4",  // Kings Man
@@ -198,7 +212,13 @@ public final class MovieList {
                 "https://streamable.com/l/24bwrf/mp4-high.mp4",  // Crazy Rich Asians
 
                 "https://streamable.com/l/r5v0uu/mp4-high.mp4",  // Inception
-                "https://streamable.com/l/p0qlbd/mp4-high.mp4"   // The Adam Project
+                "https://streamable.com/l/p0qlbd/mp4-high.mp4",   // The Adam Project
+
+                "https://streamable.com/l/h8d1dw/mp4-high.mp4", // Space Jam
+                "https://streamable.com/l/pefotk/mp4-high.mp4", // Million Dollar Baby
+
+                "https://streamable.com/l/xzy8gi/mp4-high.mp4", // Death on the Nile
+                "https://streamable.com/l/49qarq/mp4-high.mp4" // Pain Hustler
         };
         String bgImageUrl[] = {
                 "https://orgoglionerd.it/wp-content/uploads/2021/12/kingsman-3.jpg",
@@ -229,7 +249,13 @@ public final class MovieList {
                 "https://gugimages.s3.us-east-2.amazonaws.com/wp-content/uploads/2020/06/21122846/Crazy-Rich-Asians-background.jpg",
 
                 "https://i4.hurimg.com/i/hurriyet/75/1200x675/5f5965580f25440e585d7e6f.jpg",
-                "https://i0.wp.com/615film.com/wp-content/uploads/2022/03/the-adam-project-header-image.jpg?fit=1280%2C720&ssl=1"
+                "https://i0.wp.com/615film.com/wp-content/uploads/2022/03/the-adam-project-header-image.jpg?fit=1280%2C720&ssl=1",
+
+                "https://cdn.mos.cms.futurecdn.net/aj3sYEDRRaEaaUfK29ae9Y.jpg",
+                "https://static.filmin.es/images/media/4226/5/still_0_3_790x398.webp",
+
+                "https://images-na.ssl-images-amazon.com/images/S/pv-target-images/8b3d35c268f130d43d1c35d44305da1375c8d982561ae24aabd435563d145fcf._RI_TTW_SX1080_FMjpg_.jpg",
+                "https://www.avforums.com/styles/avf/editorial/block//4c282660a8428f848b7454699af4a5bb_3x3.jpg"
         };
         String cardImageUrl[] = {
                 "https://image.tmdb.org/t/p/w300/qzUIOTk0E3F1zjvYjcBRTKUTgf9.jpg",  // Kingsman
@@ -242,7 +268,7 @@ public final class MovieList {
                 "https://media.newyorker.com/photos/590951571c7a8e33fb38a2e8/master/w_2560%2Cc_limit/wallstreet-580.jpg",  // The Wolf of Wall Street
 
                 "https://resizing.flixster.com/ydEdPTmh6k_bkuWwskRYT9CDnCk=/300x300/v2/https://flxt.tmsimg.com/assets/p13937884_v_v8_aa.jpg",  // Venom
-                "https://images.bauerhosting.com/legacy/empire-tmdb/films/1726/images/ZQixhAZx6fH1VNafFXsqa1B8QI.jpg?format=jpg&quality=80&width=960&height=540&ratio=16-9&resize=aspectfill",  //Iron Man
+                "https://www.quirkybyte.com/wp-content/uploads/2016/08/iron-man.png",  //Iron Man
 
                 "https://i.pinimg.com/1200x/c1/df/39/c1df3993439b5a55c11f8b0f729ad102.jpg",  // HP3
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuijfVuXbPWHRCGB843UoJBhxkwrfw2VybzNKMzog71VyUB1mEDkg0j9Fk7AzWo2ItD-g&usqp=CAU",  // FB
@@ -260,27 +286,32 @@ public final class MovieList {
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbv0t6O-EJar3UUAdtXQtbSWEDjHCCK7eCkb8X4CjyaSPaUzmjTGf8dix1Ll-tnms2B-4&usqp=CAU",  // Crazy Rich Asians
 
                 "https://assets.mycast.io/posters/inception-2-the-big-under-2023-fan-casting-poster-66202-large.jpg?1605643123",  // Inception
-                "https://image.tmdb.org/t/p/original/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg"  // The Adam Project
+                "https://image.tmdb.org/t/p/original/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg",  // The Adam Project
+
+                "https://m.media-amazon.com/images/M/MV5BOWEzNTQxZDctZTcwOS00Zjk4LWExMGMtYjg1NDNjZDZlMDg4XkEyXkFqcGdeQXVyMTQyMTMwOTk0._V1_.jpg",  // Space Jam
+                "https://images.jdmagicbox.com/comp/jd_social/news/2018jul17/image-84441-nwd5h8xu2l.jpg",  // Million Dollar Baby
+
+                "https://lumiere-a.akamaihd.net/v1/images/07bmech_dotn_pay1alt_1sht_displus_331cd907.jpeg?region=0,158,743,416",  // Death on the Nile
+                "https://images.squarespace-cdn.com/content/63bb3e8a824d7e2f7eedf0d3/1696948409227-1MKZV3C6W7N2TUQ0UZ70/Pain%2BHustlers%2B4.jpg?content-type=image%2Fjpeg"  // Pain Hustler
         };
 
         int n = title.length;
-        for (int index = 0; index < length; ++index) {
+        for (int index = 0; index < n; ++index) {
             list.add(
                     buildMovieInfo(
-                            (long) index % n,
-                            title[index % n],
+                            (long) index,
+                            title[index],
                             description,
-                            studio[index % n],
-                            category[index % n],
-                            videoUrl[index % n],
-                            cardImageUrl[index % n],
-                            bgImageUrl[index % n],
+                            studio[index],
+                            category[index],
+                            videoUrl[index],
+                            cardImageUrl[index],
+                            bgImageUrl[index],
                             setUpXRayItems()));
         }
 
         // set up make up dummy movies for each category (only 2 real movie in each category)
-//        setUpDummyMovies(length - NUM_REAL_MOVIE);
-        setUpDummyMovies(NUM_DUMMY_MOVIE);
+        setUpDummyMovies(n - NUM_REAL_MOVIE);
         return list;
     }
 
@@ -358,10 +389,11 @@ public final class MovieList {
         String xRay1Description[] = {
                 "Taron Egerton;• Born in United Kingdom\n• Age: 33 (1989)\n• Height: 5′ 9″\n• Nationality: British;Taron Egerton is a Welsh actor. He is the recipient of a Golden Globe Award, and has received nominations for a Grammy Award and two British Academy Film Awards.\n\nHe gained recognition for his starring role as a spy recruit in the action comedy film Kingsman: The Secret Service (2014) and its sequel Kingsman: The Golden Circle (2017). ",
                 "Sofia Boutella;• Born in Algeria\n• Age: 40 (1982)\n• Height: 5′ 5″\n• Nationality: Algerian, French;Sofia Boutella is an Algerian actress, model, and dancer.",
+
                 "Cutler and Gross GR03 Square Glasses;$439;• Lens Width: 50mm\n• Bridge Width: 18mm\n• Temple Length: 145mm\n\nThis optical frame is packed with considered design details and technical elements which elevate both its form and function. Angular exterior bevelling, coupled with a high nose bridge reflect the stylistic inspirations for this frame, whilst weight-saving interior milling maximises wearability and comfort.",
-                "Navy Wool-Blend Tailored Suit;$311;• 43% Virgin Wool\n• 53% Polyester\n• 4% Lycra\n• Weight: 280 Gms\n\nDurable and lightweight, this two-piece navy suit is ideal for business trips abroad. Designed on Savile Row, it has contrast burgundy lining and features elastane within the fabric composition – allowing any creases to drop out easily.",
-                "Edward in Black Calf with Rubber Sole Shoes;$575;• Leather linings\n• Comes with Dust bags\n• Handmade in England\n\nThese black calf Oxford semi-brogues featuring brogue detail on cap, vamp & top of quarters is a essential business shoe. Flawlessly hand-finished in England in a round-toe shape, this slick pair will put you in good stead for years to come.",
-                "Navy and Blue Stripe Repp Silk Tie;$225;• 100% Silk\n• Handmade in London, England\n• 8cm x 147cm\n\nA striped repp silk tie is one of the most enduring pieces of neckwear available, redolent of earlier periods of style, while retaining a distinctly modern feel.",
+                "Navy Wool-Blend Tailored Suit;$311;• Material: 43% virgin wool, 53% polyester, 4% lycra\n• Weight: 280 g\n\nDurable and lightweight, this two-piece navy suit is ideal for business trips abroad. Designed on Savile Row, it has contrast burgundy lining and features elastane within the fabric composition – allowing any creases to drop out easily.",
+                "Edward in Black Calf with Rubber Sole Shoes;$575;• Material: Leather linings\n• Comes with dust bags\n• Handmade in England\n\nThese black calf Oxford semi-brogues featuring brogue detail on cap, vamp & top of quarters is a essential business shoe. Flawlessly hand-finished in England in a round-toe shape, this slick pair will put you in good stead for years to come.",
+                "Navy and Blue Stripe Repp Silk Tie;$225;• Material: 100% silk\n• Size: 8cm x 147cm\n• Handmade in London, England\n\nA striped repp silk tie is one of the most enduring pieces of neckwear available, redolent of earlier periods of style, while retaining a distinctly modern feel.",
                 "Tag Heuer Connected Modular 45 Watch;$2050;• Model: Connected Calibre E4\n• Width: 45 mm\n\nStriking the perfect blend between innovation and high-end watchmaking, this TAG Heuer Connected Watch reveals an elegant 45mm steel case with sharp and sporty lugs, and integrated steel chronograph pushers. A new dimension where luxury meets performance."
         };
         String xRay1Merchandise[] = {
@@ -416,12 +448,13 @@ public final class MovieList {
                 "https://m.media-amazon.com/images/I/41qqMswbp4L._AC_SX679_.jpg"
         };
         String xRay2Description[] = {
-                "Dwayne Johnson;• Born in Hayward, CA, American\n• Age: 50 (1972)\n• Height: 6′ 5″\n• Nationality: American;Dwayne Douglas Johnson, also known by his ring name The Rock, is an American actor and former professional wrestler.",
+                "Dwayne Johnson;• Born in Hayward, CA, America\n• Age: 50 (1972)\n• Height: 6′ 5″\n• Nationality: American;Dwayne Douglas Johnson, also known by his ring name The Rock, is an American actor and former professional wrestler.",
                 "Ryan Reynolds;• Born in Vancouver, Canada\n• Age: 46 (1976)\n• Height: 6′ 2″\n• Nationality: American, Canadian;Ryan Rodney Reynolds began his career starring in the Canadian teen soap opera Hillside, and had minor roles before landing the lead role on the sitcom Two Guys and a Girl between 1998 and 2001.",
-                "Brunello Cucinelli Silk-Lapel Single-Breasted Llazer;$4995;• Outer: 100% Cotton\n• Lining: 100% Cupro\n• Dry Clean Only\n\nMade in Italy.",
-                "Suunto Core Alu Deep Black;$229;• Measurements: 49.1 x 49.1 x 14.5 mm\n• Weight: 79 g\n• Bezel material: Aluminum\n• Glass material: Mineral crystal\n\nSuunto Core Premium combines modern design with the essential outdoor functions. Choose rigid natural stainless steel with sapphire crystal glass for added durability, or the elegant aluminum cases for less weight on the wrist.",
-                "iPhone SE;$479;• Size: 128 GB\n• Color: Midnight\n• Display:4.7-inch Retina HD display with True Tone\n• Height:138.4 mm\n• Width: 67.3 mm\n• Depth: 7.3 mm\n• Weight: 144 g",
-                "iPad Mini 2;$649;• Size: 256 GB\n• Color: Space Grey\n• Display: 8.3” Liquid Retina display² True Tone\n• Height: 7.87 inches (200 mm)\n• Width: 134.7 mm\n• Depth: .5 mm\n• Weight: 331 g",
+
+                "Brunello Cucinelli Silk-Lapel Single-Breasted Llazer;$4995;• Outer Material: 100% cotton\n• Lining Material: 100% cupro\n• Dry clean only\n\nMade in Italy.",
+                "Suunto Core Alu Deep Black;$229;• Measurements: 49.1 x 49.1 x 14.5 mm\n• Weight: 79 g\n• Bezel Material: Aluminum\n• Glass material: Mineral crystal\n\nSuunto Core Premium combines modern design with the essential outdoor functions. Choose rigid natural stainless steel with sapphire crystal glass for added durability, or the elegant aluminum cases for less weight on the wrist.",
+                "iPhone SE;$479;• Size: 128 GB\n• Color: Midnight\n• Display:4.7-inch Retina HD display\n• Height:138.4 mm\n• Width: 67.3 mm\n• Depth: 7.3 mm\n• Weight: 144 g",
+                "iPad Mini 2;$649;• Size: 256 GB\n• Color: Space Grey\n• Display: 8.3” Liquid Retina display²\n• Height: 200 mm\n• Width: 134.7 mm\n• Depth: 0.5 mm\n• Weight: 331 g",
                 "Gitzo Camera Tripod;$1616.88;• Dimensions: 30.9 x 7.6 x 6.6 inches\n• Weight: 5.8 pounds\n\nThe Gitzo Carbon Fiber Tripod with  3-Way Fluid Head Kit is a 4-section support with carbon fiber eXact tubing-constructed legs. The twist leg locks unlock with a quarter turn, enabling you to extend the legs along with the rapid center column"
         };
         String xRay2Merchandise[] = {
@@ -476,14 +509,15 @@ public final class MovieList {
                 "https://m.media-amazon.com/images/I/610b7cSuRaL._AC_UY879_.jpg"
         };
         String xRay3Description[] = {
-                "Dwayne Johnson;• Born in Hayward, CA, American\n• Age: 50 (1972)\n• Height: 6′ 5″\n• Nationality: American;Dwayne Douglas Johnson, also known by his ring name The Rock, is an American actor and former professional wrestler.",
-                "Kevin Hart;• Born in Philadelphia, PA, American\n• Age: 43 (1979)\n• Height: 5′ 2″\n• Nationality: American;Kevin Darnell Hart is an American comedian and actor. Originally known as a stand-up comedian, he has since starred in Hollywood films and on TV. He has also released several well-received comedy albums.",
+                "Dwayne Johnson;• Born in Hayward, CA, America\n• Age: 50 (1972)\n• Height: 6′ 5″\n• Nationality: American;Dwayne Douglas Johnson, also known by his ring name The Rock, is an American actor and former professional wrestler.",
+                "Kevin Hart;• Born in Philadelphia, PA, America\n• Age: 43 (1979)\n• Height: 5′ 2″\n• Nationality: American;Kevin Darnell Hart is an American comedian and actor. Originally known as a stand-up comedian, he has since starred in Hollywood films and on TV. He has also released several well-received comedy albums.",
                 "Karen Gillan;• Born in Inverness, United Kingdom\n• Age: 35 (1987)\n• Height: 5′ 11″\n• Nationality:British, Scottish;Karen Sheila Gillan is a Scottish actress. She gained recognition for her work in British film and television, particularly for playing Amy Pond, a primary companion to the Eleventh Doctor in the science fiction series Doctor Who, for which she received several awards and nominations.",
-                "Timberland Mill River Linen Cargo SS Shirt ;$90;• Cotton: 100%\n• Machine Wash\n\nThis durable short-sleeve work shirt comes standard with built-in stretch, so whatever you're doing, it's easier to do.",
+
+                "Timberland Mill River Linen Cargo SS Shirt ;$90;• Material: 100% cotton\n• Machine wash\n\nThis durable short-sleeve work shirt comes standard with built-in stretch, so whatever you're doing, it's easier to do.",
                 "Riparo Motorsports Half Finger Gloves;$41.5;• Material: Leather\n• Color: Black\n• Sport Type: Cycling\n\nThese genuine leather gloves have the quality and the features you would expect from a pair of quality driving gloves , including soft supple leather and a snap closure on the wrist strap.",
-                "Army Camo Multicam Pants;$99.99;• 50% cotton\n• 50% nylon\n• Machine Wash\n\nThere are some core features include: double layer seat /knee areas for durability ,a rugged metal YKK zipper is used for the fly, knees are slightly articulated, and a simple velcro strap system in built into the waist to allow for size adjustments.",
-                "Tru-Spec Men's Gen-ii Adjustable Boonie;$16.5;• 100% Cotton\n• Hand Wash Only\n\nThese stylish hats that meet US military specs are constructed from 65/35 poly-cotton rip-stop with an flexible drawstring chin strap with cardlock for an easy fit",
-                "Fitted Short Sleeve Crop Top;$17.99;• 63% Rayon\n• 33% Polyester\n• 4% Spandex\n• Machine Wash\n\nThis round neck short sleeve crop top will have you feeling wild for it. Keep it trendy and pair it with our flowy ankle length maxi skirt or for a more casual look wear it with our favorite high waisted skinny jeans."
+                "Army Camo Multicam Pants;$99.99;• Material: 50% cotton, 50% nylon\n• Machine wash\n\nThere are some core features include: double layer seat /knee areas for durability ,a rugged metal YKK zipper is used for the fly, knees are slightly articulated, and a simple velcro strap system in built into the waist to allow for size adjustments.",
+                "Tru-Spec Men's Gen-ii Adjustable Boonie;$16.5;• Material: 100% cotton\n• Hand wash only\n\nThese stylish hats that meet US military specs are constructed from 65/35 poly-cotton rip-stop with an flexible drawstring chin strap with cardlock for an easy fit",
+                "Fitted Short Sleeve Crop Top;$17.99;• Material: 63% rayon, 33% polyester, 4% spandex\n• Machine wash\n\nThis round neck short sleeve crop top will have you feeling wild for it. Keep it trendy and pair it with our flowy ankle length maxi skirt or for a more casual look wear it with our favorite high waisted skinny jeans."
         };
         String xRay3Merchandise[] = {
                 "",
@@ -539,13 +573,14 @@ public final class MovieList {
         };
         String xRay4Description[] = {
                 "Tom Holland;• Born in Kingston upon Thames, United Kingdom\n• Age: 26 (1996)\n• Height: 5′ 8″\n• Nationality: British;Thomas Stanley Holland is an English actor. His accolades include a British Academy Film Award, three Saturn Awards, a Guinness World Record and an appearance on the Forbes 30 Under 30 Europe list. Some publications have called him one of the most popular actors of his generation.",
-                "Sophia Ali;• Born in San Diego, CA, American\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Sophia Taylor Ramsey Ali is an American actress. She is best known for her work in the MTV romantic comedy series Faking It, the ABC medical drama series Grey's Anatomy, and The Wilds.",
-                "Mark Wahlberg;• Born in Boston, MA, American\n• Age: 51 (1971)\n• Height: 5′ 8″\n• Nationality: American;Mark Robert Michael Wahlberg, former stage name Marky Mark, is an American actor, businessman, and former rapper. His work as a leading man spans the comedy, drama, and action genres.",
-                "Neck Ruffle Fit and Flare Dress;$128;• 100% Polyester/Rayon\n• Length: Regular 136cm, Petite 134cm\n\nThis one features fun ruffle details and a flattering fit and flare style. This piece perfectly pairs with heels or booties for your next event.",
-                "Vegan Leather Moto Jacket;$128;• Machine wash cold, tumble dry low\n\nWater resistant outer shell for extra protection against inclement weather.",
-                "The Boulevard Bomber;$89;• 60% Cotton, 40% Nylon\n• Dry clean only\n\nClassic bomber style with rib collar, cuff and hem | Single welt hand pockets with snap | Water repellent | Fully lined.",
-                "Relax Fit Men's Jeans;$69.5;• 1% elastane (Lycra®), 100% cotton\n• Zip fly\n• 5-pocket styling\n• Machine wash cold\n\nA comfortable classic, introduced in 1985 and loved ever since. After the '70s were over, things got more relaxed, including Levi's® jeans. This pair features extra room throughout with a slight, tailor-like taper at the leg.",
-                "Uncharted Grey Hoodie;$39;• Color: Vintage Heather\n• Style: Classic Hoodie\n• Cotton/Poly fleece blend\n\nSuper warm and cozy fleece lining with an adjustable hood and banded cuffs to keep in the heat."
+                "Sophia Ali;• Born in San Diego, CA, America\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Sophia Taylor Ramsey Ali is an American actress. She is best known for her work in the MTV romantic comedy series Faking It, the ABC medical drama series Grey's Anatomy, and The Wilds.",
+                "Mark Wahlberg;• Born in Boston, MA, America\n• Age: 51 (1971)\n• Height: 5′ 8″\n• Nationality: American;Mark Robert Michael Wahlberg, former stage name Marky Mark, is an American actor, businessman, and former rapper. His work as a leading man spans the comedy, drama, and action genres.",
+
+                "Neck Ruffle Fit and Flare Dress;$128;• Material: 100% polyester/rayon\n• Length: 136cm\n\nThis one features fun ruffle details and a flattering fit and flare style. This piece perfectly pairs with heels or booties for your next event.",
+                "Vegan Leather Moto Jacket;$128;• Machine wash cold\n• Tumble dry low\n\nWater resistant outer shell for extra protection against inclement weather.",
+                "The Boulevard Bomber;$89;• Material: 60% cotton, 40% nylon\n• Dry clean only\n\nClassic bomber style with rib collar, cuff and hem | Single welt hand pockets with snap | Water repellent | Fully lined.",
+                "Relax Fit Men's Jeans;$69.5;• Material: 1% elastane, 99% cotton\n• 5-pocket styling\n• Machine wash cold\n\nA comfortable classic, introduced in 1985 and loved ever since. After the '70s were over, things got more relaxed, including Levi's® jeans. This pair features extra room throughout with a slight, tailor-like taper at the leg.",
+                "Uncharted Grey Hoodie;$39;• Material: Cotton/Poly fleece blend\n• Color: Vintage heather\n• Style: Classic hoodie\n\nSuper warm and cozy fleece lining with an adjustable hood and banded cuffs to keep in the heat."
         };
         String xRay4Merchandise[] = {
                 "",
@@ -597,13 +632,14 @@ public final class MovieList {
                 "https://bottega-veneta.dam.kering.com/m/743220d2534df4b0/Large-713813VKLC02164_A.jpg?v=2"
         };
         String xRay5Description[] = {
-                "Anne Hathaway;• Born in New York, NY, American\n• Age: 40 (1982)\n• Height: 5′ 8″\n• Nationality: American;Anne Jacqueline Hathaway is an American actress. The recipient of various accolades, including an Academy Award, a Golden Globe Award, and a Primetime Emmy Award, she was among the world's highest-paid actresses in 2015.",
-                "Meryl Streep;• Born in Summit, NJ, American\n• Age: 73 (1949)\n• Height: 5′ 6″\n• Nationality: American;Mary Louise Streep is an American actress. Often described as \"the best actress of her generation\", Streep is particularly known for her versatility and accent adaptability.",
-                "Green 1950S Leopard Patchwork Button Coat;$99.99;• 100% Polyester\n• Length: Knee-Length\n• No Stretch\n\nThe 1950s vintage green button coat is to tribute to the movie The Devil Wears Prado. It can keep your retro feminine charm in cold winter! It's a coat that can change between two collar styles. You can button up all the leopard buttons and the unique leopard neckline that wraps around your neck for warmth and elegance.",
-                "Double Breasted Slant Pockets Coat;$82.99;• 100% Polyester\n• Button closure\n• Machine wash cold\n\nTake on chilly winter with this stylish midi length coat with its chic stand collar design and double breasted details.",
-                "Wool Alpaca Mohair Coat;$871;• 48% wool, 22% alpaca, 15% nylon, 15% mohair\n• Length: 125 cm\n• Do not wash, do not bleach\n\nWool, alpaca and mohair coat featuring wide lapels, kimono sleeves and welt pockets. The central rear vent and waist tie belt enhance the garment’s flared fit.",
-                "Black Wool Trench Coat;$179;• 100% Wool Blend\n• Front: Double Breasted Button Closure\n• Collar: Wide Lapel Style\n• Pockets: One Inside Pocket\n• Handwash only\n\nAn elegant addition to your fall wardrobe, this coat is crafted from a blend of premium quality wool. This coat can be worn to work, brunch, or a night out.",
-                "Shiny Leather Coat;$6900;• 100% Lambskin\n• Half lined\n• Regular fit\n\nCrafted in buttery lambskin, this coat takes styling directions from the classic trench — but with added femininity"
+                "Anne Hathaway;• Born in New York, NY, America\n• Age: 40 (1982)\n• Height: 5′ 8″\n• Nationality: American;Anne Jacqueline Hathaway is an American actress. The recipient of various accolades, including an Academy Award, a Golden Globe Award, and a Primetime Emmy Award, she was among the world's highest-paid actresses in 2015.",
+                "Meryl Streep;• Born in Summit, NJ, America\n• Age: 73 (1949)\n• Height: 5′ 6″\n• Nationality: American;Mary Louise Streep is an American actress. Often described as \"the best actress of her generation\", Streep is particularly known for her versatility and accent adaptability.",
+
+                "Green 1950S Leopard Patchwork Button Coat;$99.99;• Material: 100% polyester\n• Length: Knee-length\n• No Stretch\n\nThe 1950s vintage green button coat is to tribute to the movie The Devil Wears Prado. It can keep your retro feminine charm in cold winter! It's a coat that can change between two collar styles. You can button up all the leopard buttons and the unique leopard neckline that wraps around your neck for warmth and elegance.",
+                "Double Breasted Slant Pockets Coat;$82.99;• Material: 100% polyester\n• Button closure\n• Machine wash cold\n\nTake on chilly winter with this stylish midi length coat with its chic stand collar design and double breasted details.",
+                "Wool Alpaca Mohair Coat;$871;• Material: 48% wool, 22% alpaca, 15% nylon, 15% mohair\n• Length: 125 cm\n• Do not wash, do not bleach\n\nWool, alpaca and mohair coat featuring wide lapels, kimono sleeves and welt pockets. The central rear vent and waist tie belt enhance the garment’s flared fit.",
+                "Black Wool Trench Coat;$179;• Material: 100% wool blend\n• Front: Double breasted button closure\n• Collar: Wide lapel style\n• Pockets: One inside pocket\n• Handwash only\n\nAn elegant addition to your fall wardrobe, this coat is crafted from a blend of premium quality wool. This coat can be worn to work, brunch, or a night out.",
+                "Shiny Leather Coat;$6900;• Material: 100% lambskin\n• Half lined\n• Regular fit\n\nCrafted in buttery lambskin, this coat takes styling directions from the classic trench — but with added femininity"
         };
         String xRay5Merchandise[] = {
                 "",
@@ -654,13 +690,13 @@ public final class MovieList {
                 "https://i.etsystatic.com/23311721/r/il/4506a5/2645644622/il_1588xN.2645644622_kle6.jpg"
         };
         String xRay6Description[] = {
-                "Leonardo DiCaprio;• Born in Los Angeles, CA, American\n• Age: 48 (1974)\n• Height: 6′ 0″\n• Nationality: American;Leonardo Wilhelm DiCaprio is an American actor and film producer. Known for his work in biographical and period films, he is the recipient of numerous accolades, including an Academy Award, a British Academy Film Award and three Golden Globe Awards.",
-                "Kyle Chandler;• Born in Buffalo, NY, American\n• Age: 57 (1965)\n• Height: 6′ 0″\n• Nationality: American;Kyle Martin Chandler is an American actor. Making his screen acting debut in a 1988 television film, Quiet Victory: The Charlie Wedemeyer Story, Chandler's first regular television role was in the ABC drama Homefront.",
-                "The Iconic Mesh Polo Shirt;$110;• 100% Cotton\n• Length: 28.5\" front & 29.5\" back\n• Machine washable\n\nOver the decades, Ralph Lauren has reimagined his signature style in a wide array of colors and fits, yet all retain the quality and attention to detail of the iconic original. This relaxed version is made with our highly breathable cotton mesh, which offers a textured look and a soft feel. ",
-                "TAG Heuer Professional 1000;$3850;• Brand: TAG Heuer\n• Band/Strap: Bracelet\n• Case Material: Gold Plated\n• Case Size: 38 mm\n\nFor more than 160 years, TAG Heuer has led, never followed, setting its own rules and driving watchmaking into uncharted territories. Its timepieces are not faithful reflections of tradition, but true representatives of design and engineering at their most innovative and awe-inspiring.",
-                "Ray-Ban ® RB4147 Sunglasses;$151;• Frame shape: Square\n• Frame color: Polished Black\n• Frame material: Nylon\n• Len height: 48.5mm\n• Bridge width: 60 15mm\n\nRay-Ban ® RB4147 sunglasses are fashionable and bold with larger rounded square lenses in propionate plastic frames which offer maximum sun protection while embracing a chic Hollywood look.",
-                "Ralph Lauren Polo Soft Wool Oxford Suit Jacket;$698;• Shell: wool\n• Undercollar: mulberry silk\n• Length: 30\" front & 29.5\" back\n• Double vent\n\nThis Polo Soft jacket is tailored from lightweight wool oxford that's both breathable and wrinkle-resistant. Its fit puts a modern spin on classic preppy style with a natural shoulder and a half-canvassed construction.",
-                "Navy Blue Tie;$38.5;• 100% Silk\n• Blade width: 7.6 cm\n• Handmade\n\nThis Navy & White Circles Silk Tie is simple but  perfect pair for a navy suit as it compliments rather than clash. This tie is also 100% Macclesfield Silk."
+                "Leonardo DiCaprio;• Born in Los Angeles, CA, America\n• Age: 48 (1974)\n• Height: 6′ 0″\n• Nationality: American;Leonardo Wilhelm DiCaprio is an American actor and film producer. Known for his work in biographical and period films, he is the recipient of numerous accolades, including an Academy Award, a British Academy Film Award and three Golden Globe Awards.",
+                "Kyle Chandler;• Born in Buffalo, NY, America\n• Age: 57 (1965)\n• Height: 6′ 0″\n• Nationality: American;Kyle Martin Chandler is an American actor. Making his screen acting debut in a 1988 television film, Quiet Victory: The Charlie Wedemeyer Story, Chandler's first regular television role was in the ABC drama Homefront.",
+                "The Iconic Mesh Polo Shirt;$110;• Material: 100% cotton\n• Length: 28.5\" front, 29.5\" back\n• Machine wash\n\nOver the decades, Ralph Lauren has reimagined his signature style in a wide array of colors and fits, yet all retain the quality and attention to detail of the iconic original. This relaxed version is made with our highly breathable cotton mesh, which offers a textured look and a soft feel. ",
+                "TAG Heuer Professional 1000;$3850;• Brand: TAG Heuer\n• Band/Strap: Bracelet\n• Case Material: Gold plated\n• Case Size: 38 mm\n\nFor more than 160 years, TAG Heuer has led, never followed, setting its own rules and driving watchmaking into uncharted territories. Its timepieces are not faithful reflections of tradition, but true representatives of design and engineering at their most innovative and awe-inspiring.",
+                "Ray-Ban ® RB4147 Sunglasses;$151;• Frame Shape: Square\n• Frame Color: Polished black\n• Frame Material: Nylon\n• Len Height: 48.5mm\n• Bridge Width: 60 15mm\n\nRay-Ban ® RB4147 sunglasses are fashionable and bold with larger rounded square lenses in propionate plastic frames which offer maximum sun protection while embracing a chic Hollywood look.",
+                "Ralph Lauren Polo Soft Wool Oxford Suit Jacket;$698;• Shell Material: Wool\n• Under Collar Material: Mulberry silk\n• Length: 30\" front, 29.5\" back\n• Double vent\n\nThis Polo Soft jacket is tailored from lightweight wool oxford that's both breathable and wrinkle-resistant. Its fit puts a modern spin on classic preppy style with a natural shoulder and a half-canvassed construction.",
+                "Navy Blue Tie;$38.5;• Material: 100% silk\n• Blade Width: 7.6 cm\n• Handmade\n\nThis Navy & White Circles Silk Tie is simple but  perfect pair for a navy suit as it compliments rather than clash. This tie is also 100% Macclesfield Silk."
         };
         String xRay6Merchandise[] = {
                 "",
@@ -713,12 +749,13 @@ public final class MovieList {
         };
         String xRay7Description[] = {
                 "Tom Hardy;• Born in London, United Kingdom\n• Age: 45 (1977)\n• Height: 5′ 9″\n• Nationality: British;Edward Thomas Hardy CBE is an English actor. After studying acting at the Drama Centre London, he made his film debut in Ridley Scott's Black Hawk Down.",
-                "Michelle Williams;• Born in Kalispell, MT, American\n• Age: 42 (1980)\n• Height: 5′ 4″\n• Nationality: American;Michelle Ingrid Williams is an American actress. Known primarily for starring in small-scale independent films with dark or tragic themes, she has received various accolades, including two Golden Globe Awards and a Primetime Emmy Award, in addition to nominations for five Academy Awards and a Tony Award.",
-                "Marc Jacobs Painted Flower Wrap Dress;$695;• 100% Silk\n• Brand: Marc Jacobs\n• Length: 112 cm\n• Waist tie detail, surplice front\n• Dry clean only\n\nThis Marc Jacobs Painted Flower Wrap Dress is a colorful fashion statement featuring dark florals and a sleek wrap silhouette at midi length. Crafted from finest quality silk, it is easy-to-pack and multi-purpose, especially in vacation time.",
-                "Valentino Garavani Carry Secrets Clutch;$2280;• Brand: Valentino Garavani \n• Black and gold leather (Goat), gold-tone metal\n• Clasp fastening at top\n• Made in Italy\n\nValentino Garavani's 'Carry Secrets' clutch will keep your treasured possessions safe. Crafted from leather with a structured gold-tone metal frame, it's embellished with countless crystals to depict a dragon motif that was originally showcased in 1969. Let yours be the focal point of an all-black outfit.",
-                "Stretch Zip Hoodie;$99;• 100% Wool\n• 2 front pockets for comfort\n• Machine Wash Cold\n\nThe go everywear hoodie now in our exclusive stretch fleece.",
-                "Premium Slub Crew Grey Tee;$50;• 100% Cotton\n• 6.6 oz./sq. yard\n• Premium slub jersey\n• Machine wash\n\nMade with our substantial and custom premium slub fabric that we spent over a year developing. This fabric is non-see through and non-torquing compared to other fabrics on the market. Rich, varied texture that holds its shape. A polished look that looks great on its own or under a jacket.",
-                "Dark Wash Slim Straight Jeans;$49.5;• 95% Cotton\n• 4% Polyester\n• 1% Elastane\n• Machine Wash Cold\n\nDesigned with a slim fit through the hip and thigh with a 15.5” leg opening, featuring dark wash denim made with Hollister Epic Flex stretch, fading and whiskering, a right coin pocket and iconic back pocket embroidery."
+                "Michelle Williams;• Born in Kalispell, MT, America\n• Age: 42 (1980)\n• Height: 5′ 4″\n• Nationality: American;Michelle Ingrid Williams is an American actress. Known primarily for starring in small-scale independent films with dark or tragic themes, she has received various accolades, including two Golden Globe Awards and a Primetime Emmy Award, in addition to nominations for five Academy Awards and a Tony Award.",
+
+                "Marc Jacobs Painted Flower Wrap Dress;$695;• Brand: Marc Jacobs\n• Material: 100% silk\n• Length: 112 cm\n\nThis Marc Jacobs Painted Flower Wrap Dress is a colorful fashion statement featuring dark florals and a sleek wrap silhouette at midi length. Crafted from finest quality silk, it is easy-to-pack and multi-purpose, especially in vacation time.",
+                "Valentino Garavani Carry Secrets Clutch;$2280;• Brand: Valentino Garavani\n• Made in Italy\n\nValentino Garavani's 'Carry Secrets' clutch will keep your treasured possessions safe. Crafted from leather with a structured gold-tone metal frame, it's embellished with countless crystals to depict a dragon motif that was originally showcased in 1969. Let yours be the focal point of an all-black outfit.",
+                "Stretch Zip Hoodie;$99;• Material: 100% wool\n• 2 front pockets\n• Machine wash\n\nThe go everywear hoodie now in our exclusive stretch fleece.",
+                "Premium Slub Crew Grey Tee;$50;• Material: 100% cotton\n• 6.6 oz./sq. yard\n• Premium slub jersey\n• Machine wash\n\nMade with our substantial and custom premium slub fabric that we spent over a year developing. This fabric is non-see through and non-torquing compared to other fabrics on the market. Rich, varied texture that holds its shape. A polished look that looks great on its own or under a jacket.",
+                "Dark Wash Slim Straight Jeans;$49.5;• Material: 95% cotton, 4% polyester, 1% elastane\n• Machine wash\n\nDesigned with a slim fit through the hip and thigh with a 15.5” leg opening, featuring dark wash denim made with Hollister Epic Flex stretch, fading and whiskering, a right coin pocket and iconic back pocket embroidery."
         };
         String xRay7Merchandise[] = {
                 "",
@@ -758,7 +795,7 @@ public final class MovieList {
                 "Painted T-Shirt",
                 "Air Force Army Jacket",
                 "Bvlgari Diagono Moonphase",
-                "Cashmere Crewneck Sweater",
+                "Cashmere Crew Neck Sweater",
         };
         String xRay8ImageUrl[] = {
                 "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQijI6Sf7U-nKAfhHFmFBhVVVIxOfzI3QBeHqEjXJ7qcqbu98eqykx0UdmHrvt9Wx5hKilfZROD0mR85gk",
@@ -771,14 +808,14 @@ public final class MovieList {
                 "https://www.jcrew.com/s7-img-facade/BE895_GY5980?hei=850&crop=0,0,680,0"
         };
         String xRay8Description[] = {
-                "Robert Downey Jr;• Born in New York, NY, American\n• Age: 58 (1965)\n• Height: 5′ 8″\n• Nationality: American;Robert John Downey Jr. is an American actor and producer. His career has been characterized by critical and popular success in his youth, followed by a period of substance abuse and legal troubles, before a resurgence of commercial success later in his career.",
-                "Terrence Howard;• Born in Chicago, IL, American\n• Age: 54 (1969)\n• Height: 6′ 0″\n• Nationality: American;Terrence Dashon Howard is an American actor, rapper, singer, and producer. Having his first major roles in the 1995 films Dead Presidents and Mr. Holland's Opus, Howard broke into the mainstream with a succession of television and cinema roles between 2004 and 2006. ",
+                "Robert Downey Jr;• Born in New York, NY, America\n• Age: 58 (1965)\n• Height: 5′ 8″\n• Nationality: American;Robert John Downey Jr. is an American actor and producer. His career has been characterized by critical and popular success in his youth, followed by a period of substance abuse and legal troubles, before a resurgence of commercial success later in his career.",
+                "Terrence Howard;• Born in Chicago, IL, America\n• Age: 54 (1969)\n• Height: 6′ 0″\n• Nationality: American;Terrence Dashon Howard is an American actor, rapper, singer, and producer. Having his first major roles in the 1995 films Dead Presidents and Mr. Holland's Opus, Howard broke into the mainstream with a succession of television and cinema roles between 2004 and 2006. ",
 
-                "Racer Jacket;$349;• Outer: Lambskin Leather\n• Inner: Polyester Interior with Leather Trimmings\n• Long-Lasting Metal Zipper\n• Banded Collar with Ideal® Snap Button\n• Dry clean only\n\nThis streamlined leather jacket has been thoughtfully handcrafted to let the quality of the materials speak for themselves. With twin side torso welt pockets, a snap buttoned collar and premium lambskin leather, this represents Thursday versatility at its finest.",
-                "Painted Grey T-Shirt;$28;• Brand: Levi's \n• 50% Polyester\n• 25% Rayon\n• 25% Cotton\n• Machine wash cold\n\nThese grey t-shirts feature a quote by Wendell Berry that reads \"What I Stand For is What I Stand On\"",
-                "Air Force Army Jacket;$85.99;• Material: Polyester,Cotton\n• Thickness: Standard\n• Detachable Part: Hat Detachable\n• Machine Wash Cold\n\nPerfect for a day at the range, smores around the campfire, or training on the toughest terrains.",
-                "Bvlgari Diagono Retrograde Moonphase;$19980;• Model: DGP42GMP\n• Movement: Automatic\n• Case: 18K rose gold, 42mm\n• Dial: Black with gold batons and Arabic numerals\n• Strap: Brown crocodile with deployant buckle \n• Special Features: Moon phase calendar, day, date, second hand\n\n",
-                "Cashmere Crewneck Sweater;$138;• 100% Cashmere\n• Crewneck\n• Hand wash\n\nWe source cashmere that is certified to the AbTF's The Good Cashmere Standard®, which ensures the welfare of the cashmere goats, protects natural resources and improves the working conditions of farmers and farmworkers in Inner Mongolia."
+                "Racer Jacket;$349;• Outer Material: Lambskin leather\n• Inner Material: Polyester interior\n• Dry clean only\n\nThis streamlined leather jacket has been thoughtfully handcrafted to let the quality of the materials speak for themselves. With twin side torso welt pockets, a snap buttoned collar and premium lambskin leather, this represents Thursday versatility at its finest.",
+                "Painted Grey T-Shirt;$28;• Brand: Levi's \n• Material: 50% polyester, 25% Rayon, 25% Cotton\n• Machine wash cold\n\nThese grey t-shirts feature a quote by Wendell Berry that reads \"What I Stand For is What I Stand On\"",
+                "Air Force Army Jacket;$85.99;• Material: Polyester, cotton\n• Thickness: Standard\n• Detachable Part: Hat Detachable\n• Machine wash\n\nPerfect for a day at the range, smores around the campfire, or training on the toughest terrains.",
+                "Bvlgari Diagono Retrograde Moonphase;$19980;• Model: DGP42GMP\n• Movement: Automatic\n• Case Material: 18K rose gold, 42mm\n\nDial: Black with gold batons and Arabic numerals, Strap: Brown crocodile with deployant buckle, Special Features: Moon phase calendar, day, date, second hand",
+                "Cashmere Crew neck Sweater;$138;• Material: 100% cashmere\n• Crew neck\n• Hand wash\n\nWe source cashmere that is certified to the AbTF's The Good Cashmere Standard®, which ensures the welfare of the cashmere goats, protects natural resources and improves the working conditions of farmers and farmworkers in Inner Mongolia."
         };
         String xRay8Merchandise[] = {
                 "",
@@ -834,11 +871,11 @@ public final class MovieList {
                 "Daniel Radcliff;• Born in London, United Kingdom\n• Age: 33 (1989)\n• Height: 5′ 5″\n• Nationality: British;Daniel Jacob Radcliffe is an English actor. He rose to fame at age twelve, when he began portraying Harry Potter in the film series of the same name. Over his career, Radcliffe has received various awards and nominations.",
                 "Emma Watson;• Born in Paris, France\n• Age: 32 (1990)\n• Height: 5′ 5″\n• Nationality: British;Emma Charlotte Duerre Watson is an English actress, model and activist. Known for her roles in both blockbusters and independent films, as well as for her women's rights work, she has received a selection of accolades, including a Young Artist Award and three MTV Movie Awards.",
 
-                "Time-Turner™ Necklace;$50;• Approx. 16\" L (chain length)\n• Antiqued, gold-tone plated metal\n• Rotating inner rings with hourglass\n• Drawstring bag included\n\nAuthentic replica of Hermione's Time-Turner necklace, as seen in the Harry Potter™ film series. Intricately detailed necklace includes working miniature hourglass, rotating inner rings with etched inscriptions, adjustable chain, and a The Wizarding World of Harry Potter™ drawstring bag for storage.",
-                "Zip Hooded Sweatshirt Top;$46.5;• 50% Cotton, 50% Polyester \n• Metal zipper\n• Pouch pockets\n• Machine wash\n\nUnlined hood with color-matched drawcord; Double-needle stitching at waistband and cuffs; 1x1 rib with spandex; Overlapped fabric across zipper allows full front printing.",
-                "Mid-Rise Stretch Juniors Jeans ;$40;• 74% Cotton, 24% Polyester, 2% Spandex\n• Zipper closure\n• Machine wash\n\nContoured waist (no more waist gap!), roomier in the hips and thighs and 5-pocket styling. We are size inclusive, which means – Made for Every Body – Great jeans for all women.",
-                "Poly-Tech Full-Zip Track Jacket;$50.63;• 100% polyester fleece\n• 1x1 ribbing at cuffs & waistband\n• Regular fit\n• Machine wash\n\nThis fleece adds a nice touch of cozy warmth on any cold day, wet, windy, or otherwise. Fleece is your plush, warm and dry answer to mother nature’s version of cold liquid sunshine and wind. It’s a super lightweight and convenient piece for all year around.",
-                "Robertson Heather Ringer Tee;$12.5;• 52% combed and ring-spun cotton \n• 48% Polyester\n• Machine Wash Cold\n\n"
+                "Time-Turner™ Necklace;$50;• Length: 16\"\n• Style: Antiqued, gold-tone plated metal\n\nAuthentic replica of Hermione's Time-Turner necklace, as seen in the Harry Potter™ film series. Intricately detailed necklace includes working miniature hourglass, rotating inner rings with etched inscriptions, adjustable chain, and a The Wizarding World of Harry Potter™ drawstring bag for storage.",
+                "Zip Hooded Sweatshirt Top;$46.5;• Material: 50% cotton, 50% polyester \n• Metal zipper\n• Pouch pockets\n• Machine wash\n\nUnlined hood with color-matched drawcord; Double-needle stitching at waistband and cuffs; 1x1 rib with spandex; Overlapped fabric across zipper allows full front printing.",
+                "Mid-Rise Stretch Juniors Jeans ;$40;• Material: 74% cotton, 24% polyester, 2% spandex\n• Machine wash\n\nContoured waist (no more waist gap!), roomier in the hips and thighs and 5-pocket styling. We are size inclusive, which means – Made for Every Body – Great jeans for all women.",
+                "Poly-Tech Full-Zip Track Jacket;$50.63;• Material: 100% polyester fleece\n• Regular fit\n• Machine wash\n\nThis fleece adds a nice touch of cozy warmth on any cold day, wet, windy, or otherwise. Fleece is your plush, warm and dry answer to mother nature’s version of cold liquid sunshine and wind. It’s a super lightweight and convenient piece for all year around.",
+                "Robertson Heather Ringer Tee;$12.5;• Material: 52% cotton, 48% polyester\n• Machine wash\n\n"
         };
         String xRay9Merchandise[] = {
                 "",
@@ -892,13 +929,13 @@ public final class MovieList {
         };
         String xRay10Description[] = {
                 "Eddie Redmayne;• Born in London, United Kingdom\n• Age: 41 (1982)\n• Height: 6′ 0″\n• Nationality: British;Edward John David Redmayne OBE is an English actor. Known primarily for his role in biopics, he has received various accolades, including an Academy Award, a Tony Award, a BAFTA Award, and two Olivier Awards.",
-                "Dan Fogler;• Born in New York, NY, American\n• Age: 46 (1976)\n• Height: 5′ 7″\n• Nationality: American;Daniel Kevin Fogler is an American actor, comedian and writer. He has appeared in films including Balls of Fury, Good Luck Chuck, Fantastic Beasts and Where to Find Them series",
+                "Dan Fogler;• Born in New York, NY, America\n• Age: 46 (1976)\n• Height: 5′ 7″\n• Nationality: American;Daniel Kevin Fogler is an American actor, comedian and writer. He has appeared in films including Balls of Fury, Good Luck Chuck, Fantastic Beasts and Where to Find Them series",
 
-                "Wool Coat;$559.99;• 100% Wool\n• Lapel collar\n• 2 side pockets\n• Dry Clean Only\n• Dry clean only\n\nTransform yourself into the most famous Magizoologist in the history of wizardry with this jacket from Fantastic Beasts And Where To Find Them.",
+                "Wool Coat;$559.99;• Material: 100% wool\n• Lapel collar\n• 2 side pockets\n• Dry clean only\n\nTransform yourself into the most famous Magizoologist in the history of wizardry with this jacket from Fantastic Beasts And Where To Find Them.",
                 "Wand;$39;• Material: Resin\n• Style: Antique\n• Length: 35cm\n\nThe Wand of Newt Scamander in Collector's Box is a meticulous recreation of the wand prop used in Fantastic Beasts and Where to Find Them, crafted with high quality materials. Officially licensed by Warner Bros.",
-                "Vintiquewise Old Style Suitcase;$69.51;• Material: Wood, Plywood Faux Leather\n• Size: 13” x 8.5” x 4.5”\n\nOur warm and welcoming steamer trunk brings back days of old time. Remember how excited you are when you were a little kid to look into your grandma's old chest, our decorative trunks will bring back those memories and help you create some new ones too.",
-                "Lace Up Boot;$150;• 100% Leather\n• Heel 1.25\"\n• Synthetic sole\n\nThe lightly distressed leather upper on this boot from Frye gives it a natural, broken-in-look that's amazingly hip and stylish. A fully laced vamp, a breathable, leather-lined footbed, and stacked wooden heel combine together for a look that is versatile, sophisticated, and charming.",
-                "Slim Fit Western Vest Waistcoat;$49.5;• 95% Polyester, 5% cotton\n• West cowboy style\n• Slim fit\n• Machine Wash Cold\n\nThis mens suede vest is western cowboy style.It shows the handsomeness and free-and-easy personality of the American west cowboy style. You can pair this suede vest with dress shirt, jacket, jeans, western cowboy hat, stilt felt hat and boots."
+                "Vintiquewise Old Style Suitcase;$69.51;• Material: Wood, plywood faux leather\n• Size: 13” x 8.5” x 4.5”\n\nOur warm and welcoming steamer trunk brings back days of old time. Remember how excited you are when you were a little kid to look into your grandma's old chest, our decorative trunks will bring back those memories and help you create some new ones too.",
+                "Lace Up Boot;$150;• Material: 100% leather\n• Heel Height: 1.25\"\n• Synthetic sole\n\nThe lightly distressed leather upper on this boot from Frye gives it a natural, broken-in-look that's amazingly hip and stylish. A fully laced vamp, a breathable, leather-lined footbed, and stacked wooden heel combine together for a look that is versatile, sophisticated, and charming.",
+                "Slim Fit Western Vest Waistcoat;$49.5;• Material: 95% polyester, 5% cotton\n• West cowboy style\n• Slim fit\n\nThis mens suede vest is western cowboy style.It shows the handsomeness and free-and-easy personality of the American west cowboy style. You can pair this suede vest with dress shirt, jacket, jeans, western cowboy hat, stilt felt hat and boots."
         };
         String xRay10Merchandise[] = {
                 "",
@@ -951,14 +988,14 @@ public final class MovieList {
                 "https://img.ebdcdn.com/product/model/portrait/mt6340_m0.jpg?im=Resize,width=500,height=600,aspect=fill;UnsharpMask,sigma=1.0,gain=1.0&q=85"
         };
         String xRay11Description[] = {
-                "Alfredo James Pacino;• Born in East Harlem, New York, NY, American\n• Age: 83 (1940)\n• Height: 5′ 6″\n• Nationality: American;Alfredo James Pacino is an American actor. Considered one of the greatest and most influential actors of the 20th century, Pacino has received numerous accolades: including an Academy Award, two Tony Awards, and two Primetime Emmy Awards, making him one of the few performers to have achieved the Triple Crown of Acting.",
-                "Hilary Swank;• Born in Lincoln, NE, American\n• Age: 49 (1974)\n• Height: 5′ 6″\n• Nationality: American;Hilary Ann Swank is an American actress and film producer. Swank first became known in 1992 for her role on the television series Camp Wilder and made her film debut with a minor role in Buffy the Vampire Slayer.",
+                "Alfredo James Pacino;• Born in East Harlem, New York, NY, America\n• Age: 83 (1940)\n• Height: 5′ 6″\n• Nationality: American;Alfredo James Pacino is an American actor. Considered one of the greatest and most influential actors of the 20th century, Pacino has received numerous accolades: including an Academy Award, two Tony Awards, and two Primetime Emmy Awards, making him one of the few performers to have achieved the Triple Crown of Acting.",
+                "Hilary Swank;• Born in Lincoln, NE, America\n• Age: 49 (1974)\n• Height: 5′ 6″\n• Nationality: American;Hilary Ann Swank is an American actress and film producer. Swank first became known in 1992 for her role on the television series Camp Wilder and made her film debut with a minor role in Buffy the Vampire Slayer.",
 
-                "TAG HEUER Carrera Date Watch;$3200;• Type: Automatic Watch\n• Size: 39 mm\n• Material: Steel\n\nThis TAG Heuer Carrera is ready for anything. Its brushed silver sunray dial is a statement of luxury, beautifully highlighted by the functional and elegant rhodium-plated TAG Heuer logo and Super-Luminova® hands and indexes.",
-                "Lined Journal Notebook;$8.99;• 5-x-8-inch inches\n• Faux Leather\n\nThis lined journal notebook features durable and water-resistant vegan leather cover, can protect the pages inside for years and provide a comfortable writing surface.rounded corners, 160 pages, ribbon bookmark & elastic closure band.",
-                "Modern Classic Wave Suit Jacket;$150;• 70% Wool, 30% recycled polyester\n• Notch lapel with 2-button front closure\n• Double back vent\n• 3 exterior pockets, 2 interior pockets\n\nDiscover the heritage craftsmanship of this timeless piece with its soft, smooth, blended luxe fabrication and wrinkle-resistant properties.",
-                "Classic Jackie Cardigan;$99;• 100% Wool\n• Ribbed cuffs\n• Hand wash\n\nStay warm while keeping your style in tact in this women's Croft & Barrow cardigan.",
-                "Bryce Glasses;$25;• Size: 53-18-138 (mm)\n• Weight: 14g\n• Material: metal\n• Shape: Rectangle\n• Rim: Full-Rim\n\nThe classy, minimalist look of Bryce is perfect for neatening up any outfit. The Silver metal construction of this frame give it a bold and defined look, while the thin temples and lens frames make them lightweight and comfortable."
+                "TAG HEUER Carrera Date Watch;$3200;• Type: Automatic watch\n• Material: Steel\n• Size: 39 mm\n\nThis TAG Heuer Carrera is ready for anything. Its brushed silver sunray dial is a statement of luxury, beautifully highlighted by the functional and elegant rhodium-plated TAG Heuer logo and Super-Luminova® hands and indexes.",
+                "Lined Journal Notebook;$8.99;• Material: Faux leather\n• Size: 5 x 8 inches\n\nThis lined journal notebook features durable and water-resistant vegan leather cover, can protect the pages inside for years and provide a comfortable writing surface.rounded corners, 160 pages, ribbon bookmark & elastic closure band.",
+                "Modern Classic Wave Suit Jacket;$150;• Material: 70% wool, 30% polyester\n• Double back vent\n• 3 exterior pockets, 2 interior pockets\n\nDiscover the heritage craftsmanship of this timeless piece with its soft, smooth, blended luxe fabrication and wrinkle-resistant properties.",
+                "Classic Jackie Cardigan;$99;• Material: 100% wool\n• Ribbed cuffs\n• Hand wash\n\nStay warm while keeping your style in tact in this women's Croft & Barrow cardigan.",
+                "Bryce Glasses;$25;• Material: Metal\n• Size: 53 x 18 x 138 (mm)\n• Weight: 14 g\n• Shape: Rectangle\n\nThe classy, minimalist look of Bryce is perfect for neatening up any outfit. The Silver metal construction of this frame give it a bold and defined look, while the thin temples and lens frames make them lightweight and comfortable."
 
         };
         String xRay11Merchandise[] = {
@@ -1012,14 +1049,14 @@ public final class MovieList {
                 "https://www.forever21.com/dw/image/v2/BFKH_PRD/on/demandware.static/-/Sites-f21-master-catalog/default/dw0eeed4bc/1_front_750/00471548-06.jpg?sw=1000&sh=1500"
         };
         String xRay12Description[] = {
-                "Virginia Gardner;• Born in Sacramento, CA, American\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Virginia Elizabeth Gardner is an American actress who played Karolina Dean in the Hulu original series Marvel's Runaways, Vicky in David Gordon Green's horror film Halloween and Hunter Shiloh in Lionsgate's survival film Fall.",
+                "Virginia Gardner;• Born in Sacramento, CA, America\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Virginia Elizabeth Gardner is an American actress who played Karolina Dean in the Hulu original series Marvel's Runaways, Vicky in David Gordon Green's horror film Halloween and Hunter Shiloh in Lionsgate's survival film Fall.",
                 "Grace Fulton;• Born in American\n• Age: 26 (1996)\n• Height: 5′ 7″\n• Nationality: American;Grace Caroline Currey is an American actress and dancer. She is best known for playing Mary Bromfield in the DC Extended Universe films Shazam! and reprising the role in Shazam! Fury of the Gods. She also joined the The Conjuring Universe in Annabelle: Creation as Carol.",
 
-                "iPhone SE;$479;• Size: 128 GB\n• Color: Midnight\n• 4.7-inch Retina HD display\n• Up to 15 hours of video playback\n• A15 Bionic chip for lightning-fast performance\n• 7MP FaceTime HD camera with Smart HDR 4, Photographic Styles, Portrait mode, and 1080p video recording\n\n",
+                "iPhone SE;$479;• Size: 128 GB\n• Color: Midnight\n• Display: 4.7-inch Retina HD display\n• Height:138.4 mm\n• Width: 67.3 mm\n• Depth: 7.3 mm\n• Weight: 144 g\n\n",
                 "DEERC Mini Drone;$50;• Model: D20\n• Video Capture Resolution： 720P\n• Item Weight: 69 g\n• Maximum Range: 100 Meters\n\n",
-                "lululemon Align™ Ribbed High-Rise Pant;$99;• High Rise\n• Length: 25\"\n• Designed for Yoga\n• Buttery-Soft, Ribbed Nulu™ Fabric\n\nThis collection’s great for low-impact workouts like yoga or whenever you want to feel really, really comfortable.",
-                "Sunchaser UPF Tank;$59;• 100% Recycled Polyester/Spandex\n• UPF 50+ sun protection \n• Semi-fitted\n• 25.75 Body length\n\nFor m edium to high impact workouts at the gym, studio, or outdoors",
-                "Seamless Ribbed Bodysuit;$14.21;• 92% nylon, 8% spandex\n• Slim-fitted\n•  Hand wash cold\n\nA ribbed knit bodysuit featuring a seamless fit and a halter neckline."
+                "lululemon Align™ Ribbed High-Rise Pant;$99;• Length: 25\"\n• Designed for Yoga\n• Buttery-Soft, Ribbed Nulu™ Fabric\n\nThis collection’s great for low-impact workouts like yoga or whenever you want to feel really, really comfortable.",
+                "Sunchaser UPF Tank;$59;• Material: 100% polyester\n• Length: 25.75\"\n• UPF 50+ sun protection\n\nFor medium to high impact workouts at the gym, studio, or outdoors",
+                "Seamless Ribbed Bodysuit;$14.21;• Material: 92% nylon, 8% spandex\n• Slim-fitted\n• Hand wash cold\n\nA ribbed knit bodysuit featuring a seamless fit and a halter neckline."
         };
         String xRay12Merchandise[] = {
                 "",
@@ -1075,15 +1112,15 @@ public final class MovieList {
                 "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRvTsG4Xjs8Ni3-T3-jCZbBBOgYvp7welcKqPDNTUokSIL1YYpFE1l0JToU1eDJaJQl7ocEkE1GdJuKt-38Q1oBjwdziK4UIHw7KowobCzf"
         };
         String xRay13Description[] = {
-                "Amanda Seyfried;• Born in Allentown, PA, American\n• Age: 37 (1985)\n• Height: 5′ 2″\n• Nationality: American;Amanda Michelle Seyfried is an American actress. Born and raised in Allentown, Pennsylvania, she began modeling at age 11 and ventured into acting at 15, with recurring roles as Lucy Montgomery on the CBS soap opera As the World Turns and Joni Stafford on the ABC soap opera All My Children.",
+                "Amanda Seyfried;• Born in Allentown, PA, America\n• Age: 37 (1985)\n• Height: 5′ 2″\n• Nationality: American;Amanda Michelle Seyfried is an American actress. Born and raised in Allentown, Pennsylvania, she began modeling at age 11 and ventured into acting at 15, with recurring roles as Lucy Montgomery on the CBS soap opera As the World Turns and Joni Stafford on the ABC soap opera All My Children.",
                 "Rachel McDowall;• Born in Liverpool, United Kingdom\n• Age: 38 (1984)\n• Height: 6′ 0″\n• Nationality: British;Rachel Anne McDowall made her film debut as Lisa in the 2008 film Mamma Mia! The Movie, and had her last of eight film or television roles in a 2016 episode of Zoe Ever After. On stage, she played Swedish woman Ulla in Mel Brooks' musical The Producers in the West End and Velma Kelly in productions of the musical Chicago, in the West End and at the Cambridge Theatre in 2008 and the Garrick Theatre in 2012.",
                 "Ashley Lilley;• Born in Rothesay, United Kingdom\n• Age: 37 (1986)\n• Height: 5′ 9″\n• Nationality: British;Ashley-Anne Lilley is a Scottish actress and singer. She made her debut in the 2008 film Mamma Mia!",
 
-                "Smiling Eyes Blue and White Embroidered Top;$48;• 100% Rayon\n• Unlined\n• Hand Wash Cold\n\nThe Smiling Eyes Blue and White Embroidered Top is what you need to complete your next Boho ensemble! Gauzy white woven rayon, with blue embroidery, shapes a relaxed bodice with a rounded neckline, front cutout, and tasseled ties. Long sleeves have elastic cuffs.",
-                "The A-Line Denim Short;$68;• 100% Organic Cotton\n• High-rise\n• Zipper fly\n• Machine wash cold. Tumble dry low.\n\nThe A-Line Denim Short features a waist-nipping high rise, a zip-fly closure, an easy 5.5\" inseam, and a flattering A-line shape. Plus, it’s made of premium non-stretch organic cotton, which means it has a gutsy feel that will stand the test of time.",
-                "Print Green Blue Pink Floral Shirt;$20;• 100% Polyester\n• Round neck, long sleeve\n• Machine Wash Cold\n\n",
-                "Duke University shirt;$20;• 100% Cotton\n• Light fabric (142 g/m²)\n• Tear away label\n• Handmade\n• Machine wash\n\nThis classic unisex jersey short sleeve tee fits like a well-loved favorite. Soft cotton and quality print make users fall in love with it over and over again.",
-                "Floral Spiral Notebook;$12.5;• Size: 5.99\" x 8.25\" (A5)\n• Thick: 7.34 mm\n• Cover: 0.5 mm\n• 90gsm Paper\n\nSpring Floral Spiral Notebook with dark pink background."
+                "Smiling Eyes Blue and White Embroidered Top;$48;• Material: 100% rayon\n• Unlined\n• Hand wash cold\n\nThe Smiling Eyes Blue and White Embroidered Top is what you need to complete your next Boho ensemble! Gauzy white woven rayon, with blue embroidery, shapes a relaxed bodice with a rounded neckline, front cutout, and tasseled ties. Long sleeves have elastic cuffs.",
+                "The A-Line Denim Short;$68;• Material: 100% organic cotton\n• High-rise\n• Zipper fly\n• Machine wash cold\n• Tumble dry low.\n\nThe A-Line Denim Short features a waist-nipping high rise, a zip-fly closure, an easy 5.5\" inseam, and a flattering A-line shape. Plus, it’s made of premium non-stretch organic cotton, which means it has a gutsy feel that will stand the test of time.",
+                "Print Green Blue Pink Floral Shirt;$20;• Material: 100% polyester\n• Round neck, long sleeve\n• Machine wash cold\n\n",
+                "Duke University shirt;$20;• Material: 100% cotton\n• Light fabric (142 g/m²)\n• Tear away label\n• Handmade\n• Machine wash\n\nThis classic unisex jersey short sleeve tee fits like a well-loved favorite. Soft cotton and quality print make users fall in love with it over and over again.",
+                "Floral Spiral Notebook;$12.5;• Size: 5.99\" x 8.25\" (A5)\n• Thickness: 7.34 mm\n• Cover: 0.5 mm\n• 90gsm Paper\n\nSpring Floral Spiral Notebook with dark pink background."
         };
         String xRay13Merchandise[] = {
                 "",
@@ -1137,14 +1174,14 @@ public final class MovieList {
                 "https://cdn1.discountdance.com/image/1395x1860/ls3004l_1.jpg"
         };
         String xRay14Description[] = {
-                "Emma Stone;• Born in Scottsdale, AZ, American\n• Age: 34 (1989)\n• Height: 5′ 6″\n• Nationality: American;Emily Jean \"Emma\" Stone is an American actress. She is the recipient of various accolades, including an Academy Award, a British Academy Film Award, and a Golden Globe Award. In 2017, she was the world's highest-paid actress and named by Time magazine as one of the 100 most influential people in the world.",
+                "Emma Stone;• Born in Scottsdale, AZ, America\n• Age: 34 (1989)\n• Height: 5′ 6″\n• Nationality: American;Emily Jean \"Emma\" Stone is an American actress. She is the recipient of various accolades, including an Academy Award, a British Academy Film Award, and a Golden Globe Award. In 2017, she was the world's highest-paid actress and named by Time magazine as one of the 100 most influential people in the world.",
                 "Ryan Gosling;• Born in London, Canada\n• Age: 42 (1980)\n• Height: 6′ 0″\n• Nationality: Canadian;Ryan Thomas Gosling is a Canadian actor. Prominent in both independent film and major studio features of varying genres, his films have accrued a worldwide box office gross of over 1.9 billion USD.",
 
-                "Cocktail Floral Party Dress;$25.9;• 95% Polyester, 5% Spandex\n• Elastic closure\n• Featuring square neck\n• Adorable cap sleeves\n• Machine wash\n\n",
-                "Mollie Tote;$428;• Double face leather \n• Zip-top closure, fabric lining\n• Handles with 10.25\" drop\n• 13.25\" (L) x 11\" (H) x 5\" (W)\n\nThis impeccably-crafted tote by Coach features signature chambray and smooth leather, a zip-top closure, fabric lining, side open compartments, and comfortable 4 3/4\" handles with a detachable 22\" strap for crossbody wear.",
-                "Kurt Geiger Chelsea satin sandals;$220;• Upper: fabric\n• Lining: leather\n• 95mm-heel sandal\n\nThe undeniably striking Chelsea from Kurt Geiger ticks all the city-girl style boxes. Designed in must-have sleek blue and featuring intricate gold-tone heel tip, this sandal demands attention.",
-                "The Perfect White Shirt;$125;• 98% Cotton, 2% Lycra\n• Spread Collar\n• Mitered Barrel Cuff\n• Stretch\n\nWoven of a cutting-edge, high density luxurious fabric, it eliminates see-through. A touch of lycra lends stretch to make even the longest business trip less tiresome. The no wrinkle, non-iron technology ensures that you always look crisp and pulled together, even when stepping off a plane after many hours aboard. ",
-                "Leather Giordano Spectator Tap Shoes;$200;• 100% leather\n• Padded sock liner\n• Cushioned heel bed\n\nThis Giordano Spectator Tap features genuine full-grain leather and Leo's biggest sounding Ultratone screw on taps. Other features include a two-piece leather sole for a flexible arch and a one-half stitched on rubber sole with non-slip traction."
+                "Cocktail Floral Party Dress;$25.9;• Material: 95% polyester, 5% spandex\n• Elastic closure\n• Featuring square neck\n• Adorable cap sleeves\n• Machine wash\n\n",
+                "Mollie Tote;$428;• Material: Double face leather\n• Size: 13.25\" (L) x 11\" (H) x 5\" (W)\n• Handles with 10.25\" drop\n\n\nThis impeccably-crafted tote by Coach features signature chambray and smooth leather, a zip-top closure, fabric lining, side open compartments, and comfortable 4 3/4\" handles with a detachable 22\" strap for crossbody wear.",
+                "Kurt Geiger Chelsea satin sandals;$220;• Upper Material: Fabric\n• Lining Material: Leather\n• 95mm-heel sandal\n\nThe undeniably striking Chelsea from Kurt Geiger ticks all the city-girl style boxes. Designed in must-have sleek blue and featuring intricate gold-tone heel tip, this sandal demands attention.",
+                "The Perfect White Shirt;$125;• Material: 98% cotton, 2% lycra\n• Spread collar\n• Mitered barrel cuff\n• Stretch\n\nWoven of a cutting-edge, high density luxurious fabric, it eliminates see-through. A touch of lycra lends stretch to make even the longest business trip less tiresome. The no wrinkle, non-iron technology ensures that you always look crisp and pulled together, even when stepping off a plane after many hours aboard. ",
+                "Leather Giordano Spectator Tap Shoes;$200;• Material: 100% leather\n• Padded sock liner\n• Cushioned heel bed\n\nThis Giordano Spectator Tap features genuine full-grain leather and Leo's biggest sounding Ultratone screw on taps. Other features include a two-piece leather sole for a flexible arch and a one-half stitched on rubber sole with non-slip traction."
         };
         String xRay14Merchandise[] = {
                 "",
@@ -1197,14 +1234,14 @@ public final class MovieList {
                 "https://fashionablecanes.com/cdn/shop/products/royal-canes-walking-cane-engraving-chrome-fritz-custom-engrave-handle-walking-cane-16344820809861.jpg?v=1693414279"
         };
         String xRay15Description[] = {
-                "Robert Downey Jr;• Born in New York, NY, American\n• Age: 58 (1965)\n• Height: 5′ 8″\n• Nationality: American;Robert John Downey Jr. is an American actor and producer. His career has been characterized by critical and popular success in his youth, followed by a period of substance abuse and legal troubles, before a resurgence of commercial success later in his career.",
+                "Robert Downey Jr;• Born in New York, NY, America\n• Age: 58 (1965)\n• Height: 5′ 8″\n• Nationality: American;Robert John Downey Jr. is an American actor and producer. His career has been characterized by critical and popular success in his youth, followed by a period of substance abuse and legal troubles, before a resurgence of commercial success later in his career.",
                 "Jude Law;• Born in London, United Kingdom\n• Age: 50 (1972)\n• Height: 5′ 10″\n• Nationality: British;David Jude Heyworth Law is an English actor. He received a British Academy Film Award, as well as nominations for two Academy Awards, two Tony Awards, and four Golden Globe Awards. In 2007, he received an Honorary César and was named a knight of the Order of Arts and Letters by the French government.",
 
-                "John Bull Top Hat;$89.95;• 100% Wool\n• 2.5-inch brim\n• 6.5-inch flared crown\n• 2-inch grosgrain hat band\n• Dry clean only\n\n100 percent wool felt body and smooth leather sweatband makes this the perfect men’s top hat for serious collectors and formal wear lovers.",
-                "Double Breasted Long Wool Coat;$229;• 100% Wool\n• Double breasted style with wide notch lapel\n• 2 exterior and 2 inside pockets\n• Chocolate brown color finishing\n\nThis chocolate brown wool coat is constructed from premium quality wool blend and classic fit to give you warmth and style altogether.This coat will keep you cozy during hours of wear on a cold and windy days.",
-                "Wool Suit;$895;• 100% Wool\n• Fit back length: 74 cm\n• Fit foot width: 36 cm\n• Notched lapels\n• Welt chest pockets\n\nA two-piece suit created in virgin wool by BOSS Menswear. Offering reliable wearing comfort thanks to the natural stretch in the fabric, this narrow-cut ensemble comprises pants with a hook-and-zipper closure, and a two-button jacket with notch lapels and flap pockets.",
-                "Luther Blend Overcoat;$495;• 100% Cotton\n• Three-button closure, four-button cuffs\n• Notched lapel\n• Dry clean\n\nAdd a touch of class to your cold-weather look with the classic fit and warm design of this Luther overcoat from Lauren Ralph Lauren.",
-                "Chrome Fritz Custom Engrave Handle;$68;• 100% brass handle\n• 3 engraving options\n\nTake personalization to the next level with this gorgeous cane that has an engraving plate right in the handle. With three engraving styles to choose from, this stylish 100% brass handle is chrome plated and has an ornate scroll design that's sure to wow all who see it."
+                "John Bull Top Hat;$89.95;• Material: 100% wool\n• 2.5-inch brim\n• 6.5-inch flared crown\n• 2-inch grosgrain hat band\n• Dry clean only\n\n100 percent wool felt body and smooth leather sweatband makes this the perfect men’s top hat for serious collectors and formal wear lovers.",
+                "Double Breasted Long Wool Coat;$229;• Material: 100% wool\n• Double breasted style\n• 2 exterior and 2 inside pockets\n• Chocolate brown color finishing\n\nThis chocolate brown wool coat is constructed from premium quality wool blend and classic fit to give you warmth and style altogether.This coat will keep you cozy during hours of wear on a cold and windy days.",
+                "Wool Suit;$895;• Material: 100% wool\n• Fit Back Length: 74 cm\n• Fit Foot Width: 36 cm\n• Notched lapels\n• Welt chest pockets\n\nA two-piece suit created in virgin wool by BOSS Menswear. Offering reliable wearing comfort thanks to the natural stretch in the fabric, this narrow-cut ensemble comprises pants with a hook-and-zipper closure, and a two-button jacket with notch lapels and flap pockets.",
+                "Luther Blend Overcoat;$495;• Material: 100% cotton\n• Three-button closure, four-button cuffs\n• Notched lapel\n• Dry clean\n\nAdd a touch of class to your cold-weather look with the classic fit and warm design of this Luther overcoat from Lauren Ralph Lauren.",
+                "Chrome Fritz Custom Engrave Handle;$68;• Material: 100% brass handle\n• 3 engraving options\n\nTake personalization to the next level with this gorgeous cane that has an engraving plate right in the handle. With three engraving styles to choose from, this stylish 100% brass handle is chrome plated and has an ornate scroll design that's sure to wow all who see it."
         };
         String xRay15Merchandise[] = {
                 "",
@@ -1258,14 +1295,14 @@ public final class MovieList {
                 "https://image.josbank.com/is/image/JosBank/33RF_01_1905_BLACK_MAIN?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1"
         };
         String xRay16Description[] = {
-                "Tom Hanks;• Born in Concord, CA\n• Age: 66 (1956)\n• Height: 6′ 0″\n• Nationality: American;Thomas Jeffrey Hanks is an American actor and filmmaker. Known for both his comedic and dramatic roles, he is one of the most popular and recognizable film stars worldwide, and is regarded as an American cultural icon.",
+                "Tom Hanks;• Born in Concord, CA, America\n• Age: 66 (1956)\n• Height: 6′ 0″\n• Nationality: American;Thomas Jeffrey Hanks is an American actor and filmmaker. Known for both his comedic and dramatic roles, he is one of the most popular and recognizable film stars worldwide, and is regarded as an American cultural icon.",
                 "Audrey Tautou;• Born in Beaumont, France\n• Age: 46 (1976)\n• Height: 5′ 3″\n• Nationality: French;Audrey Justine Tautou is a French actress. She made her acting debut at the age of 18 on television and her feature film debut in Venus Beauty Institute, for which she received critical acclaim and won the César Award for Most Promising Actress.",
 
-                "LED UV Flashlight;$8.99;• Material: Aluminum\n• Power Source: Battery powered\n• Dimensions: 1.2\"D x 1.08\"W x 3.74\"H\n\nVansky UV flashlight black light is Perfect for Revealing Dry Dog, Cat and Rodent Stains and smudgy Spots that Couldn't See With the Naked Eye. Easily Spot Scorpions, Authenticate currency,Official Identification cards,Passports.The black light can also act as Nail Dryer.",
-                "The Relaxed Oxford Shirt;$88;• 100% Organic Cotton\n• Relaxed fit\n• Machine wash cold, tumble dry low\n\nThis style uses organic cotton. Organic cotton is better for the soil and water, and it’s safer for the workers.",
-                "Lauren Conrad Fitted Blazer;$58;• 95% Polyester, 3% rayon, 2% spandex\n• Button front\n• Rolled 3/4-length sleeves\n• Machine wash\n\nWhether you dress it up or down, this women's LC Lauren Conrad blazer is a charming choice.",
-                "French Dress Shirt;$95;• 100% Non-iron 2-ply cotton\n• Straight collar\n• French cuffs\n• Break resistant buttons\n• Dry clean only\n\nCut generously for a fit that offers maximum comfort.",
-                "Classic Fit Suit Separates Tuxedo Coat;$334.99;• 100% Wool\n• Two buttons\n• Satin notch lapel\n• Side vents\n• Dry clean only\n\nCreate a memorable formal look with this fine wool tuxedo coat from Lauren By Ralph Lauren. With suit separates you can choose coat, pant, and/or vest sizes separately for an ideal fit. This fine coat features 100% wool fabric woven with natural stretch for the best fit and comfort."
+                "LED UV Flashlight;$8.99;• Material: Aluminum\n• Power Source: Battery powered\n• Dimensions: 1.2\" (D) x 1.08\" (W) x 3.74\" (H)\n\nVansky UV flashlight black light is Perfect for Revealing Dry Dog, Cat and Rodent Stains and smudgy Spots that Couldn't See With the Naked Eye. Easily Spot Scorpions, Authenticate currency,Official Identification cards,Passports.The black light can also act as Nail Dryer.",
+                "The Relaxed Oxford Shirt;$88;• Material: 100% organic cotton\n• Relaxed fit\n• Machine wash cold\n• Tumble dry low\n\nThis style uses organic cotton. Organic cotton is better for the soil and water, and it’s safer for the workers.",
+                "Lauren Conrad Fitted Blazer;$58;• Material: 95% polyester, 3% rayon, 2% spandex\n• Button front\n• Rolled 3/4-length sleeves\n• Machine wash\n\nWhether you dress it up or down, this women's LC Lauren Conrad blazer is a charming choice.",
+                "French Dress Shirt;$95;• Material: 100% non-iron 2-ply cotton\n• Straight collar\n• French cuffs\n• Break resistant buttons\n• Dry clean only\n\nCut generously for a fit that offers maximum comfort.",
+                "Classic Fit Suit Separates Tuxedo Coat;$334.99;• Material: 100% wool\n• 2 buttons\n• Satin notch lapel\n• Dry clean only\n\nCreate a memorable formal look with this fine wool tuxedo coat from Lauren By Ralph Lauren. With suit separates you can choose coat, pant, and/or vest sizes separately for an ideal fit. This fine coat features 100% wool fabric woven with natural stretch for the best fit and comfort."
         };
         String xRay16Merchandise[] = {
                 "",
@@ -1318,14 +1355,14 @@ public final class MovieList {
                 "https://oldnavy.gap.com/webcontent/0050/540/273/cn50540273.jpg"
         };
         String xRay17Description[] = {
-                "Madeline Carroll;• Born in Los Angeles, CA, American\n• Age: 27 (1996)\n• Height: 5′ 4″\n• Nationality: American;Madeline Carroll is an American actress known for starring as Juli Baker in Flipped, as Molly Johnson in Swing Vote, as Farren in The Spy Next Door, and as Willow O'Neil in The Magic of Belle Isle.",
+                "Madeline Carroll;• Born in Los Angeles, CA, America\n• Age: 27 (1996)\n• Height: 5′ 4″\n• Nationality: American;Madeline Carroll is an American actress known for starring as Juli Baker in Flipped, as Molly Johnson in Swing Vote, as Farren in The Spy Next Door, and as Willow O'Neil in The Magic of Belle Isle.",
                 "Callan McAuliffe;• Born in Clontarf, Australia\n• Age: 28 (1995)\n• Height: 5′ 10″\n• Nationality: Australian;Callan Ryan Claude McAuliffe is an Australian actor, known for his roles as Bryce Loski in Flipped and Sam Goode in I Am Number Four. He appeared as young Jay Gatsby in the 2013 film The Great Gatsby. From 2017 to 2022 he starred on The Walking Dead as Alden.",
 
-                "Button Knit Cardigan;$39.99;• 90% polyester,10% polyamide\n• Knitted braided fabric\n• V-neck\n• Long sleeve\n• Button up\n\nRecycled polyester is obtained from polyester textile waste, marine litter or PET plastic bottles that are used to produce new fabric.",
-                "School Uniform Yellow Long Sleeve Shirt;$9.99;• 60% Cotton, 40% polyester\n• Polo collar\n• Machine wash cold\n\nTopped with a flat-knit collar and three-button placket, this polo shirt is crafted in organic cotton with a bubble structure.",
-                "A-Line Vintage Skirt;$45;• 50% Cotton, 50% polyester\n• 2 pockets\n• A-line silhouette\n• Classic plaid pattern\n\nBrown and multicolor vintage knee-length pleated skirt featuring plaid pattern throughout, tonal stitching and concealed hook-and-eye closure at waist front.",
-                "Striped Knit Oxford Shirt;$69.99;• 100% Cotton\n• Slim fit\n• Button-down point collar\n• Machine wash\n\nAlthough it takes its name from England's most famous academic institution, the oxford shirt has its origins on the backs of early British polo players, who wore shirts made from oxford cloth on the field and used pins to keep their collars in place during rigorous play.",
-                "Flex Taper Pants;$18;• 98% Cotton, 2% spandex\n• Elasticized comfort waistband\n• Straight through hip and thigh\n• Machine wash\n\nWith an easy elasticized waistband, OGC pants are the ultimate combo of comfort chops & style cred. Dressier than sweats, relaxier than dress pants"
+                "Button Knit Cardigan;$39.99;• Material: 90% polyester,10% polyamide\n• Knitted braided fabric\n• V-neck\n• Long sleeve\n• Button up\n\nRecycled polyester is obtained from polyester textile waste, marine litter or PET plastic bottles that are used to produce new fabric.",
+                "School Uniform Yellow Long Sleeve Shirt;$9.99;• Material: 60% cotton, 40% polyester\n• Polo collar\n• Machine wash cold\n\nTopped with a flat-knit collar and three-button placket, this polo shirt is crafted in organic cotton with a bubble structure.",
+                "A-Line Vintage Skirt;$45;• Material: 50% cotton, 50% polyester\n• 2 pockets\n• A-line silhouette\n• Classic plaid pattern\n\nBrown and multicolor vintage knee-length pleated skirt featuring plaid pattern throughout, tonal stitching and concealed hook-and-eye closure at waist front.",
+                "Striped Knit Oxford Shirt;$69.99;• Material: 100% cotton\n• Slim fit\n• Button-down point collar\n• Machine wash\n\nAlthough it takes its name from England's most famous academic institution, the oxford shirt has its origins on the backs of early British polo players, who wore shirts made from oxford cloth on the field and used pins to keep their collars in place during rigorous play.",
+                "Flex Taper Pants;$18;• Material: 98% cotton, 2% spandex\n• Elasticized comfort waistband\n• Machine wash\n\nWith an easy elasticized waistband, OGC pants are the ultimate combo of comfort chops & style cred. Dressier than sweats, relaxier than dress pants"
         };
         String xRay17Merchandise[] = {
                 "",
@@ -1381,15 +1418,15 @@ public final class MovieList {
                 "https://images.bergdorfgoodman.com/ca/1/product_assets/W/0/F/X/G/BGW0FXG_mu.jpg"
         };
         String xRay18Description[] = {
-                "Constance Wu;• Born in Richmond, VA, American\n• Age: 41 (1982)\n• Height: 5′ 1″\n• Nationality: American;Constance Wu is an American actress. Wu was included on Time magazine's list of the 100 most influential people in the world in 2017. She has earned several accolades, including nominations for a Golden Globe Award, four Critics' Choice Awards, a Screen Actors Guild Award, and two TCA Awards.",
+                "Constance Wu;• Born in Richmond, VA, America\n• Age: 41 (1982)\n• Height: 5′ 1″\n• Nationality: American;Constance Wu is an American actress. Wu was included on Time magazine's list of the 100 most influential people in the world in 2017. She has earned several accolades, including nominations for a Golden Globe Award, four Critics' Choice Awards, a Screen Actors Guild Award, and two TCA Awards.",
                 "Henry Golding;• Born in Betong, Malaysia\n• Age: 36 (1987)\n• Height: 6′ 1″\n• Nationality: British, Malaysian;Henry Ewan Golding is a Malaysian and British actor and television host. Golding has been a presenter on BBC's The Travel Show since 2014.",
-                "Awkwafina;• Born in Stony Brook, NY, American\n• Age: 34 (1988)\n• Height: 5′ 1″\n• Nationality: American;Nora Lum, known professionally as Awkwafina, is an American actress, rapper, and comedian who rose to prominence in 2012 when her rap song \"My Vag\" became popular on YouTube. She then released her debut album, Yellow Ranger, and appeared on the MTV comedy series Girl Code.",
+                "Awkwafina;• Born in Stony Brook, NY, America\n• Age: 34 (1988)\n• Height: 5′ 1″\n• Nationality: American;Nora Lum, known professionally as Awkwafina, is an American actress, rapper, and comedian who rose to prominence in 2012 when her rap song \"My Vag\" became popular on YouTube. She then released her debut album, Yellow Ranger, and appeared on the MTV comedy series Girl Code.",
 
-                "Lurex Maxi Dress;$995;• Brand: M Missoni\n• 100% Silk\n• V-neck\n• Sleeveless\n• Specialist Cleaning\n\nSensual maxi dress detailed with faded colour striped pattern embellished with all-over gold tone lurex inserts and detailed with double spaghetti strap creating a criss cross effect at back, fitted high waist and flared skirt",
+                "Lurex Maxi Dress;$995;• Brand: M Missoni\n• Material: 100% silk\n• V-neck\n• Sleeveless\n• Specialist cleaning\n\nSensual maxi dress detailed with faded colour striped pattern embellished with all-over gold tone lurex inserts and detailed with double spaghetti strap creating a criss cross effect at back, fitted high waist and flared skirt",
                 "Jil Sander Disc Earrings;$532;• Material: 100% 925 silver\n• Diameter: 6 cm\n\nJil Sander pair of disc earrings in in golden silver featuring engraved logo and snap closure. For pierced ears only. Antioxidant treatment and nickel tested.",
-                "Audi R8 Coupe;$158600;• Model: 562 hp V10\n• 20\" 5-V-spoke-evo design wheels, bi-color anthracite finish\n• Sport suspension for RWD\n• Audi virtual cockpit with Sport mode\n• 18-way power seats with pneumatic side and leg bolsters\n\n",
-                "Delave Linen Sport Coat;$225;• 100% Linen\n• Tailored fit\n• Notched collar\n• Boat-shaped chest pockets\n\nA smart and timeless tailored piece, this lightweight men’s sport coat is cut from 100% Delave linen - a top tier linen with a high-low heathered look and unique texture.",
-                "Stripe-Trim Dog-Print Silk Blouse;$49.5;• 100% Silk\n• Spread collar, hidden placket\n• Long sleeves, button cuffs\n• Relaxed silhouette\n\nStella McCartney dog-print blouse with striped collar, sleeve, and cuff."
+                "Audi R8 Coupe;$158600;• Model: 562 hp V10\n• 20\" 5-V-spoke-evo design wheels\n• Sport suspension for RWD\n• Audi virtual cockpit with Sport mode\n• 18-way power seats\n\n",
+                "Delave Linen Sport Coat;$225;• Material: 100% linen\n• Tailored fit\n• Notched collar\n• Boat-shaped chest pockets\n\nA smart and timeless tailored piece, this lightweight men’s sport coat is cut from 100% Delave linen - a top tier linen with a high-low heathered look and unique texture.",
+                "Stripe-Trim Dog-Print Silk Blouse;$49.5;• Material: 100% silk\n• Spread collar, hidden placket\n• Long sleeves, button cuffs\n• Relaxed silhouette\n\nStella McCartney dog-print blouse with striped collar, sleeve, and cuff."
         };
         String xRay18Merchandise[] = {
                 "",
@@ -1443,14 +1480,14 @@ public final class MovieList {
                 "https://americangiant.imgix.net/products/M4-3H-7-VIN_7369.jpg?v=1658253598&auto=format,compress&w=1592"
         };
         String xRay19Description[] = {
-                "Leonardo DiCaprio;• Born in Los Angeles, CA, American\n• Age: 48 (1974)\n• Height: 6′ 0″\n• Nationality: American;Leonardo Wilhelm DiCaprio is an American actor and film producer. Known for his work in biographical and period films, he is the recipient of numerous accolades, including an Academy Award, a British Academy Film Award and three Golden Globe Awards.",
+                "Leonardo DiCaprio;• Born in Los Angeles, CA, America\n• Age: 48 (1974)\n• Height: 6′ 0″\n• Nationality: American;Leonardo Wilhelm DiCaprio is an American actor and film producer. Known for his work in biographical and period films, he is the recipient of numerous accolades, including an Academy Award, a British Academy Film Award and three Golden Globe Awards.",
                 "Elliot Page;• Born in Municipality, Canada\n• Age: 36 (1987)\n• Height: 5′ 1″\n• Nationality: Canadian;Elliot Page is a Canadian actor. He has received various accolades, including an Academy Award nomination, two BAFTA Awards and Primetime Emmy Award nominations, and a Satellite Award. Page was assigned female at birth, and later publicly came out as a trans man in December 2020.",
 
                 "British Style Tea Set;$24.99;• Set Of 6 Fine White Porcelain Cups & Saucers Set\n• Fine And High Quality Lead -Free Porcelain\n• Dishwasher, and microwave safe\n\n",
-                "Button-Front Cardigan;$99;• 100% Cotton\n• Crew neck\n• Long sleeves\n• Machine wash cold\n\nThis comfortable, casual, elegant and classy cardigan sweater comes in multiple colors, making it a perfect fit for any occasion. This soft fitted knit cardigan sweaters are made out of high quality material.",
-                "Stand Collar Long Sleeves Silk Blouse;$129;• 90% Mulberry silk, 10% spandex\n• Regular Fit\n• Stretchable\n\nMade from light and soft, breathable silk fabric with elasticity, this blouse will seamlessly become part of your everyday wardrobe and will guarantee you comfort without even noticing it.",
-                "Commission Long-Sleeve Oxford Shirt;$118;• 95% Cotton, 4% polyester\n• Four-way stretch fabric\n• Classic fit\n• Machine Wash Cold\n\nThis garment was treated with our No-Stink Zinc™ technology to inhibit the growth of odour-causing bacteria on the fabric.",
-                "Roughneck Chore Jacket;$200;• 98% Cotton, 2% spandex\n• 9.5 oz/sq yd\n• Garment dye\n• Machine wash cold\n\nThe same rugged canvas in our best-selling Roughneck Pant, now in a timeless and versatile chore jacket. Features an unlined, durable canvas cotton shell for lightweight layering and pocket detailing for easy storage.",
+                "Button-Front Cardigan;$99;• Material: 100% cotton\n• Crew neck\n• Long sleeves\n• Machine wash cold\n\nThis comfortable, casual, elegant and classy cardigan sweater comes in multiple colors, making it a perfect fit for any occasion. This soft fitted knit cardigan sweaters are made out of high quality material.",
+                "Stand Collar Long Sleeves Silk Blouse;$129;• Material: 90% mulberry silk, 10% spandex\n• Regular fit\n\nMade from light and soft, breathable silk fabric with elasticity, this blouse will seamlessly become part of your everyday wardrobe and will guarantee you comfort without even noticing it.",
+                "Commission Long-Sleeve Oxford Shirt;$118;• Material: 95% cotton, 4% polyester\n• Four-way stretch fabric\n• Classic fit\n• Machine wash\n\nThis garment was treated with our No-Stink Zinc™ technology to inhibit the growth of odour-causing bacteria on the fabric.",
+                "Roughneck Chore Jacket;$200;• Material: 98% cotton, 2% spandex\n• 9.5 oz/sq yd\n• Garment dye\n• Machine wash cold\n\nThe same rugged canvas in our best-selling Roughneck Pant, now in a timeless and versatile chore jacket. Features an unlined, durable canvas cotton shell for lightweight layering and pocket detailing for easy storage.",
         };
         String xRay19Merchandise[] = {
                 "",
@@ -1504,13 +1541,13 @@ public final class MovieList {
         };
         String xRay20Description[] = {
                 "Ryan Reynolds;• Born in Vancouver, Canada\n• Age: 46 (1976)\n• Height: 6′ 2″\n• Nationality: American, Canadian;Ryan Rodney Reynolds began his career starring in the Canadian teen soap opera Hillside, and had minor roles before landing the lead role on the sitcom Two Guys and a Girl between 1998 and 2001.",
-                "Walker Scobell;• Born in Los Angeles, CA, American\n• Age: 14 (2009)\n• Height: 4′ 11″\n• Nationality: American;Walker Scobell is best recognized for his role in the sci-fi film The Adam Project. He also appeared in the film Secret Headquarters in the same year. He began acting while in elementary school.",
+                "Walker Scobell;• Born in Los Angeles, CA, America\n• Age: 14 (2009)\n• Height: 4′ 11″\n• Nationality: American;Walker Scobell is best recognized for his role in the sci-fi film The Adam Project. He also appeared in the film Secret Headquarters in the same year. He began acting while in elementary school.",
 
-                "Tactical Flashlights Torch;$14.99;• Super bright with 5 Modes\n• Adjustable focus-adjustable focus for Use in different situations\n• Waterproof\n• Widely use-easy to carry with you as a backup\n\n",
-                "Deluxe Blended Coveralls;$54.99;• 65% Polyester, 35% cotton\n• Double-ended zipper\n\nThese men's long sleeve coveralls are spacious enough to layer underneath and are comfortable enough to wear during long, tough days. Put them on to work on vehicles and other tasks.",
-                "Vest Gilet;$55.98;• 100% Polyester\n• Micro-elastic\n• Regular Fit\n• Machine wash cold\n\nOutdoor work fishing travel photo vest perfect for casual daily wear and outdoor activities, such as traveling, safari, cycling, camping, hiking, sports, working, fishing, photography, sightseeing, hunting, bird watching, river guide adventures, and any other activities.",
-                "Flannel Plaid Casual Shirt;$18.49;• 100% Cotton\n• Flannel\n• Button closure\n• Machine wash\n\nClassically styled with a pointed collar and button front, long sleeve, chest pocket, curved shirttail hem, suitable for both boys and girls from little, big to youth.",
-                "Stainless Photo Necklace;$69.3;Length: 20\"\n• Custom photo pendant\n• Engraving options\n\nCreate a unique dog tag photo necklace with Eve's Addiction's new photo jewelry. This stunning Stainless Photo Necklace can be customized in seconds with your own photo!"
+                "Tactical Flashlights Torch;$14.99;• Super bright with 5 Modes\n• Adjustable focus\n• Waterproof\n\nWidely use-easy to carry with you as a backup",
+                "Deluxe Blended Coveralls;$54.99;• Material: 65% polyester, 35% cotton\n• Zipper: Double-ended\n\nThese men's long sleeve coveralls are spacious enough to layer underneath and are comfortable enough to wear during long, tough days. Put them on to work on vehicles and other tasks.",
+                "Vest Gilet;$55.98;• Material: 100% polyester\n• Micro-elastic\n• Regular fit\n• Machine wash cold\n\nOutdoor work fishing travel photo vest perfect for casual daily wear and outdoor activities, such as traveling, safari, cycling, camping, hiking, sports, working, fishing, photography, sightseeing, hunting, bird watching, river guide adventures, and any other activities.",
+                "Flannel Plaid Casual Shirt;$18.49;• Material: 100% cotton\n• Flannel\n• Button closure\n• Machine wash\n\nClassically styled with a pointed collar and button front, long sleeve, chest pocket, curved shirttail hem, suitable for both boys and girls from little, big to youth.",
+                "Stainless Photo Necklace;$69.3;• Length: 20\"\n• Custom photo pendant\n• Engraving options\n\nCreate a unique dog tag photo necklace with Eve's Addiction's new photo jewelry. This stunning Stainless Photo Necklace can be customized in seconds with your own photo!"
         };
         String xRay20Merchandise[] = {
                 "",
@@ -1528,6 +1565,246 @@ public final class MovieList {
         entry20.put(KEY_DESCRIPTION, Arrays.asList(xRay20Description));
         entry20.put(KEY_MERCHANDISE, Arrays.asList(xRay20Merchandise));
         listOfItems.add(entry20);
+
+
+
+
+        // Space Jam
+        String xRay21Type[] = {
+                "0",
+                "0",
+                "1",
+                "1",
+                "1",
+                "1",
+                "1"
+        };
+        String xRay21Name[] = {
+                "Michael Jordan",
+                "Wayne Knight",
+
+                "Basketball",
+                "Jordan Grey Tank",
+                "Jordan Brooklyn Fleece",
+                "Air Jordan 9 OG",
+                "Morrow Glasses"
+        };
+        String xRay21ImageUrl[] = {
+                "https://upload.wikimedia.org/wikipedia/commons/a/ae/Michael_Jordan_in_2014.jpg",
+                "https://static.wikia.nocookie.net/jurassicpark/images/d/d0/Wayne_Knight.png/revision/latest?cb=20190112092853",
+
+                "https://target.scene7.com/is/image/Target/GUEST_20affc7e-e0d7-4eb6-a6f3-68d13520f8be?wid=1200&hei=1200&qlt=80&fmt=webp",
+                "https://i5.walmartimages.com/seo/Air-Jordan-Men-s-All-Season-Compression-Tank-Grey-Black-642349-091_dbe4f903-6453-47ea-bc48-0fdb7e13c33b.0fdfae6d251319bd0effd634d132ea68.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF",
+                "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/u_126ab356-44d8-4a06-89b4-fcdcc8df0245,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/cf40ce48-b28e-4086-8dee-347d6bfef60c/jordan-brooklyn-fleece-mens-shorts-nPMdCB.png",
+                "https://static.nike.com/a/images/t_prod_ss/w_960,c_limit,f_auto/nfo8pqgxlpmpeftollgc/air-jordan-9-retro-og-white-black-2016-release-date.jpg",
+                "https://img.ebdcdn.com/product/model/portrait/pm0488_m0.jpg?im=Resize,width=500,height=600,aspect=fill;UnsharpMask,sigma=1.0,gain=1.0&q=85"
+        };
+        String xRay21Description[] = {
+                "Michael Jordan;• Born in Brooklyn, NY, America\n• Age: 60 (1963)\n• Height: 6′ 6″\n• Nationality: American;Michael Jeffrey Jordan, also known by his initials MJ, is an American businessman and former professional basketball player. He played fifteen seasons in the National Basketball Association from 1984 to 2003, winning six NBA championships with the Chicago Bulls.",
+                "Wayne Knight;• Born in New York, NY, America\n• Age: 68 (1955)\n• Height: 5′ 7″\n• Nationality: American;Wayne Elliot Knight is an American actor. In television, he played recurring roles such as Newman on the NBC sitcom Seinfeld and Officer Don Orville on the NBC sitcom 3rd Rock from the Sun. He also voiced Igor on Toonsylvania, Mr. Blik on Catscratch and Baron Von Sheldgoose on Legend of the Three Caballeros.",
+
+                "Basketball;$12.99;• Shell Material: composite\n• Fill Material: Butyl bladder\n• Size: 29.5\"\n\nInspired by the drive that lives inside every NBA hopeful. The Wilson NBA DRV Basketball is designed for outdoor play and built to stand up to the elements. Inflation retention lining creates longer lasting air retention with this ball designed for ultimate outdoor durability.",
+                "Jordan Grey Tank;$24.99;• Brand: Jordan\n• Material: 84% polyester, 16% spandex\n\nJordan 23 Pro Dry Men's Tank provides a compressive fit with sweat-wicking stretch fabric to help keep you dry and moving freely during a workout",
+                "Jordan Brooklyn Fleece;$45;• Body Material: 82% cotton, 18% polyester\n• Pocket Material: 100% cotton\n• Machine wash\n\nMake these shorts your go-to pair. Made from brushed French terry fleece, they have a relaxed fit and a secure, adjustable waistband. They're authenticated with MJ's embroidered signature.",
+                "Air Jordan 9 OG;$190;• Sole Material: Rubber sole\n• Series: Air Jordan 9\n• Heel Type: Flat\n• Toe Type: Round\n\nThe Air Jordan IX arrived during MJ’s first retirement from the league. The classic design took inspiration from MJ’s global appeal with a unique outsole design and clean lines. ",
+                "Morrow Glasses;$35;• Material: Acetate-metal\n• Size: 133 mm (W) x 42 mm (H)\n• Weight: 15g\n• Shape: square\n• Rim: Full-Rim\n\nLook to the future with Morrow, an urban-styled frame characterized by its true black hue and rectangle lenses. A perfect choice for the streetwise."
+        };
+        String xRay21Merchandise[] = {
+                "",
+                "",
+                "target walmart costco",
+                "walmart amazon target",
+                "amazon target walmart",
+                "amazon walmart costco",
+                "target walmart amazon"
+        };
+        Map<String, List<String>> entry21 = new HashMap<>();
+        entry21.put(KEY_TYPE, Arrays.asList(xRay21Type));
+        entry21.put(KEY_NAME, Arrays.asList(xRay21Name));
+        entry21.put(KEY_IMAGE, Arrays.asList(xRay21ImageUrl));
+        entry21.put(KEY_DESCRIPTION, Arrays.asList(xRay21Description));
+        entry21.put(KEY_MERCHANDISE, Arrays.asList(xRay21Merchandise));
+        listOfItems.add(entry21);
+
+
+
+
+        // Million Dollar Baby
+        String xRay22Type[] = {
+                "0",
+                "0",
+                "1",
+                "1",
+                "1",
+                "1",
+                "1"
+        };
+        String xRay22Name[] = {
+                "Clint Eastwood",
+                "Walker Scobell",
+
+                "Pro Speed Ball",
+                "Boxing Gloves",
+                "Boxing Punching Mitts",
+                "Jump Rope",
+                "Nike Tank Top"
+        };
+        String xRay22ImageUrl[] = {
+                "https://cdn.britannica.com/75/152975-050-99123EE6/Clint-Eastwood-2008.jpg",
+                "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTLVhxwTlQ9UnDG2AvjQ-rR7Y6QlKr3hweWUmxstYQHMTMPQ9oS2rfrHyP9mvDvP4Adve-Dp6XWova_kyg",
+
+                "https://www.modestvintageplayer.com/cdn/shop/products/pro-heritage-brown-leather-boxing-speed-ball-608859_1800x1800.jpg?v=1702649867",
+                "https://superareshop.com/cdn/shop/files/vseriesgloves_red1_600x_17584a3c-8299-4f6b-971f-716def7fcde0_250x.jpg?v=1696050193",
+                "https://m.media-amazon.com/images/I/81aGfZrlrNL._AC_SX679_.jpg",
+                "https://m.media-amazon.com/images/I/71wm42EtoNL._AC_SX679_.jpg",
+                "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/c0d08804-46b1-4a4f-a7e2-8bffeb6d70a4/zenvy-womens-light-support-padded-longline-sports-bra-cGHGFX.png"
+        };
+        String xRay22Description[] = {
+                "Clint Eastwood;• Born in San Francisco, CA, America\n• Age: 93 (1930)\n• Height: 6′ 2″\n• Nationality: American;Clinton Eastwood Jr. (born May 31, 1930) is an American actor and film director. After achieving success in the Western TV series Rawhide, Eastwood rose to international fame with his role as the \"Man with No Name\" in Sergio Leone's Dollars Trilogy of spaghetti Westerns during the mid-1960s",
+                "Hilary Swank;• Born in Lincoln, NE, America\n• Age: 49 (1974)\n• Height: 5′ 6″\n• Nationality: American;Hilary Ann Swank is an American actress and film producer. Swank first became known in 1992 for her role on the television series Camp Wilder and made her film debut with a minor role in Buffy the Vampire Slayer.",
+
+                "Pro Leather Boxing Speed Ball;$85;• Material: 100% cow leather\n• Size: 25cm(H) x 15cm(Diameter)\n\nThe perfect addition to any gym or man-cave, quality hand-made vintage inspired Heritage Brown leather speed ball by The MVP crafted from premium full grain cowhide with a soft, supple feel and perfect rebound.\n",
+                "Boxing Gloves;$89.99;• Size: Medium\n• Weight: 14 oz\n\nS4 Boxing Gloves offer everything you need to begin your boxing journey. Perfect for bagwork and drills, this glove protects your knuckles and keeps you comfortable while you hone your technique.",
+                "Boxing Punching Mitts;$19.99;• Material: Faux leather, leather\n• Hand Orientation: Ambidextrous\n• Glove Type: Punching\n\nMade with high-quality synthetic leather, this punching pad offers exceptional durability and long-lasting performance.",
+                "Jump Rope;$8.99;• Material: alloy steel, PVC\n• Length: 170cm\n\nThis jump rope is made of steel wires that are coated with strong PVC material, making it durable even after a long time exercising.",
+                "Nike Tank Top;$65;• Body Material: 63% nylon, 37% spandex\n• Lining Material: 82% polyester, 18% spandex.\n• Pad Material: 100% polyurethane\n\nThe sewn-in 1-piece pad and longline silhouette offer enhanced coverage and shaping while sweat-wicking technology keeps you cool and comfortable."
+        };
+        String xRay22Merchandise[] = {
+                "",
+                "",
+                "target costco walmart",
+                "walmart amazon target",
+                "amazon target walmart",
+                "amazon costco walmart",
+                "amazon target walmart"
+        };
+        Map<String, List<String>> entry22 = new HashMap<>();
+        entry22.put(KEY_TYPE, Arrays.asList(xRay22Type));
+        entry22.put(KEY_NAME, Arrays.asList(xRay22Name));
+        entry22.put(KEY_IMAGE, Arrays.asList(xRay22ImageUrl));
+        entry22.put(KEY_DESCRIPTION, Arrays.asList(xRay22Description));
+        entry22.put(KEY_MERCHANDISE, Arrays.asList(xRay22Merchandise));
+        listOfItems.add(entry22);
+
+
+
+
+        // Death on the Nile
+        String xRay23Type[] = {
+                "0",
+                "0",
+                "1",
+                "1",
+                "1",
+                "1",
+                "1"
+        };
+        String xRay23Name[] = {
+                "Kenneth Branagh",
+                "Tom Bateman",
+
+                "Silk Satin Bow Tie",
+                "Soho Line Suit",
+                "Silk Dinner Jacket",
+                "Grande Unita Scarf",
+                "Stretch Cotton Shirt"
+        };
+        String xRay23ImageUrl[] = {
+                "https://image.tmdb.org/t/p/w500/AbCqqFxNi5w3nDUFdQt0DGMFh5H.jpg",
+                "https://image.tmdb.org/t/p/w500/xD8dL5f5DyxchvGFi9ScKDnf45e.jpg",
+
+                "https://www.armani.com/variants/images/17411127375856239/F/w960.jpg",
+                "https://www.armani.com/variants/images/17266703523712900/F/w2500.jpg",
+                "https://media.bergdorfgoodman.com/f_auto,q_auto:low,ar_5:7,c_fill,dpr_2.0,w_720/01/bg_4604529_100241_m",
+                "https://media.loropiana.com/HYBRIS/FAO/FAO3766/3D7ADA38-869D-4500-839D-A2A7B57937F3/FAO3766_1000_MEDIUM.jpg",
+                "https://www.prada.com/content/dam/pradabkg_products/U/UCM/UCM608/10HTF0012/UCM608_10HT_F0012_SLF.jpg"
+        };
+        String xRay23Description[] = {
+                "Kenneth Branagh;• Born in Belfast, United Kingdom\n• Age: 63 (1960)\n• Height: 5′ 10″\n• Nationality: British, Northern Irish;Sir Kenneth Charles Branagh is a British actor and filmmaker. Born in Belfast and raised primarily in Reading, Berkshire, Branagh trained at London's Royal Academy of Dramatic Art and has served as its president since 2015.",
+                "Tom Bateman;• Born in Oxford, United Kingdom\n• Age: 34 (1989)\n• Height: 6′ 2″\n• Nationality: British;Thomas Jonathan Bateman is a British actor best known for his roles as Giuliano de' Medici in the Starz historical fantasy drama series Da Vinci's Demons, as Bouc in the mystery films Murder on the Orient Express and Death on the Nile, and as Matt Pierce in the Peacock comedy thriller Based on a True Story.",
+
+                "Silk Satin Bow Tie;$145;• Brand: Giorgio Armani\n• Material: 100% mulberry silk\n• Waterproof\n• Widely use-easy to carry with you as a backup\n\nSilk satin bow tie with adjustable interlocking fastening.",
+                "Soho Line Wool and Cashmere Suit;$2995;• Brand: Giorgio Armani\n• Material: 90% virgin wool, 10% cashmere\n• Length: 73.5 cm\n\nThis Soho line sophisticated suit combines tailoring traditions with precious, refined fabrics that highlight the garment’s modern look.",
+                "Silk Shantung Dinner Jacket;$5495;• Brand: Ralph Lauren\n• Material: 90% mulberry silk, 10% wool\n\nRalph Lauren Purple Label dinner jacket crafted from luxurious mulberry silk shantung. Features a lighter construction with fine canvassing and a soft shoulder for a more natural profile",
+                "Grande Unita Scarf;$595;• Brand: Loro Piana\n• Material: 100% cashmere\n• Size: 175 x 43 cm\n\nClassic cashmere scarf with exclusive Loro Piana \"frisson\" finish, which gives the fabric sheen and adds luminosity to the colours. Highly versatile accessory for any occasion.",
+                "Stretch Cotton Shirt;$875;• Brand: Prada\n• Material: 100% Cotton\n\nThe long-sleeved shirt made of stretch poplin has a classic collar and slim fit. Mother-of-pearl buttons add a brilliant touch to the garment."
+        };
+        String xRay23Merchandise[] = {
+                "",
+                "",
+                "target costco walmart",
+                "walmart amazon target",
+                "amazon target walmart",
+                "amazon costco walmart",
+                "amazon target walmart"
+        };
+        Map<String, List<String>> entry23 = new HashMap<>();
+        entry23.put(KEY_TYPE, Arrays.asList(xRay23Type));
+        entry23.put(KEY_NAME, Arrays.asList(xRay23Name));
+        entry23.put(KEY_IMAGE, Arrays.asList(xRay23ImageUrl));
+        entry23.put(KEY_DESCRIPTION, Arrays.asList(xRay23Description));
+        entry23.put(KEY_MERCHANDISE, Arrays.asList(xRay23Merchandise));
+        listOfItems.add(entry23);
+
+
+
+
+        // Pain Hustler
+        String xRay24Type[] = {
+                "0",
+                "0",
+                "1",
+                "1",
+                "1",
+                "1",
+                "1"
+        };
+        String xRay24Name[] = {
+                "Emily Blunt",
+                "Chris Evans",
+
+                "Puff Floral Maxi Dress",
+                "Name Necklace",
+                "Classic Suit",
+                "Classic Cotton Shirt",
+                "Silk-Blend Tie"
+        };
+        String xRay24ImageUrl[] = {
+                "https://www.onthisday.com/images/people/emily-blunt.jpg?w=360",
+                "https://static.wikia.nocookie.net/fantasticfourmovies/images/5/58/ChrisEvans.jpg/revision/latest?cb=20201220010154",
+
+                "https://www.astrthelabel.com/cdn/shop/products/ACDR101589P_GREENYELLOWFLORAL_4_1200x.jpg?v=1682102815",
+                "https://cdn.myka.com/digital-asset/product/personalized-14k-gold-carrie-name-necklace-19.jpg",
+                "https://www.dior.com/couture/ecommerce/media/catalog/product/q/s/1701341122_633C724A5881_C888_E01_ZHC.jpg?imwidth=1920",
+                "https://www.armani.com/variants/images/17266703523712903/F/w2500.jpg",
+                "https://www.armani.com/variants/images/1647597313133503/F/w960.jpg"
+        };
+        String xRay24Description[] = {
+                "Emily Blunt;• Born in London, United Kingdom\n• Age: 40 (1983)\n• Height: 5′ 7″\n• Nationality: American, British;Emily Olivia Laura Blunt is a British actress. She is the recipient of several accolades, including a Golden Globe Award and a Screen Actors Guild Award, in addition to nominations for three British Academy Film Awards. Forbes ranked her as one of the highest-paid actresses in the world in 2020.",
+                "Walker Scobell;• Born in Boston, MA, America\n• Age: 42 (1981)\n• Height: 6′ 0″\n• Nationality: American;Christopher Robert Evans is an American actor. He began his career with roles in television series such as Opposite Sex in 2000.",
+
+                "Puff Floral Maxi Dress;$74;• Material: 100% polyester\n• Length: 58\"\n• Bust: 33\"\n• Waist: 30.7\"\n\nThis eye-catching design is perfect for a night of bold elegance, with luxurious floral print and a flattering sweetheart neckline. Make an unforgettable moment with daring sophistication!",
+                "Name Necklace;$228;• Material: 14k gold\n• Length: 18\"\n\nWhen it comes to name jewelry, this classic has it all! Our Personalized 14k Gold Carrie Name Necklace looks just like the one Carrie Bradshaw wore in the hit TV show “Sex and the City.” Rendered in stunning script, it comes complete with lovely little flourishes to accentuate the first and last letters on the central name pendant.",
+                "Classic Suit;$3800;• Brand: Dior\n• Material: 99% virgin wool, 1% elastane\n• 1 chest pocket and 2 side pockets\n\nTailoring is at the heart of House heritage and is the very essence of the Dior ateliers' savoir-faire. Celebrating this unique expertise, Kim Jones, Creative Director of Dior Men collections, reimagines the codes of elegance of the classic suit.",
+                "Classic Cotton Shirt;$475;• Brand: Giorgio Armani\n• Material: 100% cotton\n\nMade from smooth cotton, this regular-fit shirt is available in neutral shades that can be worn everywhere. The style is defined by its French collar, back yoke and mother-of-pearl buttons.",
+                "Silk-Blend Tie with Jacquard Monogram;$195;• Brand: Giorgio Armani\n• Material: 100% silk\n• Measurements: 146 x 8 cm\n\nLuxury silk blend tie featuring a contrasting jacquard chequerboard motif. A perfect accessory to customise looks on different occasions."
+        };
+        String xRay24Merchandise[] = {
+                "",
+                "",
+                "target costco walmart",
+                "walmart amazon target",
+                "amazon target walmart",
+                "amazon costco walmart",
+                "amazon target walmart"
+        };
+        Map<String, List<String>> entry24 = new HashMap<>();
+        entry24.put(KEY_TYPE, Arrays.asList(xRay24Type));
+        entry24.put(KEY_NAME, Arrays.asList(xRay24Name));
+        entry24.put(KEY_IMAGE, Arrays.asList(xRay24ImageUrl));
+        entry24.put(KEY_DESCRIPTION, Arrays.asList(xRay24Description));
+        entry24.put(KEY_MERCHANDISE, Arrays.asList(xRay24Merchandise));
+        listOfItems.add(entry24);
 
         return listOfItems;
     }

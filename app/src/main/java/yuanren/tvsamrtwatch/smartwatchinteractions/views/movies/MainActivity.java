@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
         movieBg = binding.movieBg;
 
         // load movie
-        MovieList.setupMovies(MovieList.NUM_COLS);
+        MovieList.setupMovies();
         movie = MovieList.getMovie(currentSelectedMovieIndex);
         setMovieInfo();
 
