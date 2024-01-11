@@ -123,11 +123,11 @@ public final class MovieList {
             randomPositions[i] = precise1;
             randomPositions[i + 1] = i + 1 < randomPositions.length ? precise2 : randomPositions.length - 1;
         }
-        Log.d(TAG, print(randomPositions));  // debug use
+        Log.d(TAG, getRandomPosString(randomPositions));  // debug use
 
         /** fill real movies at the random position and dummy movies in the rest */
         ListIterator<Movie> reals = setUpRealMovies().listIterator();
-        ListIterator<Movie>  dummies = setUpDummyMovies((NUM_COLS - NUM_REAL_MOVIE) * NUM_MOVIE_CATEGORY).listIterator();
+        ListIterator<Movie> dummies = setUpDummyMovies((NUM_COLS - NUM_REAL_MOVIE) * NUM_MOVIE_CATEGORY).listIterator();
         for (int row = 0; row < NUM_MOVIE_CATEGORY; ++row) {
             for (int col = 0; col < NUM_COLS; ++col) {
                 if (col == randomPositions[row * 2] || col == randomPositions[row * 2 + 1]) {
@@ -143,10 +143,10 @@ public final class MovieList {
         return list;
     }
 
-    private static String print(int[] data) {
+    public static String getRandomPosString(int[] data) {
         String s = "";
         for (int i = 0; i < data.length - 1; ++i) {
-            s += data[i] + ", ";
+            s += data[i] + ",";
         }
 
         s += data[data.length - 1];
@@ -384,9 +384,6 @@ public final class MovieList {
                             bgImageUrl[index],
                             setUpXRayItems()));
         }
-
-        // set up make up dummy movies for each category (only 2 real movie in each category)
-//        setUpDummyMovies(n - NUM_REAL_MOVIE);
         return reals;
     }
 
