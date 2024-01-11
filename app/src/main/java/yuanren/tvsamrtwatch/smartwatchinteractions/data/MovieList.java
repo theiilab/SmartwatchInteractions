@@ -90,52 +90,43 @@ public final class MovieList {
 
     // change NUM_MOVIE_CATEGORY accordingly
     public static final String MOVIE_CATEGORY[] = {
-            "Dramas",
-            "Romance",
-            "Comedies",
             "Action",
-            "Horror",
-            "Sci-Fi",
             "Adventure",
+            "Comedies",
+            "Dramas",
             "Fantasy",
+            "Horror",
             "Musicals",
             "Mysteries",
+            "Romance",
+            "Sci-Fi",
             "Sports",
             "Crime"
     };
 
-    public static List<Movie> setUpMovies() {
-        /** generate random positions for real movies */
-        list = new ArrayList<>();
-        randomPositions = new int[NUM_MOVIE_CATEGORY * NUM_REAL_MOVIE];
-        for (int i = 0; i < randomPositions.length; i += 2) {
-            // get grid position for the two movies in the same category
-            int coarse1 = getRandomInt(0, 3);
-            int coarse2 = getRandomInt(0, 3);;
-            while (coarse1 == coarse2) {
-                coarse2 = getRandomInt(0, 3);
-            }
-
-            // get precise position for each movie in the same category
-            int precise1 = getRandomPrecise(coarse1);
-            int precise2 = getRandomPrecise(coarse2);
-
-            randomPositions[i] = precise1;
-            randomPositions[i + 1] = i + 1 < randomPositions.length ? precise2 : randomPositions.length - 1;
-        }
-        Log.d(TAG, getRandomPosString(randomPositions));  // debug use
-
+    public static List<Movie> setUpMovies(int[] randomPositions) {
         /** fill real movies at the random position and dummy movies in the rest */
+        list = new ArrayList<>();
         ListIterator<Movie> reals = setUpRealMovies().listIterator();
         ListIterator<Movie> dummies = setUpDummyMovies((NUM_COLS - NUM_REAL_MOVIE) * NUM_MOVIE_CATEGORY).listIterator();
         for (int row = 0; row < NUM_MOVIE_CATEGORY; ++row) {
             for (int col = 0; col < NUM_COLS; ++col) {
+                Movie movie;
                 if (col == randomPositions[row * 2] || col == randomPositions[row * 2 + 1]) {
-                    Movie movie = reals.next();
+                    movie = reals.next();
                     movie.setPosition(col);
-                    list.add(movie);
+
                 } else {
-                    list.add(dummies.next());
+                    movie = dummies.next();
+                }
+                list.add(movie);
+
+                // change movie Id accordingly in movie and its xRayItems (drawbacks for not having database)
+                Long id = Long.valueOf(row * NUM_COLS + col);
+                movie.setId(id);
+                List<XRayItem> items = movie.getXRayItems();
+                for (int i = 0; i < items.size(); ++i) {
+                    items.get(i).setMovieId(id);
                 }
             }
         }
@@ -143,15 +134,15 @@ public final class MovieList {
         return list;
     }
 
-    public static String getRandomPosString(int[] data) {
-        String s = "";
-        for (int i = 0; i < data.length - 1; ++i) {
-            s += data[i] + ",";
-        }
-
-        s += data[data.length - 1];
-        return s;
-    }
+//    public static String getRandomPosString(int[] data) {
+//        String s = "";
+//        for (int i = 0; i < data.length - 1; ++i) {
+//            s += data[i] + ",";
+//        }
+//
+//        s += data[data.length - 1];
+//        return s;
+//    }
 
     private static int getRandomInt(int min, int max){
         if (splittableRandom == null) {
@@ -233,30 +224,30 @@ public final class MovieList {
                 "Netflix",
         };
         String category[] = {
-                MOVIE_CATEGORY[3],
-                MOVIE_CATEGORY[3],
-                MOVIE_CATEGORY[6],
-                MOVIE_CATEGORY[6],
-                MOVIE_CATEGORY[2],
-                MOVIE_CATEGORY[2],
                 MOVIE_CATEGORY[0],
                 MOVIE_CATEGORY[0],
-                MOVIE_CATEGORY[7],
-                MOVIE_CATEGORY[7],
+                MOVIE_CATEGORY[1],
+                MOVIE_CATEGORY[1],
+                MOVIE_CATEGORY[2],
+                MOVIE_CATEGORY[2],
+                MOVIE_CATEGORY[3],
+                MOVIE_CATEGORY[3],
                 MOVIE_CATEGORY[4],
                 MOVIE_CATEGORY[4],
+                MOVIE_CATEGORY[5],
+                MOVIE_CATEGORY[5],
+                MOVIE_CATEGORY[6],
+                MOVIE_CATEGORY[6],
+                MOVIE_CATEGORY[7],
+                MOVIE_CATEGORY[7],
                 MOVIE_CATEGORY[8],
                 MOVIE_CATEGORY[8],
                 MOVIE_CATEGORY[9],
                 MOVIE_CATEGORY[9],
-                MOVIE_CATEGORY[1],
-                MOVIE_CATEGORY[1],
-                MOVIE_CATEGORY[5],
-                MOVIE_CATEGORY[5],
                 MOVIE_CATEGORY[10],
                 MOVIE_CATEGORY[10],
                 MOVIE_CATEGORY[11],
-                MOVIE_CATEGORY[11],
+                MOVIE_CATEGORY[11]
         };
         String videoUrl[] = {
                 "https://streamable.com/l/59by34/mp4-high.mp4",  // Kings Man

@@ -21,10 +21,12 @@ import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing.PairingManager;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SocketService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 
 public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";
+    public static int[] randoms;
 
     private FrameLayout container;
     private EditText editText;
@@ -47,7 +49,7 @@ public class LoginActivity extends FragmentActivity {
         textView = binding.text;
         editText = binding.verificationCode;
 
-        pairingManager = new PairingManager(getApplicationContext());
+        pairingManager = new PairingManager(getApplicationContext()); // Android TV Remote Service
 
         container.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -82,20 +84,22 @@ public class LoginActivity extends FragmentActivity {
         });
         editText.setVisibility(View.GONE);
 
-        // start the SSL Socket Connection
-        new SocketAsyncTask().execute();
+        new SocketAsyncTask().execute();  // start the SSL Socket Connection for both TV Remote service
+        new SocketAsyncTask2().execute();  // get random positions via my own socket
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         pairingManager.stopSSLPairingConnection();
+        SocketService.stopConnection();
     }
 
     private class SocketAsyncTask extends AsyncTask<String, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(String... strings) {
+            // Pairing with Android TV with Android TV Remote Service
             if (!isChannelSetUp) {
                 pairingManager.createSSLPairingConnection(getApplicationContext());
             } else {
@@ -109,13 +113,37 @@ public class LoginActivity extends FragmentActivity {
             super.onPostExecute(unused);
             if (!isChannelSetUp) {
                 isChannelSetUp = true;
-//                editText.setVisibility(View.VISIBLE);
                 editText.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.GONE);
             } else {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
+        }
+    }
+
+    private class SocketAsyncTask2 extends AsyncTask<String, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(String... strings) {
+            // get random positions of movies from TV side
+            SocketService.createConnection();
+            String result = SocketService.receive();
+
+            // format result
+            String[] tmp = result.split(",");
+            randoms = new int[tmp.length];
+
+            for (int i = 0; i < tmp.length; ++i) {
+                randoms[i] = Integer.parseInt(tmp[i]);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            SocketService.stopConnection();
         }
     }
 }

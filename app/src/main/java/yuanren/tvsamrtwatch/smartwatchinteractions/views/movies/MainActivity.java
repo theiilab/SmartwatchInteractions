@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -26,7 +27,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SocketService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.LoginActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
@@ -40,6 +41,8 @@ public class MainActivity extends Activity {
     private ImageView movieBg;
     private TextView movieName;
     private Movie movie;
+
+    private int[] randoms;
     public int currentSelectedMovieIndex = 0;
 
 
@@ -58,7 +61,8 @@ public class MainActivity extends Activity {
         movieBg = binding.movieBg;
 
         // load movie
-        MovieList.setUpMovies();
+        randoms = LoginActivity.randoms;
+        MovieList.setUpMovies(randoms);
         movie = MovieList.getMovie(currentSelectedMovieIndex);
         setMovieInfo();
 
@@ -202,17 +206,12 @@ public class MainActivity extends Activity {
         @Override
         protected Void doInBackground(Integer... integers) {
             AndroidTVRemoteService.createSSLCommConnection(getApplicationContext());
-
-            // send random positions of movies to TV
-            SocketService.createConnection();
-            SocketService.send(MovieList.getRandomPosString(MovieList.randomPositions));
             return null;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            SocketService.stopConnection();
         }
     }
 

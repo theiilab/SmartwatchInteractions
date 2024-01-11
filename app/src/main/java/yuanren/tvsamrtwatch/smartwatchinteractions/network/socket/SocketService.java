@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -13,7 +14,6 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.And
 public class SocketService {
     public static final String TAG = "SocketService";
     public static final int SERVER_PORT = 5050;
-
     private static Socket socket;
     private static PrintWriter out;
     private static BufferedReader in;
@@ -29,7 +29,7 @@ public class SocketService {
             InetAddress serverAddress = InetAddress.getByName(AndroidTVRemoteService.SERVER_IP);
             socket = new Socket(serverAddress, SERVER_PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
-//            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             if (socket.isBound()) {
                 Log.i(TAG, "Connected");
@@ -51,11 +51,31 @@ public class SocketService {
         }
     }
 
+    public static String receive() {
+        if (in != null) {
+            try {
+                String read = in.readLine();
+
+                //checks to see if it is still connected and displays disconnected if disconnected
+                if (null == read || "Disconnect".contentEquals(read)) {
+                    Thread.interrupted();
+                    read = "Disconnect....";
+                    Log.i(TAG, "Server : " + read);
+                }
+                Log.i(TAG, "Server : " + read);
+                return read;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return "";
+    }
+
     public static void stopConnection() {
         try {
             if (out != null) {
                 socket.close();
-//                in.close();
+                in.close();
                 out.close();
                 Log.i(TAG, "Client socket terminated.");
             }
