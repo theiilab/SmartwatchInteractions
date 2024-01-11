@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing.PairingManager;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SocketService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.RandomPositionSocketService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 
 public class LoginActivity extends FragmentActivity {
@@ -92,7 +92,7 @@ public class LoginActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         pairingManager.stopSSLPairingConnection();
-        SocketService.stopConnection();
+        RandomPositionSocketService.stopConnection();
     }
 
     private class SocketAsyncTask extends AsyncTask<String, String, Void> {
@@ -127,8 +127,8 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected Void doInBackground(String... strings) {
             // get random positions of movies from TV side
-            SocketService.createConnection();
-            String result = SocketService.receive();
+            RandomPositionSocketService.createConnection();
+            String result = RandomPositionSocketService.receive();
 
             // format result
             String[] tmp = result.split(",");
@@ -143,7 +143,7 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            SocketService.stopConnection();
+            RandomPositionSocketService.stopConnection();
         }
     }
 }

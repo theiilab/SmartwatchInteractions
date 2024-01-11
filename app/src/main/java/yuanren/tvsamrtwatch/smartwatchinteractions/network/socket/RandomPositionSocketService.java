@@ -11,12 +11,12 @@ import java.net.Socket;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 
-public class SearchSocketService {
-    public static final String TAG = "SearchSocketService";
-    public static final int SERVER_PORT = 5050;
+public class RandomPositionSocketService {
+    public static final String TAG = "RandomPositionSocketService";
+    public static final int SERVER_PORT = 5051;
     private static Socket socket;
-    private static PrintWriter out;
-//    private static BufferedReader in;
+//    private static PrintWriter out;
+    private static BufferedReader in;
 
     public static void createConnection() {
         if (socket != null) {
@@ -28,8 +28,8 @@ public class SearchSocketService {
             // establish a connection
             InetAddress serverAddress = InetAddress.getByName(AndroidTVRemoteService.SERVER_IP);
             socket = new Socket(serverAddress, SERVER_PORT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-//            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             if (socket.isBound()) {
                 Log.i(TAG, "Connected");
@@ -44,19 +44,32 @@ public class SearchSocketService {
 
     }
 
-    public static void send(String messages) {
-        if (out != null) {
-            out.println(messages);
-            Log.i(TAG,"Message sent");
+    public static String receive() {
+        if (in != null) {
+            try {
+                String read = in.readLine();
+
+                //checks to see if it is still connected and displays disconnected if disconnected
+                if (null == read || "Disconnect".contentEquals(read)) {
+                    Thread.interrupted();
+                    read = "Disconnect....";
+                    Log.i(TAG, "Server : " + read);
+                }
+                Log.i(TAG, "Server : " + read);
+                return read;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return "";
     }
 
     public static void stopConnection() {
         try {
-            if (out != null) {
+            if (socket != null) {
                 socket.close();
-//                in.close();
-                out.close();
+                in.close();
+//                out.close();
                 Log.i(TAG, "Client socket terminated.");
             }
         } catch (IOException e) {

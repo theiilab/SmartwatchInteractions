@@ -4,7 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,9 +29,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.QDollarRecognizer;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Result;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
-import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SocketService;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SearchSocketService;
 
 public class SearchActivity extends Activity {
     private static final String TAG = "SearchActivity";
@@ -193,7 +190,7 @@ public class SearchActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SocketService.stopConnection();
+        SearchSocketService.stopConnection();
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
@@ -214,8 +211,8 @@ public class SearchActivity extends Activity {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(String... strings) {
-            SocketService.createConnection();
-            SocketService.send(strings[0]);
+            SearchSocketService.createConnection();
+            SearchSocketService.send(strings[0]);
             return null;
         }
 
