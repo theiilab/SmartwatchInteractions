@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -16,10 +18,13 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
 
 import com.bumptech.glide.Glide;
 
@@ -32,14 +37,18 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.And
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 
 public class PlaybackActivity extends Activity {
+    public static final String TAG = "PlaybackActivity";
     public static final String MOVIE_ID = "selectedMovieId";
     private ActivityPlaybackBinding binding;
     private ConstraintLayout container;
+    private ScrollView volumeCtrl;
     private ImageView movieBg;
     private ImageButton control;
     private TextView title;
     private Movie movie;
     private boolean isPlayed = true;
+
+    private float accumulatedVolume = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,7 @@ public class PlaybackActivity extends Activity {
         setContentView(binding.getRoot());
 
         container = binding.container;
+        volumeCtrl = binding.volumeController;
         movieBg = binding.movieBg;
         control = binding.control;
         title = binding.title;
@@ -159,6 +169,34 @@ public class PlaybackActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), XRayListActivity.class);
                 intent.putExtra(XRayListActivity.MOVIE_ID, movie.getId());
                 startActivity(intent);
+                return false;
+            }
+        });
+
+        volumeCtrl.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_SCROLL && event.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+                    float delta = -event.getAxisValue(MotionEventCompat.AXIS_SCROLL);
+
+                    accumulatedVolume += delta;
+
+                    if (Math.abs(accumulatedVolume) >= 3) {
+                        if (accumulatedVolume > 0) {
+                            new SocketAsyncTask().execute(KeyEvent.KEYCODE_VOLUME_UP);
+                        } else {
+                            new SocketAsyncTask().execute(KeyEvent.KEYCODE_VOLUME_DOWN);
+                        }
+                        accumulatedVolume = 0;
+
+                        // provide haptic feedback
+                        v.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+                    }
+
+                    Log.d(TAG, "Scrolling crown: " + String.valueOf(accumulatedVolume));
+
+                    return true;
+                }
                 return false;
             }
         });
