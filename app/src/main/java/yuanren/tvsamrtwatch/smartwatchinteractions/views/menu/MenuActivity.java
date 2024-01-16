@@ -81,6 +81,9 @@ public class MenuActivity extends Activity implements ClickListener {
         performActionBy(diff);
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
+        // provide haptic feedback
+        v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
         currentSelectedMenuItem = position;
         Intent intent;
         switch (position) {

@@ -82,9 +82,6 @@ public class XRayListActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
                 Intent intent = new Intent(getApplicationContext(), XRayContentActivity.class);
                 intent.putExtra(XRayContentActivity.MOVIE_ID, movie.getId());
                 intent.putExtra(XRayContentActivity.XRAY_ID, data.get(index).getItemId());
