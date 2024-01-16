@@ -9,12 +9,13 @@ import android.view.View;
 
 public abstract class OnGestureRegisterListener implements View.OnTouchListener {
     public static final String TAG = "OnGestureRegisterListener";
-
+    private static final int SWIPE_THRESHOLD = 50;
     private static final int SWIPE_HOLD_DURATION_THRESHOLD = 800;
     private final GestureDetector gestureDetector;
     private View view;
 
     private float gestureX;
+    private boolean gestureHapticLock = false;
 
     public OnGestureRegisterListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
@@ -24,6 +25,9 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getPointerCount() > 1) {
             if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                 onTwoPointerTap(view);
             }
         } else {
@@ -33,7 +37,13 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
                 long duration = event.getEventTime() - event.getDownTime();
                 float diffX = event.getX() - gestureX;
 
-                if (duration > SWIPE_HOLD_DURATION_THRESHOLD) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && duration > SWIPE_HOLD_DURATION_THRESHOLD) {
+                    // provide haptic feedback
+                    if (!gestureHapticLock) {
+                        gestureHapticLock = true;
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+                    }
+
                     if (diffX > 0) {
                         onSwipeRightHold(view);
                         Log.d(TAG, "swipe right + hold gesture");
@@ -46,7 +56,14 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
                 long duration = event.getEventTime() - event.getDownTime();
                 float diffX = event.getX() - gestureX;
 
-                if (duration > SWIPE_HOLD_DURATION_THRESHOLD) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && duration > SWIPE_HOLD_DURATION_THRESHOLD) {
+                    // provide haptic feedback
+//                    if (!gestureHapticLock) {
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+//                    } else {
+                        gestureHapticLock = false;
+//                    }
+
                     if (diffX > 0) {
                         onSwipeRightHold(view);
                         Log.d(TAG, "swipe right + hold gesture");
@@ -73,8 +90,6 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     public boolean onTwoPointerTap(View view){return false;}
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        private static final int SWIPE_THRESHOLD = 50;
         private static final int SWIPE_VELOCITY_THRESHOLD = 20;
 
         @Override
@@ -85,12 +100,20 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
         @Override
         public void onLongPress(MotionEvent e) {
             onLongClick(view);
+
+            // provide haptic feedback
+            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
             super.onLongPress(e);
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
             onClick(view);
+
+            // provide haptic feedback
+            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
             return super.onSingleTapUp(e);
         }
 
@@ -102,6 +125,9 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
                 float diffX = e2.getX() - e1.getX();
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        // provide haptic feedback
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                         if (diffX > 0) {
                             onSwipeRight(view);
                         } else {
@@ -111,6 +137,9 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
                     }
                 }
                 else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    // provide haptic feedback
+                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                     if (diffY > 0) {
                         onSwipeBottom(view);
                     } else {

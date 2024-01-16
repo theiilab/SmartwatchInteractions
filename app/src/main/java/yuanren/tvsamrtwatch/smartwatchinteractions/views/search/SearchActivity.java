@@ -92,26 +92,17 @@ public class SearchActivity extends Activity {
             public void onSwipeRight(View view) {
                 text += " ";
                 searchName.setText(text);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
             public void onSwipeLeft(View view) {
                 text = text.length() == 0 ? "" : text.substring(0, text.length() - 1);
                 searchName.setText(text);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 onBackPressed();
                 return false;

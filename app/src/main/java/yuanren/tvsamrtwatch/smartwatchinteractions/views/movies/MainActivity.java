@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -72,9 +70,6 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Swipe right");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
-
                 // on the edge between first movie item
                 if (MovieList.getIndex() % MovieList.NUM_COLS == 0) {  // show menu list
                     currentSelectedMovieIndex = MovieList.getIndex();
@@ -112,9 +107,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
                 Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 intent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
@@ -190,9 +182,6 @@ public class MainActivity extends Activity {
             }
         });
         movieCard.startAnimation(slideOut);
-
-        // provide haptic feedback
-        view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
     }
 
     @Override

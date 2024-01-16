@@ -71,9 +71,6 @@ public class XRayListActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_RIGHT);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
@@ -81,9 +78,6 @@ public class XRayListActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_LEFT);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
             }
 
             @Override
@@ -101,9 +95,6 @@ public class XRayListActivity extends Activity {
             public boolean onTwoPointerTap(View view) {
                 Log.d(TAG, "onTwoPointerTap");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 finish();
                 return false;

@@ -153,9 +153,6 @@ public class PlaybackActivity extends Activity {
                 Log.d(TAG, "onSwipeRightHold");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
-
                 // change icon
                 control.setImageDrawable(getDrawable(R.drawable.baseline_fast_forward_24));
 
@@ -188,9 +185,6 @@ public class PlaybackActivity extends Activity {
                 Log.d(TAG, "onSwipeLeftHold");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
-
                 // change icon
                 control.setImageDrawable(getDrawable(R.drawable.baseline_fast_rewind_24));
 
@@ -222,9 +216,6 @@ public class PlaybackActivity extends Activity {
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
                 PlaybackActivity.super.onBackPressed();
                 return true;
             }
@@ -232,9 +223,6 @@ public class PlaybackActivity extends Activity {
             @Override
             public boolean onTwoPointerTap(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 Intent intent = new Intent(getApplicationContext(), XRayListActivity.class);
                 intent.putExtra(XRayListActivity.MOVIE_ID, movie.getId());
