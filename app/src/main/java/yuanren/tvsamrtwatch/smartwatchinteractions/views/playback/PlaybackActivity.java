@@ -32,6 +32,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnSwipeHoldGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
@@ -79,7 +80,7 @@ public class PlaybackActivity extends Activity {
         rotate.setTarget(movieBg);
         rotate.start();
 
-        container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        container.setOnTouchListener(new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
