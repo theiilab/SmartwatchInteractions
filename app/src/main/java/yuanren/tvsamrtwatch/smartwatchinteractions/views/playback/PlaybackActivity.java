@@ -149,6 +149,76 @@ public class PlaybackActivity extends Activity {
             }
 
             @Override
+            public void onSwipeRightHold(View view) {
+                Log.d(TAG, "onSwipeRightHold");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
+                // change icon
+                control.setImageDrawable(getDrawable(R.drawable.baseline_fast_forward_24));
+
+                // start animation
+                Animation fadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (isPlayed) {
+                            control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
+                        } else {
+                            control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                control.startAnimation(fadeOut);
+            }
+
+            @Override
+            public void onSwipeLeftHold(View view) {
+                Log.d(TAG, "onSwipeLeftHold");
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+
+                // provide haptic feedback
+                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
+
+                // change icon
+                control.setImageDrawable(getDrawable(R.drawable.baseline_fast_rewind_24));
+
+                // start animation
+                Animation fadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (isPlayed) {
+                            control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
+                        } else {
+                            control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                control.startAnimation(fadeOut);
+            }
+
+            @Override
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
