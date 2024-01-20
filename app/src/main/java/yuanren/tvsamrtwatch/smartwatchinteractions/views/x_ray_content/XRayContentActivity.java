@@ -1,6 +1,10 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray_content;
 
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -16,12 +20,14 @@ import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayContentBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 
-public class XRayContentActivity extends Activity {
+public class XRayContentActivity extends Activity implements ClickListener {
     public static final String MOVIE_ID = "selectedMovieId";
     public static final String XRAY_ID = "selectedXRayItemId";
     private static final String TYPE_ITEM_ACTOR = "0";
@@ -34,12 +40,13 @@ public class XRayContentActivity extends Activity {
     private static final String TYPE_MERCHANDISE_WALMART = "walmart";
     private ActivityXrayContentBinding binding;
     private LinearLayout container;
+    private TextView title;
     private TextView price;
-    private TextView content;
     private ImageButton btn1;
     private ImageButton btn2;
     private ImageButton btn3;
-
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
     private Movie movie;
     private XRayItem xRayItem;
     private int currentClickedButtonIndex;
@@ -57,20 +64,67 @@ public class XRayContentActivity extends Activity {
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
         xRayItem = movie.getXRayItems().get((int) getIntent().getLongExtra(XRAY_ID, 0));
         String[] text = xRayItem.getDescription().split("\\;"); //System.lineSeparator())
-        String title = text[0];
-        String prices = text[1];
+        String name = text[0]; // common
+        String actorDetail = text[1];  // for actor
+        String[] actorRows = actorDetail.split("\\n");
+        String prices = text[1];  // for product
         String description = text[2];
         String[] keyNotes = description.split("\\n\\n");
+        String[] productRows = keyNotes[0].split("\\n");
 
+        title = binding.title;
         price = binding.price;
         container = binding.container;
-        content = binding.content;
+        recyclerView = binding.recyclerView;
         btn1 = binding.xRayBtn1;
         btn2 = binding.xRayBtn2;
         btn3 = binding.xRayBtn3;
         currentClickedButtonIndex = 0;
 
-        content.setText(keyNotes[0]);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        linearLayout.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayout.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(linearLayout);
+
+        title.setText(name);
+        if (xRayItem.getType() == TYPE_ITEM_PRODUCT) {  // product
+            // set up price text view
+            price.setVisibility(View.VISIBLE);
+//            price2.setVisibility(View.VISIBLE);
+//            price3.setVisibility(View.VISIBLE);
+            int min = 20;
+            int max = 40;
+            double basePrice = Float.parseFloat(prices.substring(1));
+            double randomDelta1 = Math.random()*(max-min+1)+min;
+            double randomDelta2 = Math.random()*(max-min+1)+min;
+            price.setText(prices);
+//            price2.setText("$" + String.format("%.2f", basePrice + randomDelta1));
+//            price3.setText("$" + String.format("%.2f", basePrice + randomDelta2));
+
+            // set up buttons for purchase link
+            btn1.setVisibility(View.VISIBLE);
+            btn2.setVisibility(View.VISIBLE);
+            btn3.setVisibility(View.VISIBLE);
+            String merchandises[] = xRayItem.getMerchandise().split(" ");
+            btn1.setImageDrawable(getDrawable(getMerchandiseLogo(merchandises[0])));
+            btn2.setImageDrawable(getDrawable(getMerchandiseLogo(merchandises[1])));
+            btn3.setImageDrawable(getDrawable(getMerchandiseLogo(merchandises[2])));
+
+            // set up details bullets
+            adapter = new XRayContentInfoItemListAdapter(this, productRows);
+        } else {  // actor
+            price.setVisibility(View.GONE);
+//            price2.setVisibility(View.GONE);
+//            price3.setVisibility(View.GONE);
+
+            btn1.setVisibility(View.GONE);
+            btn2.setVisibility(View.GONE);
+            btn3.setVisibility(View.GONE);
+
+            // set up details bullets
+            adapter = new XRayContentInfoItemListAdapter(this, actorRows);
+        }
+        recyclerView.setAdapter(adapter);
 
         container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -83,68 +137,32 @@ public class XRayContentActivity extends Activity {
             }
         });
 
-        if (xRayItem.getType() == TYPE_ITEM_PRODUCT) {
-            // set up buttons for purchase link
-            btn1.setVisibility(View.VISIBLE);
-            btn2.setVisibility(View.VISIBLE);
-            btn3.setVisibility(View.VISIBLE);
-
-            String merchandises[] = xRayItem.getMerchandise().split(" ");
-            btn1.setImageDrawable(getDrawable(getMerchandiseLogo(merchandises[0])));
-            btn2.setImageDrawable(getDrawable(getMerchandiseLogo(merchandises[1])));
-            btn3.setImageDrawable(getDrawable(getMerchandiseLogo(merchandises[2])));
-
-            // set up price text view
-            price.setVisibility(View.VISIBLE);
-//            price2.setVisibility(View.VISIBLE);
-//            price3.setVisibility(View.VISIBLE);
-
-            int min = 20;
-            int max = 40;
-            double basePrice = Float.parseFloat(prices.substring(1));
-            double randomDelta1 = Math.random()*(max-min+1)+min;
-            double randomDelta2 = Math.random()*(max-min+1)+min;
-            price.setText(prices);
-//            price2.setText("$" + String.format("%.2f", basePrice + randomDelta1));
-//            price3.setText("$" + String.format("%.2f", basePrice + randomDelta2));
-
-        } else {
-            btn1.setVisibility(View.GONE);
-            btn2.setVisibility(View.GONE);
-            btn3.setVisibility(View.GONE);
-
-            price.setVisibility(View.GONE);
-//            price2.setVisibility(View.GONE);
-//            price3.setVisibility(View.GONE);
-
-        }
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int diff = currentClickedButtonIndex - 0;
-                performActionBy(diff);
-                currentClickedButtonIndex = 0;
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int diff = currentClickedButtonIndex - 1;
-                performActionBy(diff);
-                currentClickedButtonIndex = 1;
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int diff = currentClickedButtonIndex - 2;
-                performActionBy(diff);
-                currentClickedButtonIndex = 2;
-            }
-        });
+//        btn1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int diff = currentClickedButtonIndex - 0;
+//                performActionBy(diff);
+//                currentClickedButtonIndex = 0;
+//            }
+//        });
+//
+//        btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int diff = currentClickedButtonIndex - 1;
+//                performActionBy(diff);
+//                currentClickedButtonIndex = 1;
+//            }
+//        });
+//
+//        btn3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int diff = currentClickedButtonIndex - 2;
+//                performActionBy(diff);
+//                currentClickedButtonIndex = 2;
+//            }
+//        });
     }
 
     private int getMerchandiseLogo(String name) {
@@ -205,6 +223,19 @@ public class XRayContentActivity extends Activity {
     protected void onResume() {
         super.onResume();
         currentClickedButtonIndex = 0;
+    }
+
+    @Override
+    public void onItemClick(View v, int position) {
+
+    }
+
+    @Override
+    public void onLongItemClick(View v, int position) {
+        XRayContentActivity.super.onBackPressed();
+
+        // provide haptic feedback
+//        v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {

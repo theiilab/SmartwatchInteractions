@@ -46,6 +46,5 @@
     <dimen name="x_ray_content_margin_parent">40dp</dimen>
     <dimen name="x_ray_content_margin_between">10dp</dimen>
     <dimen name="x_ray_btn_corner_radius">23dp</dimen>
-
-
+    <dimen name="x_ray_content_bullet_width">5dp</dimen>
 </resources>
