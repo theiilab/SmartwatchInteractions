@@ -107,10 +107,20 @@ public class XRayListActivity extends Activity {
             out = R.anim.left_out;
             in = R.anim.right_in;
 
-            index = Math.min(data.size(), index + 1);
+            // if the current is on the last one and SWIPE LEFT, don't do animation
+            if (index == data.size() - 1) {
+                return;
+            }
+
+            index = Math.min(data.size() - 1, index + 1);
         } else {  // right
             out = R.anim.right_out;
             in = R.anim.left_in;
+
+            // if the current is on the first one and SWIPE RIGHT, don't do animation
+            if (index == 0) {
+                return;
+            }
 
             index = Math.max(0, index - 1);
         }
