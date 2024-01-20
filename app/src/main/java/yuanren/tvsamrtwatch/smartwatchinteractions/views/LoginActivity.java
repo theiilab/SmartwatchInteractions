@@ -27,6 +27,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
 public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";
     public static int[] randoms;
+    private String pid = "";
+    private String sid = "";
+    private String mid = "";
 
     private FrameLayout container;
     private EditText editText;
@@ -131,11 +134,17 @@ public class LoginActivity extends FragmentActivity {
             String result = RandomPositionSocketService.receive();
 
             // format result
-            String[] tmp = result.split(",");
-            randoms = new int[tmp.length];
+            String[] tmp0 = result.split(";");
+            String[] tmp1 = tmp0[0].split(",");
+            pid = tmp1[0];
+            sid = tmp1[0];
+            mid = tmp1[0];
 
-            for (int i = 0; i < tmp.length; ++i) {
-                randoms[i] = Integer.parseInt(tmp[i]);
+            String[] tmp2 = tmp0[1].split(",");
+            randoms = new int[tmp2.length];
+
+            for (int i = 0; i < tmp2.length; ++i) {
+                randoms[i] = Integer.parseInt(tmp2[i]);
             }
             return null;
         }
