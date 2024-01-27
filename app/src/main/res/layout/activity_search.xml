@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     android:background="#000"
     tools:context=".views.search.SearchActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="@drawable/img_blend_circle_bg"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
