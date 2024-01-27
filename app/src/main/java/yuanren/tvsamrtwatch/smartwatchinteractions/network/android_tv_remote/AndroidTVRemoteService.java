@@ -19,8 +19,8 @@ public class AndroidTVRemoteService {
 
     public static final int SERVER_COMM_PORT = 6466;  // port for sending commands
 //    public static final String SERVER_IP = "10.0.0.136";
-//    public static final String SERVER_IP = "192.168.0.111";
-    public static final String SERVER_IP = "192.168.0.8";
+    public static final String SERVER_IP = "192.168.0.111";
+//    public static final String SERVER_IP = "192.168.0.8";
 
     private static CertificateGenerator generator;
     private static Context context;
