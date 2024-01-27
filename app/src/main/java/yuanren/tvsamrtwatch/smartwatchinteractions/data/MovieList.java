@@ -1917,7 +1917,7 @@ public final class MovieList {
                 "https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/3VQj6m0I6gkuRaljmhNZl0XR3by.jpg"
         };
         String cardImageUrl[] = {
-                "https://m.media-amazon.com/images/M/MV5BMTUxOTc5MTU1NF5BMl5BanBnXkFtZTgwODYyNTA1NzE@._V1_.jpg",
+                "https://www.zekefilm.org/wp-content/uploads/2016/05/EddieEagle3.jpg",
                 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWYFYyopTx6Ltjw_L84nqjkEMjc9_cylZgXQNq1xBHmujrjTbKog8pl_cPhotXVj1D1clWla7AImkDVATweq4AB0qk8DcgMvsaoSInPBvecwQxolSGT7lz8pgAUajuLJC2X-zr2r1z0UvKxVa-4GnLUb4WNXFjXRfuZalMo8Sn4mDefdMhGU4OjQlu/w1200-h630-p-k-no-nu/Rings%20of%20Power.jpg",
                 "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
                 "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1ifiV9ZJD4tC3tRYcnLIzH0meaB.jpg",
