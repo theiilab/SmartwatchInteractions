@@ -134,13 +134,9 @@ public class LoginActivity extends FragmentActivity {
             String result = RandomPositionSocketService.receive();
 
             // format result
-            String[] tmp0 = result.split(";");
-            String[] tmp1 = tmp0[0].split(",");
-            pid = tmp1[0];
-            sid = tmp1[0];
-            mid = tmp1[0];
-
-            String[] tmp2 = tmp0[1].split(",");
+            String[] tmp = result.split(";");
+            String[] tmp1 = tmp[0].split(","); // pid, session id, method id
+            String[] tmp2 = tmp[1].split(","); // random position indexes
             randoms = new int[tmp2.length];
 
             for (int i = 0; i < tmp2.length; ++i) {
