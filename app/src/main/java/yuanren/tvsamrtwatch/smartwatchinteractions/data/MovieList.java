@@ -1872,10 +1872,10 @@ public final class MovieList {
         return listOfItems;
     }
 
-    private static List<Movie> setUpDummyMovies(int length) {
+    public static List<Movie> setUpDummyMovies(int length) {
         List<Movie> dummies = new ArrayList<>();
         String title[] = {
-                "Bad Guys",
+                "Eddie The Eagle",
                 "The Lord Of The Rings",
                 "Doctor Strange III",
                 "Groot's First Steps",
@@ -1903,21 +1903,21 @@ public final class MovieList {
                 "Category Four"
         };
         String videoUrl[] = {
-                "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search.mp4",
+                "https://streamable.com/l/e9ed8g/mp4.mp4",
                 "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search.mp4",
                 "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Gmail%20Blue.mp4",
                 "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Fiber%20to%20the%20Pole.mp4",
                 "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Nose.mp4"
         };
         String bgImageUrl[] = {
-                "https://thumb.canalplus.pro/http/unsafe/2560x1440/filters:quality(80)/img-hapi.canalplus.pro:80/ServiceImage/ImageID/108431902",
+                "https://cdn.i-scmp.com/sites/default/files/d8/images/canvas/2022/01/28/5ed19a7f-9556-4fd8-b6c4-ee302252d51f_6d1f93d2.jpg",
                 "https://static1.colliderimages.com/wordpress/wp-content/uploads/2022/10/Rings-of-Power.jpg",
                 "https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/wcKFYIiVDvRURrzglV9kGu7fpfY.jpg",
                 "https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/9bColKVEAaWfmOLiLZoUhdYfevy.jpg",
                 "https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/3VQj6m0I6gkuRaljmhNZl0XR3by.jpg"
         };
         String cardImageUrl[] = {
-                "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/81e8eaf4-42df-45fe-8eb9-f7596ba98246/df0ekt5-005cce1b-568a-4f4e-bdc3-a4879be52c8a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzgxZThlYWY0LTQyZGYtNDVmZS04ZWI5LWY3NTk2YmE5ODI0NlwvZGYwZWt0NS0wMDVjY2UxYi01NjhhLTRmNGUtYmRjMy1hNDg3OWJlNTJjOGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.U-5Y35kKoLSzjlhoUWLpBQOi2fZtcA9erkGynkC-VlI",
+                "https://m.media-amazon.com/images/M/MV5BMTUxOTc5MTU1NF5BMl5BanBnXkFtZTgwODYyNTA1NzE@._V1_.jpg",
                 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWYFYyopTx6Ltjw_L84nqjkEMjc9_cylZgXQNq1xBHmujrjTbKog8pl_cPhotXVj1D1clWla7AImkDVATweq4AB0qk8DcgMvsaoSInPBvecwQxolSGT7lz8pgAUajuLJC2X-zr2r1z0UvKxVa-4GnLUb4WNXFjXRfuZalMo8Sn4mDefdMhGU4OjQlu/w1200-h630-p-k-no-nu/Rings%20of%20Power.jpg",
                 "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
                 "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1ifiV9ZJD4tC3tRYcnLIzH0meaB.jpg",
@@ -1950,22 +1950,51 @@ public final class MovieList {
             String xRay21Type[] = {
                     "0",
                     "0",
+                    "1",
+                    "1",
+                    "1",
+                    "1",
+                    "1"
             };
             String xRay21Name[] = {
-                    "Tom Cruise",
-                    "Emma Watson",
+                    "Taron Egerton",
+                    "Hugh Jackman",
+
+                    "Brahma JR Ski + FDT",
+                    "UVEX Race Ski Helmet",
+                    "UVEX Downhill Ski Goggle",
+                    "Spider Race Suit",
+                    "Unisex Track Jacket"
+
             };
             String xRay21ImageUrl[] = {
-                    "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcRezb3QSPGhLptNSXoqUpKeVofpNCTLPXOG9n9o3Z2bnMp80f2AimK17SPKLa2PPkqsYkqIUAHfDgZFTs0",
-                    "https://popularnetworth.com/wp-content/uploads/2021/05/6495d05033eb2029300f4a6fe5151952.jpg",
+                    "https://flxt.tmsimg.com/assets/765421_v9_bd.jpg",
+                    "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcStSRa7WE4Eh_t3-91lA8N3C_IPcwhLvFKsr9m4uAxuTiL7LlqL",
+
+                    "https://content.backcountry.com/images/items/1200/BLZ/BLZF05H/RED.jpg",
+                    "https://www.botteroski.com/20123-large_default/421408-ski-helmet-uvex-race-blue-pink.jpg",
+                    "https://www.sportsprofi.com/out/pictures/generated/product/1/569_569_75_0/2130.jpg",
+                    "https://www.winterwomen.com/files/store/items/lg/f/w/fw23_spyder_womensworldcupsuit_whitemulti1.jpg",
+                    "https://ubxinc.com/cdn/shop/products/ADOBE-AOPMTJ_UNISEXTRACKJACKET-Front.png?v=1665417988&width=1800"
             };
             String xRay21Description[] = {
-                    "",
-                    ""
+                    "Taron Egerton;• Born in United Kingdom\n• Age: 33 (1989)\n• Height: 5′ 9″\n• Nationality: British;Taron Egerton is a Welsh actor. He is the recipient of a Golden Globe Award, and has received nominations for a Grammy Award and two British Academy Film Awards.\n\nHe gained recognition for his starring role as a spy recruit in the action comedy film Kingsman: The Secret Service (2014) and its sequel Kingsman: The Golden Circle (2017). ",
+                    "Hugh Jackman;• Born in Sydney, Australia\n• Age: 55 (1968)\n• Height: 6′ 3″\n• Nationality: Australian, British;Hugh Michael Jackman AC (born 12 October 1968)[1] is an Australian actor. Beginning in theatre and television, Jackman landed his breakthrough role as Wolverine in the X-Men film series (2000–2017), a role that earned him the Guinness World Record for \"longest career as a live-action Marvel character\", until his record was surpassed by Patrick Stewart as Charles Xavier in May 2022.",
+
+                    "Brahma JR Ski + FDT;$249.95;• Laminate Material: Composite\n• Edge Material: Steel\n• Dimensions: 102 / 67 / 89mm\n\nWhen little shredders are just starting to learn proper form we put them on the Brahma JR Ski + FDT JR 4.5 Binding. These skis toe a delicate line of maneuverability and power by pairing a lightweight cap construction with a powerful traditional camber. ",
+                    "UVEX Race Ski Helmet;$119.9;• Brand: UVEX\n• Season: Winter 2017\n\nThe racing helmet Uvex Race + is optimized in weight for high speed descents. Technology hard shell for perfect temperature regulation thanks to air channels and high-tech padding. Closing monomatica a hand. Adjustable ventilation system, anti-allergic interior removable, lockable natural sound system, designed for the chin",
+                    "UVEX Downhill Ski Goggle;$137;• Brand: UVEX\n• Year: 2021\n\nThe UVEX DOWNHILL 2000 S CV glasses are an ideal partner to your adventure. They are built to last and to meet the requirements of a person with an active lifestyle. They are designed to perform well even under the harshest conditions.",
+                    "Brahma JR Ski + FDT;$249.95;• Material: Fleece\n• Season: 2022 - 2023\n• Gripper elastic at hem\n• Thumb anchors\n\nSpyder’s race suits are trusted by some of the best alpine skiers for a reason: because Spyder technology allows them to ski their fastest. X-Static® technology allows for optimal porosity performance, while still passing the 30ml FIS test.",
+                    "Unisex Track Jacket;$126.99;• Material: Fleece\n• Feature: Double knit\n\nThis is a jacket for sportsmen who can concentrate on running with a slim silhouette that does not suffer from the scorching heat of summer or the flapping of a jacket."
             };
             String xRay21Merchandise[] = {
                     "",
-                    ""
+                    "",
+                    "target costco walmart",
+                    "walmart amazon target",
+                    "amazon target walmart",
+                    "amazon costco walmart",
+                    "amazon target walmart"
             };
             Map<String, List<String>> entry = new HashMap<>();
             entry.put(KEY_TYPE, Arrays.asList(xRay21Type));
