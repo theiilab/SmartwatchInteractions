@@ -16,7 +16,6 @@ public class SearchSocketService {
     public static final int SERVER_PORT = 5050;
     private static Socket socket;
     private static PrintWriter out;
-//    private static BufferedReader in;
 
     public static void createConnection() {
         if (socket != null) {
@@ -29,19 +28,15 @@ public class SearchSocketService {
             InetAddress serverAddress = InetAddress.getByName(AndroidTVRemoteService.SERVER_IP);
             socket = new Socket(serverAddress, SERVER_PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
-//            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             if (socket.isBound()) {
                 Log.i(TAG, "Connected");
             }
         } catch (IOException e1) {
             Log.i(TAG,"Problem Connecting to server... Check your server IP and Port and try again");
-            Log.i(TAG,e1.getMessage());
-            e1.printStackTrace();
         } catch (NullPointerException e2) {
             Log.i(TAG,"Error returned");
         }
-
     }
 
     public static void send(String messages) {
@@ -55,9 +50,8 @@ public class SearchSocketService {
         try {
             if (out != null) {
                 socket.close();
-//                in.close();
                 out.close();
-                Log.i(TAG, "Client socket terminated.");
+                Log.i(TAG, "Client socket terminated");
             }
         } catch (IOException e) {
             e.printStackTrace();

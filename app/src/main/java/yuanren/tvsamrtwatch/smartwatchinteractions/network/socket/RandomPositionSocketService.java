@@ -15,7 +15,6 @@ public class RandomPositionSocketService {
     public static final String TAG = "RandomPositionSocketService";
     public static final int SERVER_PORT = 5051;
     private static Socket socket;
-//    private static PrintWriter out;
     private static BufferedReader in;
 
     public static void createConnection() {
@@ -28,7 +27,6 @@ public class RandomPositionSocketService {
             // establish a connection
             InetAddress serverAddress = InetAddress.getByName(AndroidTVRemoteService.SERVER_IP);
             socket = new Socket(serverAddress, SERVER_PORT);
-//            out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             if (socket.isBound()) {
@@ -36,8 +34,6 @@ public class RandomPositionSocketService {
             }
         } catch (IOException e1) {
             Log.i(TAG,"Problem Connecting to server... Check your server IP and Port and try again");
-            Log.i(TAG,e1.getMessage());
-            e1.printStackTrace();
         } catch (NullPointerException e2) {
             Log.i(TAG,"Error returned");
         }
@@ -47,16 +43,15 @@ public class RandomPositionSocketService {
     public static String receive() {
         if (in != null) {
             try {
-                String read = in.readLine();
-
                 //checks to see if it is still connected and displays disconnected if disconnected
-                if (null == read || "Disconnect".contentEquals(read)) {
+                String inputLine = in.readLine();
+                if (inputLine == null) {
                     Thread.interrupted();
-                    read = "Disconnect....";
-                    Log.i(TAG, "Server : " + read);
+                    Log.i(TAG, "Server disconnected");
                 }
-                Log.i(TAG, "Server : " + read);
-                return read;
+
+                Log.i(TAG, "Server : " + inputLine);
+                return inputLine;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -69,8 +64,7 @@ public class RandomPositionSocketService {
             if (socket != null) {
                 socket.close();
                 in.close();
-//                out.close();
-                Log.i(TAG, "Client socket terminated.");
+                Log.i(TAG, "Client socket terminated");
             }
         } catch (IOException e) {
             e.printStackTrace();
