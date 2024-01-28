@@ -60,6 +60,27 @@ public final class MovieList {
         return false;
     }
 
+    public static int isOnEdge() {
+        int res = 0;
+
+        if (index < NUM_COLS && index >= 0) { // on the upper bound
+            res |= 1;
+        }
+
+        if (index <  NUM_COLS * NUM_MOVIE_CATEGORY && index >= NUM_COLS * NUM_MOVIE_CATEGORY - NUM_COLS) { // on the lower bound
+            res |= 2;
+        }
+
+        if (index % NUM_COLS == 0) {  // on the left bound
+            res |= 4;
+        }
+
+        if (index % NUM_COLS == NUM_COLS - 1) { // ont the right bound
+            res |= 8;
+        }
+        return res;
+    }
+
     public static Movie getNextMovie(int keyEvent) {
         switch (keyEvent) {
             case KeyEvent.KEYCODE_DPAD_LEFT:

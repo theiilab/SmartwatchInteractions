@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,10 @@ public class MainActivity extends Activity {
     private FrameLayout movieCard;
     private ImageView movieBg;
     private TextView movieName;
+    private ImageButton indicatorLeft;
+    private ImageButton indicatorRight;
+    private ImageButton indicatorUp;
+    private ImageButton indicatorDown;
     private Movie movie;
 
     private int[] randoms;
@@ -58,6 +63,10 @@ public class MainActivity extends Activity {
         movieCard = binding.movieCard;
         movieName = binding.movieName;
         movieBg = binding.movieBg;
+        indicatorLeft = binding.indicatorLeft;
+        indicatorRight = binding.indicatorRight;
+        indicatorUp = binding.indicatorUp;
+        indicatorDown = binding.indicatorDown;
 
         // load movie
         randoms = LoginActivity.randoms;
@@ -175,6 +184,7 @@ public class MainActivity extends Activity {
                 movie = MovieList.getNextMovie(keyEvent);
                 movieCard.startAnimation(slideIn);
                 setMovieInfo();
+                changeIndicator(keyEvent);
             }
 
             @Override
@@ -183,6 +193,34 @@ public class MainActivity extends Activity {
             }
         });
         movieCard.startAnimation(slideOut);
+    }
+
+    private void changeIndicator(int keyEvent) {
+        boolean leftFlag = false;
+        boolean rightFlag = false;
+        boolean upFlag = false;
+        boolean downFlag = false;
+
+        int res = MovieList.isOnEdge();
+        if ((res & 1) == 1) {
+            upFlag = true;
+        }
+
+        if ((res & 2) == 2) {
+            downFlag = true;
+        }
+
+        if ((res & 4) == 4) {
+            leftFlag = true;
+        }
+
+        if ((res & 8) == 8) {
+            rightFlag = true;
+        }
+        indicatorLeft.setAlpha(!leftFlag ? 1 : 0.3f);
+        indicatorRight.setAlpha(!rightFlag ? 1 : 0.3f);
+        indicatorUp.setAlpha(!upFlag ? 1 : 0.3f);
+        indicatorDown.setAlpha(!downFlag ? 1 : 0.3f);
     }
 
     @Override
