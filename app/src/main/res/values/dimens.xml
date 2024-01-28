@@ -13,6 +13,9 @@
     -->
     <dimen name="inner_frame_layout_padding">5dp</dimen>
 
+    <dimen name="indicator_size">20dp</dimen>
+    <dimen name="indicator_margin">2dp</dimen>
+
     <!--    menu-->
     <dimen name="menu_item_size">35dp</dimen>
     <dimen name="menu_item_radius">35dp</dimen>
