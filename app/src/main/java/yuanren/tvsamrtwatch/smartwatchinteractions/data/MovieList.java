@@ -28,6 +28,8 @@ public final class MovieList {
     private static  final String KEY_MERCHANDISE = "merchandise";
 
     private static List<Movie> list;
+
+    private static List<Movie> realMovies;
 //    private static List<Movie> dummyList;
     private static int index = 0;
 
@@ -46,16 +48,22 @@ public final class MovieList {
         return list.get(id);
     }
 
+    public static List<Movie> getRealList() {
+//        if (list == null) {
+//            list = setupMovies();
+//        }
+        return realMovies;
+    }
+
     public static boolean isToOutOfRow(int keyEvent) {
-        if (keyEvent == KeyEvent.KEYCODE_DPAD_UP) {
-            if (index + NUM_COLS >= NUM_COLS * NUM_MOVIE_CATEGORY) {
-                return true;
-            }
-        }
-        if (keyEvent == KeyEvent.KEYCODE_DPAD_DOWN) {
-            if (index - NUM_COLS < 0) {
-                return true;
-            }
+        if (keyEvent == KeyEvent.KEYCODE_DPAD_DOWN) {         // on the first row
+            return index < NUM_COLS ;
+        } else if (keyEvent == KeyEvent.KEYCODE_DPAD_UP) {    // on the last row
+            return index >= NUM_COLS * (NUM_MOVIE_CATEGORY - 1);
+        } else if (keyEvent == KeyEvent.KEYCODE_DPAD_RIGHT) { // on the most left
+            return index % NUM_COLS == 0;
+        } else if (keyEvent == KeyEvent.KEYCODE_DPAD_LEFT) {  // on the most right
+            return index % NUM_COLS == NUM_COLS - 1;
         }
         return false;
     }
@@ -84,7 +92,7 @@ public final class MovieList {
     public static Movie getNextMovie(int keyEvent) {
         switch (keyEvent) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                index = Math.min(NUM_COLS * NUM_MOVIE_CATEGORY, index + 1);
+                index = Math.min(NUM_COLS * NUM_MOVIE_CATEGORY - 1, index + 1);
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 index = Math.max(0, index - 1);
@@ -128,7 +136,8 @@ public final class MovieList {
     public static List<Movie> setUpMovies(int[] randomPositions) {
         /** fill real movies at the random position and dummy movies in the rest */
         list = new ArrayList<>();
-        ListIterator<Movie> reals = setUpRealMovies().listIterator();
+        realMovies = setUpRealMovies(); // record of unique real movies
+        ListIterator<Movie> reals = realMovies.listIterator();
         ListIterator<Movie> dummies = setUpDummyMovies((NUM_COLS - NUM_REAL_MOVIE) * NUM_MOVIE_CATEGORY).listIterator();
         for (int row = 0; row < NUM_MOVIE_CATEGORY; ++row) {
             for (int col = 0; col < NUM_COLS; ++col) {
@@ -420,20 +429,22 @@ public final class MovieList {
         movie.setBackgroundImageUrl(backgroundImageUrl);
         movie.setVideoUrl(videoUrl);
 
-        Map<String, List<String>> xRayItemForMovie = xRayItems.get((id.intValue()));
+        if (xRayItems != null) {
+            Map<String, List<String>> xRayItemForMovie = xRayItems.get((id.intValue()));
 //        Map<String, List<String>> xRayItemForMovie = xRayItems.get(0);
-        List<String> types = xRayItemForMovie.get(KEY_TYPE);
-        List<String> names = xRayItemForMovie.get(KEY_NAME);
-        List<String> images = xRayItemForMovie.get(KEY_IMAGE);
-        List<String> descriptions = xRayItemForMovie.get(KEY_DESCRIPTION);
-        List<String> merchandises = xRayItemForMovie.get(KEY_MERCHANDISE);
+            List<String> types = xRayItemForMovie.get(KEY_TYPE);
+            List<String> names = xRayItemForMovie.get(KEY_NAME);
+            List<String> images = xRayItemForMovie.get(KEY_IMAGE);
+            List<String> descriptions = xRayItemForMovie.get(KEY_DESCRIPTION);
+            List<String> merchandises = xRayItemForMovie.get(KEY_MERCHANDISE);
 
-        List<XRayItem> items = new ArrayList<>();
-        for (int i = 0; i < names.size(); ++i) {
-            XRayItem item = new XRayItem(id, i, types.get(i), names.get(i), images.get(i), descriptions.get(i), merchandises.get(i));
-            items.add(item);
+            List<XRayItem> items = new ArrayList<>();
+            for (int i = 0; i < names.size(); ++i) {
+                XRayItem item = new XRayItem(id, i, types.get(i), names.get(i), images.get(i), descriptions.get(i), merchandises.get(i));
+                items.add(item);
+            }
+            movie.setXRayItems(items);
         }
-        movie.setXRayItems(items);
 
         return movie;
     }
@@ -1997,5 +2008,28 @@ public final class MovieList {
             listOfItems.add(entry);
         }
         return listOfItems;
+    }
+
+    public static List<Movie> setUpSearchDummyMovies() {
+        List<Movie> searchDummies = new ArrayList<>();
+        String title[] = { // 250 movie titles
+                "The Shawshank Redemption", "The Godfather", "Pulp Fiction", "The Dark Knight", "Schindlers List", "Forrest Gump", "Fight Club", "Titanic", "Casablanca", "Gone with the Wind", "Jurassic Park", "The Silence of the Lambs", "Avatar", "The Lord of the Rings The Fellowship of the Ring", "The Wizard of Oz", "Star Wars A New Hope", "ET the Extra-Terrestrial", "The Lion King", "Gladiator", "Braveheart", "The Social Network", "The Grand Budapest Hotel", "Black Panther", "The Revenant", "Birdman", "Interstellar", "The Great Gatsby", "Amelie", "A Clockwork Orange", "Blade Runner", "The Breakfast Club", "The Big Lebowski", "The Terminator", "Reservoir Dogs", "The Exorcist", "The Shining", "Jaws", "Twelve Angry Men", "The Departed", "Django Unchained", "Mad Max Fury Road", "The Godfather Part II", "The Good the Bad and the Ugly", "The Princess Bride", "Raiders of the Lost Ark", "The Green Mile", "Inglourious Basterds", "The Matrix", "The Usual Suspects", "Goodfellas", "The Sixth Sense", "Shutter Island", "The Prestige", "Oldboy", "The Truman Show", "A Beautiful Mind", "American Beauty", "Whiplash", "The Dark Knight Rises", "The Avengers", "The Great Escape", "The Bridge on the River Kwai", "Amadeus", "Rain Man", "The Untouchables", "The Deer Hunter", "Apocalypse Now", "Platoon", "Full Metal Jacket", "One Flew Over the Cuckoos Nest", "Dr. Strangelove", "A Streetcar Named Desire", "On the Waterfront", "The Maltese Falcon", "Chinatown", "The Big Sleep", "Rebel Without a Cause", "To Kill a Mockingbird", "Lawrence of Arabia", "Ben-Hur", "Spartacus", "The Last Samurai", "The Patriot", "Saving Private Ryan", "Troy", "The Hurt Locker", "No Country for Old Men", "There Will Be Blood", "The Green Book", "Get Out", "The Shape of Water", "Dunkirk", "Blade Runner 2049", "The Artist", "Midnight in Paris", "The Favourite", "Black Swan", "Her", "The Kings Speech", "Slumdog Millionaire", "The Life of Pi", "Gravity", "The Martian", "Arrival", "The Post", "Three Billboards Outside Ebbing, Missouri", "Moonlight", "Twelve Years a Slave", "The Theory of Everything", "The Imitation Game", "Selma", "Dallas Buyers Club", "American Hustle", "Silver Linings Playbook", "Bohemian Rhapsody", "A Star is Born", "Joker", "Parasite", "Once Upon a Time in Hollywood", "Ford v Ferrari", "Jojo Rabbit", "Marriage Story", "Little Women", "Knives Out", "The Irishman", "Bombshell", "Green Book", "Crash", "The Godfather Part III", "Vertigo", "North by Northwest", "Sunset Boulevard", "Citizen Kane", "The Graduate", "Raging Bull", "Taxi Driver", "Good Will Hunting", "The Pianist", "Moonrise Kingdom", "The Royal Tenenbaums", "Rushmore", "The Life Aquatic with Steve Zissou", "The Darjeeling Limited", "Moonlight Kingdom", "Fantastic Mr. Fox", "Isle of Dogs", "Pans Labyrinth", "The Devils Backbone", "Crimson Peak", "Pacific Rim", "Blade II", "Hellboy", "Hellboy II The Golden Army", "Donnie Darko", "Southland Tales", "The Box", "October Sky", "Brokeback Mountain", "Life of Pi", "The Namesake", "Crouching Tiger Hidden Dragon", "Hero", "House of Flying Daggers", "Curse of the Golden Flower", "Raise the Red Lantern", "To Live", "Farewell My Concubine", "In the Mood for Love", "Chungking Express", "Happy Together", "Drunken Master", "Ip Man", "The Grandmaster", "Yojimbo", "Seven Samurai", "Rashomon", "Throne of Blood", "Ran", "The Hidden Fortress", "Spirited Away", "Princess Mononoke", "My Neighbor Totoro", "Howls Moving Castle", "Ponyo", "The Wind Rises", "Whisper of the Heart", "The Tale of the Princess Kaguya", "Grave of the Fireflies", "Castle in the Sky", "Kikis Delivery Service", "Nausicaa of the Valley of the Wind", "The Red Turtle", "Weathering with You", "Your Name", "A Silent Voice", "The Girl Who Leapt Through Time", "Five Centimeters Per Second", "Paprika", "Tokyo Godfathers", "Perfect Blue", "Millennium Actress", "Summer Wars", "The Boy and the Beast", "Wolf Children", "Tokyo Story", "Late Spring", "An Autumn Afternoon", "The Farewell", "A Ghost Story", "Call Me by Your Name", "Lady Bird", "Lost in Translation", "Thor Ragnarok", "What We Do in the Shadows", "Hunt for the Wilderpeople", "Boy", "Eagle vs Shark", "The Big Sick", "Little Miss Sunshine", "Sunshine Cleaning", "Juno", "The Virgin Suicides", "Marie Antoinette", "The Bling Ring", "Somewhere", "Porco Rosso", "Quantum Odyssey", "Midnight Mirage", "Stellar Serenity", "Echoes of Eternity", "Whispers in the Shadows", "Nebula Nexus", "Enigma Emporium", "Celestial Cipher", "Radiant Reverie", "Eclipse Enigma", "Solstice Symphony", "Astral Ascension", "Odyssey of the Echo", "Infinity Insight", "Galactic Genesis", "Quantum Quasar", "Luminous Legacy", "Enchanted Equinox", "Mirage Manifest", "Stardust Sonata", "Echoes of Eldoria", "Nebula Nectar", "Celestial Cascade", "Radiant Reminiscence"
+        };
+
+        for (String s : title) {
+            searchDummies.add(
+                    buildMovieInfo(
+                            (long) -1,
+                            s,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            null));
+        }
+
+        return searchDummies;
     }
 }

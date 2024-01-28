@@ -34,6 +34,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SearchSocketSe
 
 public class SearchActivity extends Activity {
     private static final String TAG = "SearchActivity";
+    private static final int REQUEST_CODE_SEARCH_RESULT = 101;
     private ActivitySearchBinding binding;
     private ConstraintLayout container;
     private EditText searchName;
@@ -163,10 +164,24 @@ public class SearchActivity extends Activity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                startActivity(intent);
+                if (text.length() != 0) {
+                    Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                    intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
+                    startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
+                }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SEARCH_RESULT) {
+            text = "";
+            searchName.setText(text);
+        } else if (resultCode == RESULT_CANCELED && requestCode == REQUEST_CODE_SEARCH_RESULT) {
+
+        }
     }
 
     private void clearData(){
