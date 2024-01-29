@@ -10,12 +10,15 @@ public class Movie implements Serializable {
     static final long serialVersionUID = 727566175075960653L;
     private long id;
     private String title;
+    private int length;
     private String description;
     private String bgImageUrl;
     private String cardImageUrl;
     private String videoUrl;
     private String studio;
     private String category;
+
+    private int categoryIndex;
     private int position;
     private List<XRayItem> xRayItems;
 
@@ -36,6 +39,14 @@ public class Movie implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public String getDescription() {
@@ -92,6 +103,14 @@ public class Movie implements Serializable {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getCategoryIndex() {
+        return categoryIndex;
+    }
+
+    public void setCategoryIndex(int categoryIndex) {
+        this.categoryIndex = categoryIndex;
     }
 
     public List<XRayItem> getXRayItems() {

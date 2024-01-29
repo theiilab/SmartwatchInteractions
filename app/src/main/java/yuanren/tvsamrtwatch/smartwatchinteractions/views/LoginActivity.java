@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.RandomPositionSocketService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
@@ -137,8 +138,15 @@ public class LoginActivity extends FragmentActivity {
             String[] tmp = result.split(";");
             String[] tmp1 = tmp[0].split(","); // pid, session id, method id
             String[] tmp2 = tmp[1].split(","); // random position indexes
-            randoms = new int[tmp2.length];
 
+            /** -------- log -------- */
+            Metrics metrics = (Metrics) getApplicationContext();
+            metrics.pid = Integer.parseInt(tmp1[0]);
+            metrics.session = Integer.parseInt(tmp1[1]);
+            metrics.method = tmp1[2];
+            /** -------- log -------- */
+
+            randoms = new int[tmp2.length];
             for (int i = 0; i < tmp2.length; ++i) {
                 randoms[i] = Integer.parseInt(tmp2[i]);
             }

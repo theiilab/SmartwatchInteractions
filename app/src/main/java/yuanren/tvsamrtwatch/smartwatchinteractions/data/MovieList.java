@@ -47,6 +47,15 @@ public final class MovieList {
         return list.get(id);
     }
 
+    public static Movie getMovie(String name) {
+        for (Movie movie : list){
+            if (movie.getTitle().equals(name)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
     public static List<Movie> getRealList() {
 //        if (list == null) {
 //            list = setupMovies();

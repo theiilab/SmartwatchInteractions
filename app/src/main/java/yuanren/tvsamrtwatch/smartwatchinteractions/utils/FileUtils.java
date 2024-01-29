@@ -10,24 +10,41 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.PointCloud;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
 
 public class FileUtils {
     private static final String TAG = "FileUtils";
     private static final String extension = ".csv";
+    public static final String logHeader1 = "Participant,Method,Session,Data Set,Block,Target Movie,Movie Length(s),Selected Movie,Task,Task Completion Time (ms),Start Time(ms),End Time(ms),Actions Per Task,Actions Needed,Error Rate,Swipes Per Tasks,Swipes Needed,Swipe-Holds Per Task,Swipe-Holds Needed,Taps Per Task,Taps Needed,Long Presses Per Task,Long Presses Needed,Two Finger Taps Per Task,Two Finger Taps Needed\n";
+    public static final String logHeader2 = "Participant,Method,Session,Data Set,Block,Target Movie,Movie Length(s),Selected Movie,Task,Task Completion Time (ms),Start Time(ms),End Time(ms),Actions Per Task,Actions Needed,Error Rate,Swipes Per Tasks,Swipes Needed,Swipe-Holds Per Task,Swipe-Holds Needed,Taps Per Task,Taps Needed,Long Presses Per Task,Long Presses Needed,Two Finger Taps Per Task,Two Finger Taps Needed\n";
+    public static final String logHeader3 = "Participant,Method,Session,Data Set,Block,Target Movie,Movie Length(s),Selected Movie,Task,Task Completion Time (ms),Start Time(ms),End Time(ms),Actions Per Task,Error Rate,Character Per Second,Backspace Count,Time Per Character(ms),Total Character Entered\n";
+    public static final String logRawHeader = "Participant,Method,Session,Block,Target Movie,Selected Movie,Action,Scope,Start Time,End Time,Duration,Other\n";
 
-    private static String filename = "preDefinedData" + extension;
-//    public static final String logHeader = "Participant,Action Id,Method,Action,Task Completion Time (ms),Action Completion Time (ms),Error Rate,Distance Swiped (px),Angle Tilted (degree),Force Changed\n";
-//    public static final String logRawHeader = "Participant,Action Id,Method,Action,Task Start Time,Task End Time,Action Start Time,Action End Time,Error Rate,From X,From Y,To X,To Y,Start Angle,End Angle,Min Force, Max Force\n";
-
-
-    public static void write(Context context, String data) {
+    public static void write(Context context, Metrics metrics) {
+        String filename;
+        if (metrics.session == 3) {
+            filename = "P" + metrics.pid + "-" + metrics.method + "-Search" + extension;
+        } else {
+            filename = "P" + metrics.pid + "-" + metrics.method + extension;
+        }
 
         File file = new File(context.getFilesDir(), filename);
-//        if (!file.exists()) {
-//            data = logHeader + data;
-//        }
+
+        String data = "";
+        if (!file.exists()) {
+            if (metrics.session == 1) {
+                data = logHeader1;
+            } else if (metrics.session == 2) {
+                data = logHeader2;
+            } else {
+                data = logHeader3;
+            }
+        }
+        data += metrics.toString();
+
         try {
             FileOutputStream stream = new FileOutputStream(file, true);
             stream.write(data.getBytes());
@@ -39,11 +56,17 @@ public class FileUtils {
         Log.d(TAG, "Data written");
     }
 
-    public static void writeRaw(Context context, String data) {
+    public static void writeRaw(Context context, Action action) {
+        String filename = "P" + action.pid + "-" + action.method + "-Raw" + extension;
+
         File file = new File(context.getFilesDir(), filename);
-//        if (!file.exists()) {
-//            data = logRawHeader + data;
-//        }
+
+        String data = "";
+        if (!file.exists()) {
+            data = logRawHeader;
+        }
+        data += action.toString();
+
         try {
             FileOutputStream stream = new FileOutputStream(file, true);
             stream.write(data.getBytes());
@@ -51,10 +74,12 @@ public class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "Raw data written");
     }
 
     public static ArrayList<PointCloud> read(Context context) {
         ArrayList<PointCloud> pointClouds = new ArrayList<>();
+        String filename = "preDefinedData" + extension;
 
         try {
             File file = new File(context.getFilesDir(), filename);

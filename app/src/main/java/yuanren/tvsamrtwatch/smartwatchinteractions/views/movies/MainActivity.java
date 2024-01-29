@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
@@ -49,10 +50,15 @@ public class MainActivity extends Activity {
     private int[] randoms;
     public int currentSelectedMovieIndex = 0;
 
+    private Metrics metrics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** ----- log ----- */
+        metrics = (Metrics) getApplicationContext();
+        /** --------------- */
 
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
