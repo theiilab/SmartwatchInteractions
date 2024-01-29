@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
@@ -38,9 +39,17 @@ public class DetailActivity extends Activity {
 
     private Movie movie;
 
+    /** ----- log ----- */
+    private Metrics metrics;
+    /** --------------- */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** ----- log ----- */
+        metrics = (Metrics) getApplicationContext();
+        /** --------------- */
 
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -71,6 +80,12 @@ public class DetailActivity extends Activity {
 
                 // provide haptic feedback
                 v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
+                /** ----- log ----- */
+                if (!metrics.targetMovie.equals(movie.getTitle()) && (metrics.session == 1 || metrics.session == 2)) {
+                    return;
+                }
+                /** --------------- */
 
                 Intent intent = new Intent(getApplicationContext(), PlaybackActivity.class);
                 intent.putExtra(PlaybackActivity.MOVIE_ID, movie.getId());
