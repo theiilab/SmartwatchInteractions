@@ -1,7 +1,6 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.models.listener;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -12,12 +11,18 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     private final GestureDetector gestureDetector;
     private View view;
 
+    public Long duration;
+
     public OnGestureRegisterListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            duration = event.getEventTime() - event.getDownTime();
+        }
+
         if (event.getPointerCount() > 1) {
             if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
                 // provide haptic feedback

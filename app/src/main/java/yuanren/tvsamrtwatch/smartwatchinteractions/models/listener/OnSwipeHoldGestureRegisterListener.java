@@ -16,13 +16,25 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
     private float gestureX;
     private boolean gestureHapticLock = false;
+    public Long duration = 0L;
+    public int swipeHoldLeftCount = 0;
+    public int swipeHoldRightCount = 0;
 
     public OnSwipeHoldGestureRegisterListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
+    public void clearSwipeHoldCounts() {
+        swipeHoldLeftCount = 0;
+        swipeHoldRightCount = 0;
+    }
+
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            duration = event.getEventTime() - event.getDownTime();
+        }
+
         if (event.getPointerCount() > 1) {
             if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
                 // provide haptic feedback
@@ -65,11 +77,13 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 //                    }
 
                     if (diffX > 0) {
+                        swipeHoldRightCount++;  // must call before onSwipeRightHold(view), otherwise the data will be 1 less behind
                         onSwipeRightHold(view);
-                        Log.d(TAG, "swipe right + hold gesture");
+                        Log.d(TAG, "swipe right + hold gesture: " + swipeHoldRightCount);
                     } else {
+                        swipeHoldLeftCount++; // must call before onSwipeRightHold(view), otherwise the data will be 1 less behind
                         onSwipeLeftHold(view);
-                        Log.d(TAG, "swipe left + hold gesture");
+                        Log.d(TAG, "swipe left + hold gesture: " + swipeHoldLeftCount);
                     }
                 }
             }
