@@ -34,7 +34,7 @@ public class Metrics extends Application {
     public int swipesNeeded = 0;
     public int swipeHoldsPerTasks = 0;
     public int swipeHoldNeeded = 0;
-    public int tapPerTasks = 0;
+    public int tapsPerTasks = 0;
     public int tapsNeeded = 0;
     public int longPressesPerTasks = 0;
     public int longPressesNeeded = 0;
@@ -118,7 +118,7 @@ public class Metrics extends Application {
         movieLength = MovieList.getMovie(targetMovie).getLength();
 
         if (session == 1 || session == 2) {
-            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "\n";
+            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "\n";
         }  else {
             if (block == 1) {
                 dataSet = 50;
@@ -148,14 +148,14 @@ public class Metrics extends Application {
     public int calculateSession1ActionsNeeded() {
         targetMovie = dataSet == 0 ? session1_targetMovies[block - 1] : session1_targetMovies2[block - 1];
         Movie movie = MovieList.getMovie(targetMovie);
-        if (task == TaskType.TYPE_TASK_FIND.name()) {
+        if (task == TaskType.TYPE_TASK_FIND.name) {
             if (block <= 1) {
                 actionsNeeded = movie.getCategoryIndex() + movie.getPosition() + 1; // vertical navigation + horizontal navigation + click
             } else {
                 Movie prevMovie = MovieList.getMovie(dataSet == 0 ? session1_targetMovies[block - 2] : session1_targetMovies2[block - 2]);
-                int prevActionsNeeded = prevMovie.getCategoryIndex() + prevMovie.getPosition();
-                int curActionsNeeded = movie.getCategoryIndex() + movie.getPosition();
-                actionsNeeded = Math.abs(curActionsNeeded - prevActionsNeeded) + 1;
+                int categoryDiff = Math.abs(movie.getCategoryIndex() - prevMovie.getCategoryIndex());
+                int positionDiff = Math.abs(movie.getPosition() - prevMovie.getPosition());
+                actionsNeeded = categoryDiff + positionDiff + 1; // vertical difference + horizontal difference + click
             }
         }
         return actionsNeeded;
@@ -187,7 +187,7 @@ public class Metrics extends Application {
         swipesNeeded = 0;
         swipeHoldsPerTasks = 0;
         swipeHoldNeeded = 0;
-        tapPerTasks = 0;
+        tapsPerTasks = 0;
         tapsNeeded = 0;
         longPressesPerTasks = 0;
         longPressesNeeded = 0;

@@ -23,11 +23,14 @@ import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.TaskType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.LoginActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
@@ -35,6 +38,8 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapte
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
+    public static final int REQUEST_CODE_DETAILS = 101;
+
 
     private ActivityMainBinding binding;
     private ConstraintLayout container;
@@ -50,15 +55,15 @@ public class MainActivity extends Activity {
     private int[] randoms;
     public int currentSelectedMovieIndex = 0;
 
+    /** ----- log ----- */
     private Metrics metrics;
+    private boolean findStartFlag = false;
+    /** --------------- */
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /** ----- log ----- */
-        metrics = (Metrics) getApplicationContext();
-        /** --------------- */
 
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -80,6 +85,12 @@ public class MainActivity extends Activity {
         movie = MovieList.getMovie(currentSelectedMovieIndex);
         setMovieInfo();
 
+        /** ----- log ----- */
+        metrics = (Metrics) getApplicationContext();
+        metrics.targetMovie = metrics.getFirstTargetMovie();
+        metrics.selectedMovie = movie.getTitle();
+        /** --------------- */
+
         container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
@@ -95,6 +106,10 @@ public class MainActivity extends Activity {
                 } else { //  slide left on movie list
                     changeMovie(view, KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
+
+                /** ----- log ----- */
+                updateLogData(ActionType.TYPE_ACTION_SWIPE_RIGHT);
+                /** --------------- */
             }
 
             @Override
@@ -102,31 +117,48 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Swipe left");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_LEFT);
+
+                /** ----- log ----- */
+                updateLogData(ActionType.TYPE_ACTION_SWIPE_LEFT);
+                /** --------------- */
             }
 
             @Override
             public void onSwipeBottom(View view) {
                 Log.d(TAG, "Swipe down");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
-
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_DOWN);
+
+                /** ----- log ----- */
+                updateLogData(ActionType.TYPE_ACTION_SWIPE_DOWN);
+                /** --------------- */
             }
 
             @Override
             public void onSwipeTop(View view) {
                 Log.d(TAG, "Swipe up");
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
-
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_UP);
+
+                /** ----- log ----- */
+                updateLogData(ActionType.TYPE_ACTION_SWIPE_UP);
+                /** --------------- */
             }
 
             @Override
             public void onClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
+                /** ----- log ----- */
+                updateLogData(ActionType.TYPE_ACTION_TAP);
+                if (metrics.targetMovie.equals(movie.getTitle())) {
+                    setLogData();
+                }
+                /** --------------- */
+
                 Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 intent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_DETAILS);
             }
 
             @Override
@@ -141,6 +173,21 @@ public class MainActivity extends Activity {
 
         // start the SSL Socket Connection
         new SetUpSocketAsyncTask().execute();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_DETAILS) {
+            if (metrics.targetMovie.equals(metrics.selectedMovie)) {
+                clearLogData();
+                metrics.nextBlock();
+            } else {
+                // for press back button from the wrong movie details
+                metrics.actionsPerTask++;
+                metrics.longPressesPerTasks++;
+            }
+        }
     }
 
     private void setMovieInfo() {
@@ -227,6 +274,52 @@ public class MainActivity extends Activity {
         indicatorRight.setAlpha(!rightFlag ? 1 : 0.3f);
         indicatorUp.setAlpha(!upFlag ? 1 : 0.3f);
         indicatorDown.setAlpha(!downFlag ? 1 : 0.3f);
+    }
+
+    private void updateLogData(ActionType actionType) {
+        if (!findStartFlag) {
+            findStartFlag = true;
+            metrics.startTime = System.currentTimeMillis();
+        }
+
+        switch (actionType) {
+            case TYPE_ACTION_SWIPE_LEFT:
+                metrics.swipesPerTasks++;
+                break;
+            case TYPE_ACTION_SWIPE_RIGHT:
+                metrics.swipesPerTasks++;
+                break;
+            case TYPE_ACTION_SWIPE_UP:
+                metrics.swipesPerTasks++;
+                break;
+            case TYPE_ACTION_SWIPE_DOWN:
+                metrics.swipesPerTasks++;
+                break;
+            case TYPE_ACTION_TAP:
+                metrics.tapsPerTasks++;
+                break;
+        }
+        metrics.actionsPerTask++;
+    }
+
+    private void clearLogData() {
+        findStartFlag = false;
+    }
+
+    private void setLogData() {
+        metrics.selectedMovie = movie.getTitle();
+        metrics.task = metrics.session == 1 ? TaskType.TYPE_TASK_FIND.name : "1"; // declare task for session 1 or session 2
+        metrics.endTime = System.currentTimeMillis();
+        metrics.taskCompletionTime = metrics.endTime - metrics.startTime;
+        metrics.actionsNeeded = metrics.calculateSession1ActionsNeeded();
+        metrics.swipesNeeded = metrics.actionsNeeded - 1;
+        metrics.tapsNeeded = 1;
+        metrics.errorRate = ((double) metrics.actionsPerTask - (double) metrics.actionsNeeded) / metrics.actionsNeeded;
+
+        // only reflect navigation time in log for session 1
+        if (metrics.session == 1) {
+            FileUtils.write(getApplicationContext(), metrics);
+        }
     }
 
     @Override

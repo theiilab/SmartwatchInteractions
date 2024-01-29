@@ -229,6 +229,33 @@ public final class MovieList {
                 "Pain Hustler"
         };
 
+        int[] movieLength = {
+                79, // The King's Man
+                88, // Red Notice
+                73, // Jumanji
+                86, // Uncharted
+                63, // The Devil Wears Prada
+                83, // The Wolf of Wall Street
+                82, // Venom
+                84, // Iron man
+                85, // Harry Potter and the Prisoner of Azkaban
+                74, // Fantastic Beasts and Where to Find Them
+                80, // Insomnia
+                81, // Fall
+                60, // Mama Mia
+                80, // La La Land
+                77, // Sherlock Holmes
+                85, // The Da Vinci Code
+                76, // Flipped
+                86, // Crazy Rich Asians
+                89, // Inception
+                89, // The Adam Project
+                84, // Space Jam
+                73, // Million Dollar Baby
+                84, // Death on the Nile
+                83  // Pain Hustler
+        };
+
         String description = "Fusce id nisi turpis. Praesent viverra bibendum semper. "
                 + "Donec tristique, orci sed semper lacinia, quam erat rhoncus massa, non congue tellus est "
                 + "quis tellus. Sed mollis orci venenatis quam scelerisque accumsan. Curabitur a massa sit "
@@ -405,12 +432,14 @@ public final class MovieList {
                     buildMovieInfo(
                             (long) index,
                             title[index],
+                            movieLength[index],
                             description,
                             studio[index],
                             category[index],
                             videoUrl[index],
                             cardImageUrl[index],
                             bgImageUrl[index],
+                            index / 2,
                             setUpXRayItems()));
         }
         return reals;
@@ -419,23 +448,27 @@ public final class MovieList {
     private static Movie buildMovieInfo(
             Long id,
             String title,
+            int length,
             String description,
             String studio,
             String category,
             String videoUrl,
             String cardImageUrl,
             String backgroundImageUrl,
+            int categoryIndex,
             List<Map<String, List<String>>> xRayItems) {
         Movie movie = new Movie();
 //        movie.setId(count++);
         movie.setId(id);
         movie.setTitle(title);
+        movie.setLength(length);
         movie.setDescription(description);
         movie.setStudio(studio);
         movie.setCategory(category);
+        movie.setVideoUrl(videoUrl);
         movie.setCardImageUrl(cardImageUrl);
         movie.setBackgroundImageUrl(backgroundImageUrl);
-        movie.setVideoUrl(videoUrl);
+        movie.setCategoryIndex(categoryIndex);
 
         if (xRayItems != null) {
             Map<String, List<String>> xRayItemForMovie = xRayItems.get((id.intValue()));
@@ -1970,12 +2003,14 @@ public final class MovieList {
                     buildMovieInfo(
                             (long) index,
                             title[index % n],
+                            50,
                             description,
                             studio[index % n],
                             category[index % n],
                             videoUrl[index % n],
                             cardImageUrl[index % n],
                             bgImageUrl[index % n],
+                            index,
                             setUpDummyXRayItems(length)));
         }
 
@@ -2058,12 +2093,14 @@ public final class MovieList {
                     buildMovieInfo(
                             (long) -1,
                             s,
+                            0,
                             "",
                             "",
                             "",
                             "",
                             "",
                             "",
+                            0,
                             null));
         }
 

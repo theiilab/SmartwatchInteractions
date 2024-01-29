@@ -10,7 +10,7 @@ public enum TaskType {
     TYPE_TASK_GO_TO_END("Go To The End Of The Title"),
     TYPE_TASK_GO_TO_START("Go To The Start Of The Title");
 
-    private final String name;
+    public final String name;
 
     private TaskType(String name) {
         this.name = name;
