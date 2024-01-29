@@ -40,6 +40,8 @@ public class Metrics extends Application {
     public int longPressesNeeded = 0;
     public int twoFingerTapsPerTasks = 0;
     public int twoFingerTapsNeeded = 0;
+    public int crownRotatesPerTasks = 0;
+    public int crownRotatesNeeded = 0;
 
     // session 3
     public double characterPerSecond = 0;
@@ -118,7 +120,7 @@ public class Metrics extends Application {
         movieLength = MovieList.getMovie(targetMovie).getLength();
 
         if (session == 1 || session == 2) {
-            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "\n";
+            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
         }  else {
             if (block == 1) {
                 dataSet = 50;
@@ -193,6 +195,8 @@ public class Metrics extends Application {
         longPressesNeeded = 0;
         twoFingerTapsPerTasks = 0;
         twoFingerTapsNeeded = 0;
+        crownRotatesPerTasks = 0;
+        crownRotatesNeeded = 0;
     }
 
     public void nextTask() {
