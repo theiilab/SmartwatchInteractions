@@ -12,7 +12,7 @@ public enum ActionType {
     TYPE_ACTION_TWO_FINGER_TAP("Two-Finger Tap"),
     TYPE_ACTION_LONG_PRESS("Long Press"),
     TYPE_ACTION_CROWN_ROTATE("Crown Rotate");
-    private final String name;
+    public final String name;
 
     private ActionType(String name) {
         this.name = name;

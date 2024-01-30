@@ -7,8 +7,15 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+
 public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouchListener {
-    public static final String TAG = "OnSwipeHoldGestureRegisterListener";
+    private static final String TAG = "OnSwipeHoldGestureRegisterListener";
     private static final int SWIPE_THRESHOLD = 50;
     private static final int SWIPE_HOLD_DURATION_THRESHOLD = 800;
     private final GestureDetector gestureDetector;
@@ -16,22 +23,38 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
     private float gestureX;
     private boolean gestureHapticLock = false;
+    public Long startTime;
+    public Long endTime;
     public Long duration = 0L;
     public int swipeHoldLeftCount = 0;
     public int swipeHoldRightCount = 0;
 
+    /** ----- log ----- */
+    private Metrics metrics;
+
+    public List<Action> swipeHolds = new ArrayList<>();
+    /** --------------- */
+
     public OnSwipeHoldGestureRegisterListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
+        metrics = (Metrics) context;
     }
 
     public void clearSwipeHoldCounts() {
         swipeHoldLeftCount = 0;
         swipeHoldRightCount = 0;
+        swipeHolds.removeAll(swipeHolds);
+    }
+
+    public void clearSwipeHoldActions() {
+        swipeHolds.removeAll(swipeHolds);
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
+            startTime = event.getDownTime();
+            endTime = event.getEventTime();
             duration = event.getEventTime() - event.getDownTime();
         }
 
@@ -77,11 +100,25 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 //                    }
 
                     if (diffX > 0) {
+                        /** ----- log ----- */
                         swipeHoldRightCount++;  // must call before onSwipeRightHold(view), otherwise the data will be 1 less behind
+
+                        Action action = new Action(metrics, metrics.selectedMovie,
+                                ActionType.TYPE_ACTION_SWIPE_RIGHT_HOLD.name, TAG, startTime, endTime);
+                        swipeHolds.add(action);
+                        /** --------------- */
+
                         onSwipeRightHold(view);
                         Log.d(TAG, "swipe right + hold gesture: " + swipeHoldRightCount);
                     } else {
+                        /** ----- log ----- */
                         swipeHoldLeftCount++; // must call before onSwipeRightHold(view), otherwise the data will be 1 less behind
+
+                        Action action = new Action(metrics, metrics.selectedMovie,
+                                ActionType.TYPE_ACTION_SWIPE_LEFT_HOLD.name, TAG, startTime, endTime);
+                        swipeHolds.add(action);
+                        /** --------------- */
+
                         onSwipeLeftHold(view);
                         Log.d(TAG, "swipe left + hold gesture: " + swipeHoldLeftCount);
                     }

@@ -34,6 +34,7 @@ import java.util.Map;
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.TaskType;
@@ -43,7 +44,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.And
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 
 public class PlaybackActivity extends Activity {
-    public static final String TAG = "PlaybackActivity";
+    private static final String TAG = "PlaybackActivity";
     public static final String MOVIE_ID = "selectedMovieId";
     private ActivityPlaybackBinding binding;
     private ConstraintLayout container;
@@ -93,6 +94,8 @@ public class PlaybackActivity extends Activity {
     private Long goToStartStartTime = 0L;
     private Long goToStartEndTime = 0L;
     private boolean goToStartFlag = false;
+
+    private Long crownRotatesTime = 0L;
 
     private Map<TaskType, Integer> actionsNeeded = new HashMap<TaskType, Integer>() {{
         put(TaskType.TYPE_TASK_PLAY_5_SEC, 0);
@@ -187,6 +190,10 @@ public class PlaybackActivity extends Activity {
 
                 /** ----- log ----- */
                 updateLogData(ActionType.TYPE_ACTION_SWIPE_RIGHT);
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -200,6 +207,10 @@ public class PlaybackActivity extends Activity {
 
                 /** ----- log ----- */
                 updateLogData(ActionType.TYPE_ACTION_SWIPE_LEFT);
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -231,6 +242,11 @@ public class PlaybackActivity extends Activity {
 
                 /** ----- log ----- */
                 setLogData(TaskType.TYPE_TASK_GO_TO_START, goToStartStartTime, goToStartEndTime);
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+
                 clearLogData();
                 /** --------------- */
 
@@ -271,8 +287,14 @@ public class PlaybackActivity extends Activity {
 
                         /** ----- log ----- */
                         updateLogData(ActionType.TYPE_ACTION_CROWN_ROTATE);
+                        Action action = new Action(metrics, movie.getTitle(),
+                                ActionType.TYPE_ACTION_CROWN_ROTATE.name, TAG, crownRotatesTime, System.currentTimeMillis());
+                        FileUtils.writeRaw(getApplicationContext(), action);
                         /** --------------- */
                     }
+                    /** ----- raw log ----- */
+                    crownRotatesTime = System.currentTimeMillis();
+                    /** ------------------- */
                     Log.d(TAG, "Scrolling crown: " + String.valueOf(accumulatedVolume));
                     return true;
                 }
@@ -300,6 +322,9 @@ public class PlaybackActivity extends Activity {
 
                 /** ----- log ----- */
                 updateLogData(ActionType.TYPE_ACTION_TAP);
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TAP.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
         });
@@ -369,14 +394,18 @@ public class PlaybackActivity extends Activity {
                 if (!goToStartFlag && goToEndFlag) {
                     goToStartFlag = true;
                     setLogData(TaskType.TYPE_TASK_GO_TO_END, goToEndStartTime, goToEndEndTime);
-
                     clearCounts();
                     goToStartStartTime = System.currentTimeMillis();
                 }
                 swipeLeftHoldCount = swipeHoldGestureListener.swipeHoldLeftCount;
                 goToStartEndTime = System.currentTimeMillis();
-
                 Log.d(TAG, "TYPE_ACTION_SWIPE_LEFT_HOLD: " + swipeLeftHoldCount);
+
+                /** raw for swipe + hold */
+                for (Action action: swipeHoldGestureListener.swipeHolds) {
+                    FileUtils.writeRaw(getApplicationContext(), action);
+                }
+                swipeHoldGestureListener.clearSwipeHoldActions();
                 break;
             case TYPE_ACTION_SWIPE_RIGHT_HOLD:
                 if (!goToEndFlag && backwardFlag) {
@@ -388,8 +417,13 @@ public class PlaybackActivity extends Activity {
                 }
                 swipeRightHoldCount = swipeHoldGestureListener.swipeHoldRightCount;
                 goToEndEndTime = System.currentTimeMillis();
-
                 Log.d(TAG, "TYPE_ACTION_SWIPE_RIGHT_HOLD: " + swipeRightHoldCount);
+
+                /** raw for swipe + hold */
+                for (Action action: swipeHoldGestureListener.swipeHolds) {
+                    FileUtils.writeRaw(getApplicationContext(), action);
+                }
+                swipeHoldGestureListener.clearSwipeHoldActions();
                 break;
             case TYPE_ACTION_CROWN_ROTATE:
                 if (!changeVolumeFlag && playFlag) {
@@ -467,6 +501,8 @@ public class PlaybackActivity extends Activity {
         goToStartStartTime = 0L;
         goToStartEndTime = 0L;
         goToStartFlag = false;
+
+        crownRotatesTime = 0L;
 
         swipeHoldGestureListener.clearSwipeHoldCounts();
     }

@@ -11,6 +11,9 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     private final GestureDetector gestureDetector;
     private View view;
 
+    public Long startTime;
+    public Long endTime;
+
     public Long duration;
 
     public OnGestureRegisterListener(Context context) {
@@ -20,6 +23,8 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
+            startTime = event.getDownTime();
+            endTime = event.getEventTime();
             duration = event.getEventTime() - event.getDownTime();
         }
 
