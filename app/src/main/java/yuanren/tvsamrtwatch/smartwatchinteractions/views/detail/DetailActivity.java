@@ -19,14 +19,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
 
 public class DetailActivity extends Activity {
-    public static final String TAG = "DetailActivity";
+    private static final String TAG = "DetailActivity";
     public static final String MOVIE_ID = "selectedMovieId";
 
     private ActivityDetailBinding binding;
@@ -38,6 +42,9 @@ public class DetailActivity extends Activity {
     private ImageButton playIB;
 
     private Movie movie;
+
+    private OnGestureRegisterListener clickListener;
+    private OnGestureRegisterListener longPressListener;
 
     /** ----- log ----- */
     private Metrics metrics;
@@ -73,35 +80,45 @@ public class DetailActivity extends Activity {
                 .centerCrop()
                 .into(movieBg);
 
-        playIB.setOnClickListener(new View.OnClickListener() {
+        clickListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-
-                // provide haptic feedback
-                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 /** ----- log ----- */
                 if (!metrics.targetMovie.equals(movie.getTitle()) && (metrics.session == 1 || metrics.session == 2)) {
                     return;
                 }
+                // raw log
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TAP.name, TAG, clickListener.startTime, clickListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
                 Intent intent = new Intent(getApplicationContext(), PlaybackActivity.class);
                 intent.putExtra(PlaybackActivity.MOVIE_ID, movie.getId());
                 startActivity(intent);
             }
-        });
+        };
+        playIB.setOnTouchListener(clickListener);
 
-        container.setOnLongClickListener(new View.OnLongClickListener() {
+        longPressListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
+
+                /** ----- log ----- */
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, longPressListener.startTime, longPressListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------- */
 
                 DetailActivity.super.onBackPressed();
                 return true;
             }
-        });
+        };
+        container.setOnTouchListener(longPressListener);
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {

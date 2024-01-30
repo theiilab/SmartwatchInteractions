@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.TaskType;
@@ -37,7 +38,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
 
 public class MainActivity extends Activity {
-    public static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
     public static final int REQUEST_CODE_DETAILS = 101;
 
 
@@ -51,6 +52,8 @@ public class MainActivity extends Activity {
     private ImageButton indicatorUp;
     private ImageButton indicatorDown;
     private Movie movie;
+
+    private OnGestureRegisterListener gestureRegisterListener;
 
     private int[] randoms;
     public int currentSelectedMovieIndex = 0;
@@ -91,7 +94,7 @@ public class MainActivity extends Activity {
         metrics.selectedMovie = movie.getTitle();
         /** --------------- */
 
-        container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 Log.d(TAG, "Swipe right");
@@ -169,7 +172,8 @@ public class MainActivity extends Activity {
                 finish();
                 return true;
             }
-        });
+        };
+        container.setOnTouchListener(gestureRegisterListener);
 
         // start the SSL Socket Connection
         new SetUpSocketAsyncTask().execute();
@@ -178,6 +182,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        /** ----- log ----- */
         if (requestCode == REQUEST_CODE_DETAILS) {
             if (metrics.targetMovie.equals(metrics.selectedMovie)) {
                 clearLogData();
@@ -188,6 +194,7 @@ public class MainActivity extends Activity {
                 metrics.longPressesPerTasks++;
             }
         }
+        /** --------------- */
     }
 
     private void setMovieInfo() {
@@ -276,36 +283,64 @@ public class MainActivity extends Activity {
         indicatorDown.setAlpha(!downFlag ? 1 : 0.3f);
     }
 
+    /** ----- log ----- */
     private void updateLogData(ActionType actionType) {
         if (!findStartFlag) {
             findStartFlag = true;
             metrics.startTime = System.currentTimeMillis();
         }
 
+        Action action;
         switch (actionType) {
             case TYPE_ACTION_SWIPE_LEFT:
                 metrics.swipesPerTasks++;
+
+                // raw log
+                action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_SWIPE_RIGHT:
                 metrics.swipesPerTasks++;
+
+                // raw log
+                action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_SWIPE_UP:
                 metrics.swipesPerTasks++;
+
+                // raw log
+                action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_UP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_SWIPE_DOWN:
                 metrics.swipesPerTasks++;
+
+                // raw log
+                action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_DOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_TAP:
                 metrics.tapsPerTasks++;
+
+                // raw log
+                action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
+            default:
+                action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_UNKNOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
         }
         metrics.actionsPerTask++;
+        FileUtils.writeRaw(getApplicationContext(), action);
     }
 
+    /** ----- log ----- */
     private void clearLogData() {
         findStartFlag = false;
     }
 
+    /** ----- log ----- */
     private void setLogData() {
         metrics.selectedMovie = movie.getTitle();
         metrics.task = metrics.session == 1 ? TaskType.TYPE_TASK_FIND.name : "1"; // declare task for session 1 or session 2

@@ -238,11 +238,13 @@ public class PlaybackActivity extends Activity {
 
             @Override
             public boolean onLongClick(View view) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
-
                 /** ----- log ----- */
+                if (!goToStartFlag) {
+                    return true;
+                }
                 setLogData(TaskType.TYPE_TASK_GO_TO_START, goToStartStartTime, goToStartEndTime);
 
+                // raw
                 Action action = new Action(metrics, movie.getTitle(),
                         ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
@@ -250,6 +252,7 @@ public class PlaybackActivity extends Activity {
                 clearLogData();
                 /** --------------- */
 
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
                 PlaybackActivity.super.onBackPressed();
                 return true;
             }
@@ -401,11 +404,12 @@ public class PlaybackActivity extends Activity {
                 goToStartEndTime = System.currentTimeMillis();
                 Log.d(TAG, "TYPE_ACTION_SWIPE_LEFT_HOLD: " + swipeLeftHoldCount);
 
-                /** raw for swipe + hold */
+                /** ---raw for swipe + hold--- */
                 for (Action action: swipeHoldGestureListener.swipeHolds) {
                     FileUtils.writeRaw(getApplicationContext(), action);
                 }
                 swipeHoldGestureListener.clearSwipeHoldActions();
+                /** -------------------------- */
                 break;
             case TYPE_ACTION_SWIPE_RIGHT_HOLD:
                 if (!goToEndFlag && backwardFlag) {
@@ -419,11 +423,12 @@ public class PlaybackActivity extends Activity {
                 goToEndEndTime = System.currentTimeMillis();
                 Log.d(TAG, "TYPE_ACTION_SWIPE_RIGHT_HOLD: " + swipeRightHoldCount);
 
-                /** raw for swipe + hold */
+                /** ---raw for swipe + hold--- */
                 for (Action action: swipeHoldGestureListener.swipeHolds) {
                     FileUtils.writeRaw(getApplicationContext(), action);
                 }
                 swipeHoldGestureListener.clearSwipeHoldActions();
+                /** -------------------------- */
                 break;
             case TYPE_ACTION_CROWN_ROTATE:
                 if (!changeVolumeFlag && playFlag) {
@@ -507,6 +512,7 @@ public class PlaybackActivity extends Activity {
         swipeHoldGestureListener.clearSwipeHoldCounts();
     }
 
+    /** ----- log ----- */
     private void setLogData(TaskType task, Long startTime, Long endTime) {
         metrics.selectedMovie = movie.getTitle();
         metrics.task = task.name;
