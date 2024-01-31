@@ -617,7 +617,7 @@ public final class MovieList {
         String xRay3Type[] = {
                 "0",
                 "0",
-                "0",
+//                "0",
                 "1",
                 "1",
                 "1",
@@ -627,7 +627,7 @@ public final class MovieList {
         String xRay3Name[] = {
                 "Dwayne Johnson",
                 "Kevin Hart",
-                "Karen Gillan",
+//                "Karen Gillan",
                 "Timberland Mill Shirt ",
                 "Riparo Half Finger Gloves",
                 "Army Camo Multicam Pants",
@@ -637,7 +637,7 @@ public final class MovieList {
         String xRay3ImageUrl[] = {
                 "https://flxt.tmsimg.com/assets/235135_v9_bb.jpg",
                 "https://assets.fxnetworks.com/cms-next/production/cms/2021/05/26/web_crew_kevinhart_dave_570x698.jpg",
-                "https://static.tvtropes.org/pmwiki/pub/images/dw_kg.png",
+//                "https://static.tvtropes.org/pmwiki/pub/images/dw_kg.png",
                 "https://m.media-amazon.com/images/I/713Gok5YfvL._AC_UY879_.jpg",
                 "https://m.media-amazon.com/images/I/81QqXeRio+L._AC_SX679_.jpg",
                 "https://m.media-amazon.com/images/I/718UGtRaAlL._AC_UY879_.jpg",
@@ -647,7 +647,7 @@ public final class MovieList {
         String xRay3Description[] = {
                 "Dwayne Johnson;• Born in Hayward, CA, America\n• Age: 50 (1972)\n• Height: 6′ 5″\n• Nationality: American;Dwayne Douglas Johnson, also known by his ring name The Rock, is an American actor and former professional wrestler.",
                 "Kevin Hart;• Born in Philadelphia, PA, America\n• Age: 43 (1979)\n• Height: 5′ 2″\n• Nationality: American;Kevin Darnell Hart is an American comedian and actor. Originally known as a stand-up comedian, he has since starred in Hollywood films and on TV. He has also released several well-received comedy albums.",
-                "Karen Gillan;• Born in Inverness, United Kingdom\n• Age: 35 (1987)\n• Height: 5′ 11″\n• Nationality:British, Scottish;Karen Sheila Gillan is a Scottish actress. She gained recognition for her work in British film and television, particularly for playing Amy Pond, a primary companion to the Eleventh Doctor in the science fiction series Doctor Who, for which she received several awards and nominations.",
+//                "Karen Gillan;• Born in Inverness, United Kingdom\n• Age: 35 (1987)\n• Height: 5′ 11″\n• Nationality:British, Scottish;Karen Sheila Gillan is a Scottish actress. She gained recognition for her work in British film and television, particularly for playing Amy Pond, a primary companion to the Eleventh Doctor in the science fiction series Doctor Who, for which she received several awards and nominations.",
 
                 "Timberland Mill River Linen Cargo SS Shirt ;$90;• Material: 100% cotton\n• Machine wash\n\nThis durable short-sleeve work shirt comes standard with built-in stretch, so whatever you're doing, it's easier to do.",
                 "Riparo Motorsports Half Finger Gloves;$41.5;• Material: Leather\n• Color: Black\n• Sport Type: Cycling\n\nThese genuine leather gloves have the quality and the features you would expect from a pair of quality driving gloves , including soft supple leather and a snap closure on the wrist strap.",
@@ -658,7 +658,7 @@ public final class MovieList {
         String xRay3Merchandise[] = {
                 "",
                 "",
-                "",
+//                "",
                 "amazon target walmart",
                 "amazon target walmart",
                 "amazon target walmart",
@@ -680,7 +680,7 @@ public final class MovieList {
         String xRay4Type[] = {
                 "0",
                 "0",
-                "0",
+//                "0",
                 "1",
                 "1",
                 "1",
@@ -690,7 +690,7 @@ public final class MovieList {
         String xRay4Name[] = {
                 "Tom Holland",
                 "Sophia Ali",
-                "Mark Wahlberg",
+//                "Mark Wahlberg",
                 "Neck Ruffle Fit and Flare Dress",
                 "Vegan Leather Moto Jacket",
                 "The Boulevard Bomber",
@@ -700,7 +700,7 @@ public final class MovieList {
         String xRay4ImageUrl[] = {
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_bnTTg0RPTPRfk3n8lHBWB_oJS5SyPYSRTb0ffkdFcdXGNwh-rR7hwqwbykz90m2LWrI&usqp=CAU",
                 "https://flxt.tmsimg.com/assets/609607_v9_bb.jpg",
-                "https://flxt.tmsimg.com/assets/43431_v9_ba.jpg",
+//                "https://flxt.tmsimg.com/assets/43431_v9_ba.jpg",
                 "https://images.express.com/is/image/expressfashion/0094_07827535_2073_a001?cache=on&wid=960&fmt=jpeg&qlt=85,1&resmode=sharp2&op_usm=1,1,5,0&defaultImage=Photo-Coming-Soon",
                 "https://i5.walmartimages.com/asr/07e91197-7e60-4e48-bbeb-510cb2ac420d.bc276ee358e5d9372ac695090fb73a38.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
                 "https://bonobos-prod-s3.imgix.net/products/286106/original/JACKET_BOMBER-JACKET_BOT01535N1233G_1.jpg?1675112807=&auto=format&fit=clip&cs=srgb&w=768&q=75",
@@ -710,7 +710,7 @@ public final class MovieList {
         String xRay4Description[] = {
                 "Tom Holland;• Born in Kingston upon Thames, United Kingdom\n• Age: 26 (1996)\n• Height: 5′ 8″\n• Nationality: British;Thomas Stanley Holland is an English actor. His accolades include a British Academy Film Award, three Saturn Awards, a Guinness World Record and an appearance on the Forbes 30 Under 30 Europe list. Some publications have called him one of the most popular actors of his generation.",
                 "Sophia Ali;• Born in San Diego, CA, America\n• Age: 27 (1995)\n• Height: 5′ 8″\n• Nationality: American;Sophia Taylor Ramsey Ali is an American actress. She is best known for her work in the MTV romantic comedy series Faking It, the ABC medical drama series Grey's Anatomy, and The Wilds.",
-                "Mark Wahlberg;• Born in Boston, MA, America\n• Age: 51 (1971)\n• Height: 5′ 8″\n• Nationality: American;Mark Robert Michael Wahlberg, former stage name Marky Mark, is an American actor, businessman, and former rapper. His work as a leading man spans the comedy, drama, and action genres.",
+//                "Mark Wahlberg;• Born in Boston, MA, America\n• Age: 51 (1971)\n• Height: 5′ 8″\n• Nationality: American;Mark Robert Michael Wahlberg, former stage name Marky Mark, is an American actor, businessman, and former rapper. His work as a leading man spans the comedy, drama, and action genres.",
 
                 "Neck Ruffle Fit and Flare Dress;$128;• Material: 100% polyester/rayon\n• Length: 136cm\n\nThis one features fun ruffle details and a flattering fit and flare style. This piece perfectly pairs with heels or booties for your next event.",
                 "Vegan Leather Moto Jacket;$128;• Machine wash cold\n• Tumble dry low\n\nWater resistant outer shell for extra protection against inclement weather.",
@@ -721,7 +721,7 @@ public final class MovieList {
         String xRay4Merchandise[] = {
                 "",
                 "",
-                "",
+//                "",
                 "amazon target walmart",
                 "amazon costco walmart",
                 "amazon target walmart",
@@ -1218,7 +1218,7 @@ public final class MovieList {
         String xRay13Type[] = {
                 "0",
                 "0",
-                "0",
+//                "0",
                 "1",
                 "1",
                 "1",
@@ -1228,7 +1228,7 @@ public final class MovieList {
         String xRay13Name[] = {
                 "Amanda Seyfried",
                 "Rachel McDowall",
-                "Ashley Lilley",
+//                "Ashley Lilley",
 
                 "Smiling Eyes Top",
                 "The A-Line Denim Short",
@@ -1239,7 +1239,7 @@ public final class MovieList {
         String xRay13ImageUrl[] = {
                 "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcTVutBFshbcg-C7GOr6BkZhnbF3eCzgOP3-YY5wvziH8XJaP_8o6T7Zn5rk1z6XcQvm5w1mcFEoS3LwGWU",
                 "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcTH8E9zXz5yArTPZDbXFQLtrzMhP_sYs37nDAhMwi9kBOHcG1EqGjMZz7B3ECQ08_yZoFpydtu3mAdUDIo",
-                "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcSW4da8xMn0EiKpnSdv-P7yZd4lRexlS0ZV31_zn0B4B2yObH5i5-u2Cf8qMqSqsiDD",
+//                "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcSW4da8xMn0EiKpnSdv-P7yZd4lRexlS0ZV31_zn0B4B2yObH5i5-u2Cf8qMqSqsiDD",
 
                 "https://www.lulus.com/images/product/xlarge/2453892_432832.jpg?w=560&hdpi=1",
                 "https://media.everlane.com/image/upload/c_fill,w_1200,ar_807:807,q_auto,dpr_1.0,f_auto,fl_progressive:steep/i/6f30f32a_103e",
@@ -1250,7 +1250,7 @@ public final class MovieList {
         String xRay13Description[] = {
                 "Amanda Seyfried;• Born in Allentown, PA, America\n• Age: 37 (1985)\n• Height: 5′ 2″\n• Nationality: American;Amanda Michelle Seyfried is an American actress. Born and raised in Allentown, Pennsylvania, she began modeling at age 11 and ventured into acting at 15, with recurring roles as Lucy Montgomery on the CBS soap opera As the World Turns and Joni Stafford on the ABC soap opera All My Children.",
                 "Rachel McDowall;• Born in Liverpool, United Kingdom\n• Age: 38 (1984)\n• Height: 6′ 0″\n• Nationality: British;Rachel Anne McDowall made her film debut as Lisa in the 2008 film Mamma Mia! The Movie, and had her last of eight film or television roles in a 2016 episode of Zoe Ever After. On stage, she played Swedish woman Ulla in Mel Brooks' musical The Producers in the West End and Velma Kelly in productions of the musical Chicago, in the West End and at the Cambridge Theatre in 2008 and the Garrick Theatre in 2012.",
-                "Ashley Lilley;• Born in Rothesay, United Kingdom\n• Age: 37 (1986)\n• Height: 5′ 9″\n• Nationality: British;Ashley-Anne Lilley is a Scottish actress and singer. She made her debut in the 2008 film Mamma Mia!",
+//                "Ashley Lilley;• Born in Rothesay, United Kingdom\n• Age: 37 (1986)\n• Height: 5′ 9″\n• Nationality: British;Ashley-Anne Lilley is a Scottish actress and singer. She made her debut in the 2008 film Mamma Mia!",
 
                 "Smiling Eyes Blue and White Embroidered Top;$48;• Material: 100% rayon\n• Unlined\n• Hand wash cold\n\nThe Smiling Eyes Blue and White Embroidered Top is what you need to complete your next Boho ensemble! Gauzy white woven rayon, with blue embroidery, shapes a relaxed bodice with a rounded neckline, front cutout, and tasseled ties. Long sleeves have elastic cuffs.",
                 "The A-Line Denim Short;$68;• Material: 100% organic cotton\n• High-rise\n• Zipper fly\n• Machine wash cold\n• Tumble dry low.\n\nThe A-Line Denim Short features a waist-nipping high rise, a zip-fly closure, an easy 5.5\" inseam, and a flattering A-line shape. Plus, it’s made of premium non-stretch organic cotton, which means it has a gutsy feel that will stand the test of time.",
@@ -1261,7 +1261,7 @@ public final class MovieList {
         String xRay13Merchandise[] = {
                 "",
                 "",
-                "",
+//                "",
                 "target costco walmart",
                 "costco amazon target",
                 "amazon target walmart",
@@ -1524,7 +1524,7 @@ public final class MovieList {
         String xRay18Type[] = {
                 "0",
                 "0",
-                "0",
+//                "0",
                 "1",
                 "1",
                 "1",
@@ -1534,7 +1534,7 @@ public final class MovieList {
         String xRay18Name[] = {
                 "Constance Wu",
                 "Henry Golding",
-                "Awkwafina",
+//                "Awkwafina",
 
                 "Lurex Maxi Dress",
                 "Jil Sander Disc Earrings",
@@ -1545,7 +1545,7 @@ public final class MovieList {
         String xRay18ImageUrl[] = {
                 "https://de.web.img3.acsta.net/pictures/19/10/15/22/54/2715291.jpg",
                 "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQSmEFRqQUT3_8mkOWGU_D_PcvwZ_bBr72rw83NXEyXL62xU6dxwwwz0tlwqQ5trmAUT5UzaHkA_j7-RuI",
-                "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQ6V4ut50RTK_XFCW80J1VMN3KDZGjrIk8hGvHp_EhMUfh_howo1KxoUed9xCI5qgra4Uo9QnEO94xZXe8",
+//                "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQ6V4ut50RTK_XFCW80J1VMN3KDZGjrIk8hGvHp_EhMUfh_howo1KxoUed9xCI5qgra4Uo9QnEO94xZXe8",
 
                 "https://i.redd.it/l0k4kqbocwo71.jpg",
                 "https://www.ekseption.com/media/catalog/product/cache/2d278355bb18eedbbf016ac97d4c613d/2/7/270296-1.jpg",
@@ -1556,7 +1556,7 @@ public final class MovieList {
         String xRay18Description[] = {
                 "Constance Wu;• Born in Richmond, VA, America\n• Age: 41 (1982)\n• Height: 5′ 1″\n• Nationality: American;Constance Wu is an American actress. Wu was included on Time magazine's list of the 100 most influential people in the world in 2017. She has earned several accolades, including nominations for a Golden Globe Award, four Critics' Choice Awards, a Screen Actors Guild Award, and two TCA Awards.",
                 "Henry Golding;• Born in Betong, Malaysia\n• Age: 36 (1987)\n• Height: 6′ 1″\n• Nationality: British, Malaysian;Henry Ewan Golding is a Malaysian and British actor and television host. Golding has been a presenter on BBC's The Travel Show since 2014.",
-                "Awkwafina;• Born in Stony Brook, NY, America\n• Age: 34 (1988)\n• Height: 5′ 1″\n• Nationality: American;Nora Lum, known professionally as Awkwafina, is an American actress, rapper, and comedian who rose to prominence in 2012 when her rap song \"My Vag\" became popular on YouTube. She then released her debut album, Yellow Ranger, and appeared on the MTV comedy series Girl Code.",
+//                "Awkwafina;• Born in Stony Brook, NY, America\n• Age: 34 (1988)\n• Height: 5′ 1″\n• Nationality: American;Nora Lum, known professionally as Awkwafina, is an American actress, rapper, and comedian who rose to prominence in 2012 when her rap song \"My Vag\" became popular on YouTube. She then released her debut album, Yellow Ranger, and appeared on the MTV comedy series Girl Code.",
 
                 "Lurex Maxi Dress;$995;• Brand: M Missoni\n• Material: 100% silk\n• V-neck\n• Sleeveless\n• Specialist cleaning\n\nSensual maxi dress detailed with faded colour striped pattern embellished with all-over gold tone lurex inserts and detailed with double spaghetti strap creating a criss cross effect at back, fitted high waist and flared skirt",
                 "Jil Sander Disc Earrings;$532;• Material: 100% 925 silver\n• Diameter: 6 cm\n\nJil Sander pair of disc earrings in in golden silver featuring engraved logo and snap closure. For pierced ears only. Antioxidant treatment and nickel tested.",
@@ -1567,7 +1567,7 @@ public final class MovieList {
         String xRay18Merchandise[] = {
                 "",
                 "",
-                "",
+//                "",
                 "target costco walmart",
                 "costco amazon target",
                 "costco target amazon",
