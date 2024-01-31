@@ -259,7 +259,7 @@ public class PlaybackActivity extends Activity {
 
             @Override
             public boolean onTwoPointerTap(View view) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
+//                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
 
 //                Intent intent = new Intent(getApplicationContext(), XRayListActivity.class);
 //                intent.putExtra(XRayListActivity.MOVIE_ID, movie.getId());
