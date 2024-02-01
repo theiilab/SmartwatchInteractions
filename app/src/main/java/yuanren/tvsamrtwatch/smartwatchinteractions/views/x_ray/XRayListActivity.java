@@ -53,6 +53,7 @@ public class XRayListActivity extends Activity {
     private OnGestureRegisterListener gestureRegisterListener;
     /** ----- log ----- */
     private Metrics metrics;
+    private boolean lastTaskFlag = false;
 
     /** --------------- */
 
@@ -159,8 +160,16 @@ public class XRayListActivity extends Activity {
             metrics.longPressesPerTasks++;
 
             if (metrics.taskNum == index + 1) {
+                Log.d(TAG, "" + metrics.taskNum);
+                if (metrics.taskNum == Metrics.SESSION_2_NUM_TASK && lastTaskFlag) {
+                    Log.d(TAG, "return");
+                    return;
+                }
                 metrics.endTime = System.currentTimeMillis();
                 FileUtils.write(getApplicationContext(), metrics);
+                if (metrics.taskNum == Metrics.SESSION_2_NUM_TASK && !lastTaskFlag) {
+                    lastTaskFlag = true;
+                }
                 metrics.nextTask();
                 metrics.startTime = System.currentTimeMillis();
             }
