@@ -166,6 +166,9 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
+            endTime = System.currentTimeMillis();
+            duration = endTime - startTime;
+
             onClick(view);
 
             // provide haptic feedback

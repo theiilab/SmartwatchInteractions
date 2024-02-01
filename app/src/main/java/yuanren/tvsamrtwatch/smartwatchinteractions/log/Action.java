@@ -9,6 +9,7 @@ public class Action {
     private int block = 0;
     public String targetMovie = "";
     public String selectedMovie = "";
+    private int taskNum = 0;
     private String name;
     private String scope; // performed in which activity
     private double startTime;
@@ -23,6 +24,7 @@ public class Action {
         this.block = metrics.block;
         this.targetMovie = metrics.targetMovie;
         this.selectedMovie = selectedMovie;
+        this.taskNum = metrics.taskNum;
         this.name = name;
         this.scope = scope;
         this.startTime = startTime;
@@ -37,6 +39,7 @@ public class Action {
         this.block = metrics.block;
         this.targetMovie = metrics.targetMovie;
         this.selectedMovie = selectedMovie;
+        this.taskNum = metrics.taskNum;
         this.name = name;
         this.scope = scope;
         this.startTime = startTime;
@@ -48,6 +51,6 @@ public class Action {
     @NonNull
     @Override
     public String toString() {
-        return "" + pid + "," + method + "," + session + "," + block + "," + targetMovie + "," + selectedMovie + "," + name + "," + scope + "," + startTime + "," + endTime + "," + duration + "," + other + "\n";
+        return "" + pid + "," + method + "," + session + "," + block + "," + targetMovie + "," + selectedMovie + "," + taskNum + "," + name + "," + scope + "," + startTime + "," + endTime + "," + duration + "," + other + "\n";
     }
 }

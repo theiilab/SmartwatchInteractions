@@ -57,6 +57,7 @@ public class PlaybackActivity extends Activity {
     private float accumulatedVolume = 0;
 
     private OnSwipeHoldGestureRegisterListener swipeHoldGestureListener;
+    private OnSwipeHoldGestureRegisterListener clickGestureListener;
 
     /** ----- log ----- */
     private Metrics metrics;
@@ -73,27 +74,28 @@ public class PlaybackActivity extends Activity {
 
     private Long changeVolumeStartTime = 0L;
     private Long changeVolumeEndTime = 0L;
-    private boolean changeVolumeFlag = false;
+    private int changeVolumeSemaphore = 0;
 
     private Long forwardStartTime = 0L;
     private Long forwardEndTime = 0L;
-    private boolean forwardFlag = false;
+    private int forwardSemaphore = 0;
 
     private Long pauseStartTime = 0L;
     private Long pauseEndTime = 0L;
-    private boolean pauseFlag = false;
+    private int pauseSemaphore = 0;
 
     private Long backwardStartTime = 0L;
     private Long backwardEndTime = 0L;
-    private boolean backwardFlag = false;
+    private int backwardSemaphore = 0;
 
     private Long goToEndStartTime = 0L;
     private Long goToEndEndTime = 0L;
-    private boolean goToEndFlag = false;
+    private Long goToEndCurTimeIndex = 0L;
+    private int goToEndSemaphore = 0;
 
     private Long goToStartStartTime = 0L;
     private Long goToStartEndTime = 0L;
-    private boolean goToStartFlag = false;
+    private int goToStartSemaphore = 0;
 
     private Long crownRotatesTime = 0L;
     /** --------------- */
@@ -193,16 +195,14 @@ public class PlaybackActivity extends Activity {
             @Override
             public boolean onLongClick(View view) {
                 /** ----- log ----- */
-                if (!goToStartFlag) {
-                    return true;
-                }
-                setLogData(goToStartStartTime, goToStartEndTime);
-
                 // raw
                 Action action = new Action(metrics, movie.getTitle(),
                         ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
 
+                if (metrics.taskNum > 8) {
+                    return true;
+                }
                 clearLogData();
                 /** --------------- */
 
@@ -259,9 +259,10 @@ public class PlaybackActivity extends Activity {
             }
         });
 
-        control.setOnClickListener(new View.OnClickListener() {
+        clickGestureListener = new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
                 if (isPlayed) {
@@ -275,16 +276,17 @@ public class PlaybackActivity extends Activity {
                 }
 
                 // provide haptic feedback
-                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 /** ----- log ----- */
                 updateLogData(ActionType.TYPE_ACTION_TAP);
                 Action action = new Action(metrics, movie.getTitle(),
-                        ActionType.TYPE_ACTION_TAP.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
+                        ActionType.TYPE_ACTION_TAP.name, TAG, clickGestureListener.startTime, clickGestureListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
-        });
+        };
+        control.setOnTouchListener(clickGestureListener);
     }
 
     private void animateControl(int keyEvent) {
@@ -323,91 +325,100 @@ public class PlaybackActivity extends Activity {
     /** ----- log ----- */
     private void updateLogData(ActionType actionType) {
         switch (actionType) {
-            case TYPE_ACTION_SWIPE_LEFT:
-                if (!backwardFlag && pauseFlag) {
-                    backwardFlag = true;
-                    setLogData(pauseStartTime, pauseEndTime);
-
-                    clearCounts();
-                    backwardStartTime = System.currentTimeMillis();
-                }
-                actionCount++;
-                swipeCount++;
-                backwardEndTime = System.currentTimeMillis();
-                break;
-            case TYPE_ACTION_SWIPE_RIGHT:
-                if (!forwardFlag && changeVolumeFlag) {
-                    forwardFlag = true;
-                    setLogData(changeVolumeStartTime, changeVolumeEndTime);
-
-                    clearCounts();
-                    forwardStartTime = System.currentTimeMillis();
-                }
-                actionCount++;
-                swipeCount++;
-                forwardEndTime = System.currentTimeMillis();
-                break;
-            case TYPE_ACTION_SWIPE_LEFT_HOLD:
-                if (!goToStartFlag && goToEndFlag) {
-                    goToStartFlag = true;
-                    setLogData(goToEndStartTime, goToEndEndTime);
-                    clearCounts();
-                    goToStartStartTime = System.currentTimeMillis();
-                }
-                swipeLeftHoldCount = swipeHoldGestureListener.swipeHoldLeftCount;
-                goToStartEndTime = System.currentTimeMillis();
-                Log.d(TAG, "TYPE_ACTION_SWIPE_LEFT_HOLD: " + swipeLeftHoldCount);
-
-                /** ---raw for swipe + hold--- */
-                for (Action action: swipeHoldGestureListener.swipeHolds) {
-                    FileUtils.writeRaw(getApplicationContext(), action);
-                }
-                swipeHoldGestureListener.clearSwipeHoldActions();
-                /** -------------------------- */
-                break;
-            case TYPE_ACTION_SWIPE_RIGHT_HOLD:
-                if (!goToEndFlag && backwardFlag) {
-                    goToEndFlag = true;
-                    setLogData(backwardStartTime, backwardEndTime);
-
-                    clearCounts();
-                    goToEndStartTime = System.currentTimeMillis();
-                }
-                swipeRightHoldCount = swipeHoldGestureListener.swipeHoldRightCount;
-                goToEndEndTime = System.currentTimeMillis();
-                Log.d(TAG, "TYPE_ACTION_SWIPE_RIGHT_HOLD: " + swipeRightHoldCount);
-
-                /** ---raw for swipe + hold--- */
-                for (Action action: swipeHoldGestureListener.swipeHolds) {
-                    FileUtils.writeRaw(getApplicationContext(), action);
-                }
-                swipeHoldGestureListener.clearSwipeHoldActions();
-                /** -------------------------- */
-                break;
             case TYPE_ACTION_CROWN_ROTATE:
-                if (!changeVolumeFlag && playFlag) {
-                    changeVolumeFlag = true;
+                if (changeVolumeSemaphore == 0 && metrics.taskNum == 2) {
                     playEndTime = System.currentTimeMillis();
                     setLogData(playStartTime, playEndTime);
-
-                    clearCounts();
                     changeVolumeStartTime = System.currentTimeMillis();
                 }
                 actionCount++;
                 crownRotateCount++;
+                changeVolumeSemaphore++;
                 changeVolumeEndTime = System.currentTimeMillis();
+
+                if (changeVolumeSemaphore == metrics.crownRotatesNeeded && metrics.taskNum == 3) {
+                    setLogData(changeVolumeStartTime, changeVolumeEndTime);
+                    clearCounts();
+                }
+                break;
+            case TYPE_ACTION_SWIPE_RIGHT:
+                if (forwardSemaphore == 0 && metrics.taskNum == 4) {
+                    forwardStartTime = System.currentTimeMillis();
+                }
+                actionCount++;
+                swipeCount++;
+                forwardSemaphore++;
+                forwardEndTime = System.currentTimeMillis();
+                if (forwardSemaphore == metrics.swipesNeeded && metrics.taskNum == 4) {
+                    setLogData(forwardStartTime, forwardEndTime);
+                    clearCounts();
+                }
                 break;
             case TYPE_ACTION_TAP:
-                if (!pauseFlag && forwardFlag) {
-                    pauseFlag = true;
-                    setLogData(forwardStartTime, forwardEndTime);
-
-                    clearCounts();
+                if (pauseSemaphore == 0 && metrics.taskNum == 5) {
                     pauseStartTime = System.currentTimeMillis();
                 }
                 actionCount++;
                 tapCount++;
+                pauseSemaphore++;
                 pauseEndTime = System.currentTimeMillis();
+                if (pauseSemaphore == metrics.tapsNeeded && metrics.taskNum == 5) {
+                    setLogData(pauseStartTime, pauseEndTime);
+                    clearCounts();
+                }
+                break;
+            case TYPE_ACTION_SWIPE_LEFT:
+                if (backwardSemaphore == 0 && metrics.taskNum == 6) {
+                    backwardStartTime = System.currentTimeMillis();
+                }
+                actionCount++;
+                swipeCount++;
+                backwardSemaphore++;
+                backwardEndTime = System.currentTimeMillis();
+                if (backwardSemaphore == metrics.swipesNeeded && metrics.taskNum == 6) {
+                    setLogData(backwardStartTime, backwardEndTime);
+                    clearCounts();
+                }
+                break;
+            case TYPE_ACTION_SWIPE_RIGHT_HOLD:
+                if (goToEndSemaphore == 0 && metrics.taskNum == 7) {
+                    goToEndStartTime = System.currentTimeMillis();
+                }
+                goToEndSemaphore++;
+                swipeRightHoldCount = swipeHoldGestureListener.swipeHoldRightCount;
+                goToEndEndTime = System.currentTimeMillis();
+                Log.d(TAG, "TYPE_ACTION_SWIPE_RIGHT_HOLD: " + swipeRightHoldCount);
+                if (swipeRightHoldCount == metrics.swipeHoldNeeded && metrics.taskNum == 7) {
+                    setLogData(goToEndStartTime, goToEndEndTime);
+                    clearCounts();
+                }
+
+                /** ---raw for swipe + hold--- */
+                for (Action action: swipeHoldGestureListener.swipeHolds) {
+                    FileUtils.writeRaw(getApplicationContext(), action);
+                }
+                swipeHoldGestureListener.clearSwipeHoldActions();
+                /** -------------------------- */
+                break;
+            case TYPE_ACTION_SWIPE_LEFT_HOLD:
+                if (goToStartSemaphore == 0 && metrics.taskNum == 8) {
+                    goToStartStartTime = System.currentTimeMillis();
+                }
+                goToStartSemaphore++;
+                swipeLeftHoldCount = swipeHoldGestureListener.swipeHoldLeftCount;
+                goToStartEndTime = System.currentTimeMillis();
+                Log.d(TAG, "TYPE_ACTION_SWIPE_LEFT_HOLD: " + swipeLeftHoldCount);
+                if (swipeLeftHoldCount == metrics.swipeHoldNeeded && metrics.taskNum == 8) {
+                    setLogData(goToStartStartTime, goToStartEndTime);
+                    clearCounts();
+                }
+
+                /** ---raw for swipe + hold--- */
+                for (Action action: swipeHoldGestureListener.swipeHolds) {
+                    FileUtils.writeRaw(getApplicationContext(), action);
+                }
+                swipeHoldGestureListener.clearSwipeHoldActions();
+                /** -------------------------- */
                 break;
         }
     }
@@ -422,6 +433,13 @@ public class PlaybackActivity extends Activity {
         tapCount = 0;
 
         swipeHoldGestureListener.clearSwipeHoldCounts();
+
+        changeVolumeSemaphore = 0;
+        forwardSemaphore = 0;
+        pauseSemaphore = 0;
+        backwardSemaphore = 0;
+        goToEndSemaphore = 0;
+        goToStartSemaphore = 0;
     }
 
     /** ----- log ----- */
@@ -439,27 +457,27 @@ public class PlaybackActivity extends Activity {
 
         changeVolumeStartTime = 0L;
         changeVolumeEndTime = 0L;
-        changeVolumeFlag = false;
+        changeVolumeSemaphore = 0;
 
         forwardStartTime = 0L;
         forwardEndTime = 0L;
-        forwardFlag = false;
+        forwardSemaphore = 0;
 
         pauseStartTime = 0L;
         pauseEndTime = 0L;
-        pauseFlag = false;
+        pauseSemaphore = 0;
 
         backwardStartTime = 0L;
         backwardEndTime = 0L;
-        backwardFlag = false;
+        backwardSemaphore = 0;
 
         goToEndStartTime = 0L;
         goToEndEndTime = 0L;
-        goToEndFlag = false;
+        goToEndSemaphore = 0;
 
         goToStartStartTime = 0L;
         goToStartEndTime = 0L;
-        goToStartFlag = false;
+        goToStartSemaphore = 0;
 
         crownRotatesTime = 0L;
 
