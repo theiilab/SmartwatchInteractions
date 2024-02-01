@@ -49,7 +49,9 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** -------- log -------- */
         metrics = (Metrics) getApplicationContext();
+        /** --------------------- */
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
