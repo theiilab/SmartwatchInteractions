@@ -11,6 +11,6 @@
     <translate
         android:fromYDelta="100%"
         android:toYDelta="0%"
-        android:duration="100"
+        android:duration="@integer/anim_sliding_duration"
         android:startOffset="0"/>
 </set>
