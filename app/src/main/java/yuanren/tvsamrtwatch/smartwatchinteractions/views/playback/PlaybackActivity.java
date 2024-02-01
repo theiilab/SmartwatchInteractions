@@ -200,7 +200,7 @@ public class PlaybackActivity extends Activity {
                         ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
 
-                if (metrics.taskNum > 8) {
+                if (metrics.taskNum > Metrics.SESSION_1_NUM_TASK) {
                     return true;
                 }
                 clearLogData();
