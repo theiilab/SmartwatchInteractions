@@ -54,8 +54,6 @@ public class MainActivity extends Activity {
     private Movie movie;
 
     private OnGestureRegisterListener gestureRegisterListener;
-
-    private int[] randoms;
     public int currentSelectedMovieIndex = 0;
 
     /** ----- log ----- */
@@ -83,14 +81,11 @@ public class MainActivity extends Activity {
         indicatorDown = binding.indicatorDown;
 
         // load movie
-        randoms = LoginActivity.randoms;
-        MovieList.setUpMovies(randoms);
         movie = MovieList.getMovie(currentSelectedMovieIndex);
         setMovieInfo();
 
         /** ----- log ----- */
         metrics = (Metrics) getApplicationContext();
-        metrics.targetMovie = metrics.getFirstTargetMovie();
         metrics.selectedMovie = movie.getTitle();
         /** --------------- */
 
@@ -343,17 +338,12 @@ public class MainActivity extends Activity {
     /** ----- log ----- */
     private void setLogData() {
         metrics.selectedMovie = movie.getTitle();
-        metrics.task = metrics.session == 1 ? TaskType.TYPE_TASK_FIND.name : "1"; // declare task for session 1 or session 2
         metrics.endTime = System.currentTimeMillis();
-        metrics.taskCompletionTime = metrics.endTime - metrics.startTime;
-        metrics.actionsNeeded = metrics.calculateSession1ActionsNeeded();
-        metrics.swipesNeeded = metrics.actionsNeeded - 1;
-        metrics.tapsNeeded = 1;
-        metrics.errorRate = ((double) metrics.actionsPerTask - (double) metrics.actionsNeeded) / metrics.actionsNeeded;
 
         // only reflect navigation time in log for session 1
         if (metrics.session == 1) {
             FileUtils.write(getApplicationContext(), metrics);
+            metrics.nextTask();
         }
     }
 

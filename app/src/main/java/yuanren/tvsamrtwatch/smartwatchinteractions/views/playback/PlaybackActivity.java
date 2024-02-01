@@ -96,52 +96,6 @@ public class PlaybackActivity extends Activity {
     private boolean goToStartFlag = false;
 
     private Long crownRotatesTime = 0L;
-
-    private Map<TaskType, Integer> actionsNeeded = new HashMap<TaskType, Integer>() {{
-        put(TaskType.TYPE_TASK_PLAY_5_SEC, 0);
-        put(TaskType.TYPE_TASK_CHANGE_VOLUME, 2);
-        put(TaskType.TYPE_TASK_FORWARD, 2);
-        put(TaskType.TYPE_TASK_PAUSE, 2);
-        put(TaskType.TYPE_TASK_BACKWARD, 2);
-        put(TaskType.TYPE_TASK_GO_TO_END, 1);
-        put(TaskType.TYPE_TASK_GO_TO_START, 1);
-    }};
-    private Map<TaskType, Integer> crownRotatesNeeded = new HashMap<TaskType, Integer>() {{
-        put(TaskType.TYPE_TASK_PLAY_5_SEC, 0);
-        put(TaskType.TYPE_TASK_CHANGE_VOLUME, 2);
-        put(TaskType.TYPE_TASK_FORWARD, 0);
-        put(TaskType.TYPE_TASK_PAUSE, 0);
-        put(TaskType.TYPE_TASK_BACKWARD, 0);
-        put(TaskType.TYPE_TASK_GO_TO_END, 0);
-        put(TaskType.TYPE_TASK_GO_TO_START, 0);
-    }};
-    private Map<TaskType, Integer> swipesNeeded = new HashMap<TaskType, Integer>() {{
-        put(TaskType.TYPE_TASK_PLAY_5_SEC, 0);
-        put(TaskType.TYPE_TASK_CHANGE_VOLUME, 0);
-        put(TaskType.TYPE_TASK_FORWARD, 2);
-        put(TaskType.TYPE_TASK_PAUSE, 0);
-        put(TaskType.TYPE_TASK_BACKWARD, 2);
-        put(TaskType.TYPE_TASK_GO_TO_END, 0);
-        put(TaskType.TYPE_TASK_GO_TO_START, 0);
-    }};
-    private Map<TaskType, Integer> tapsNeeded = new HashMap<TaskType, Integer>() {{
-        put(TaskType.TYPE_TASK_PLAY_5_SEC, 0);
-        put(TaskType.TYPE_TASK_CHANGE_VOLUME, 0);
-        put(TaskType.TYPE_TASK_FORWARD, 0);
-        put(TaskType.TYPE_TASK_PAUSE, 2);
-        put(TaskType.TYPE_TASK_BACKWARD, 0);
-        put(TaskType.TYPE_TASK_GO_TO_END, 0);
-        put(TaskType.TYPE_TASK_GO_TO_START, 0);
-    }};
-    private Map<TaskType, Integer> swipeHoldNeeded = new HashMap<TaskType, Integer>() {{
-        put(TaskType.TYPE_TASK_PLAY_5_SEC, 0);
-        put(TaskType.TYPE_TASK_CHANGE_VOLUME, 0);
-        put(TaskType.TYPE_TASK_FORWARD, 0);
-        put(TaskType.TYPE_TASK_PAUSE, 0);
-        put(TaskType.TYPE_TASK_BACKWARD, 0);
-        put(TaskType.TYPE_TASK_GO_TO_END, 1);
-        put(TaskType.TYPE_TASK_GO_TO_START, 1);
-    }};
     /** --------------- */
 
     @Override
@@ -242,7 +196,7 @@ public class PlaybackActivity extends Activity {
                 if (!goToStartFlag) {
                     return true;
                 }
-                setLogData(TaskType.TYPE_TASK_GO_TO_START, goToStartStartTime, goToStartEndTime);
+                setLogData(goToStartStartTime, goToStartEndTime);
 
                 // raw
                 Action action = new Action(metrics, movie.getTitle(),
@@ -372,7 +326,7 @@ public class PlaybackActivity extends Activity {
             case TYPE_ACTION_SWIPE_LEFT:
                 if (!backwardFlag && pauseFlag) {
                     backwardFlag = true;
-                    setLogData(TaskType.TYPE_TASK_PAUSE, pauseStartTime, pauseEndTime);
+                    setLogData(pauseStartTime, pauseEndTime);
 
                     clearCounts();
                     backwardStartTime = System.currentTimeMillis();
@@ -384,7 +338,7 @@ public class PlaybackActivity extends Activity {
             case TYPE_ACTION_SWIPE_RIGHT:
                 if (!forwardFlag && changeVolumeFlag) {
                     forwardFlag = true;
-                    setLogData(TaskType.TYPE_TASK_CHANGE_VOLUME, changeVolumeStartTime, changeVolumeEndTime);
+                    setLogData(changeVolumeStartTime, changeVolumeEndTime);
 
                     clearCounts();
                     forwardStartTime = System.currentTimeMillis();
@@ -396,7 +350,7 @@ public class PlaybackActivity extends Activity {
             case TYPE_ACTION_SWIPE_LEFT_HOLD:
                 if (!goToStartFlag && goToEndFlag) {
                     goToStartFlag = true;
-                    setLogData(TaskType.TYPE_TASK_GO_TO_END, goToEndStartTime, goToEndEndTime);
+                    setLogData(goToEndStartTime, goToEndEndTime);
                     clearCounts();
                     goToStartStartTime = System.currentTimeMillis();
                 }
@@ -414,7 +368,7 @@ public class PlaybackActivity extends Activity {
             case TYPE_ACTION_SWIPE_RIGHT_HOLD:
                 if (!goToEndFlag && backwardFlag) {
                     goToEndFlag = true;
-                    setLogData(TaskType.TYPE_TASK_BACKWARD, backwardStartTime, backwardEndTime);
+                    setLogData(backwardStartTime, backwardEndTime);
 
                     clearCounts();
                     goToEndStartTime = System.currentTimeMillis();
@@ -434,7 +388,7 @@ public class PlaybackActivity extends Activity {
                 if (!changeVolumeFlag && playFlag) {
                     changeVolumeFlag = true;
                     playEndTime = System.currentTimeMillis();
-                    setLogData(TaskType.TYPE_TASK_PLAY_5_SEC, playStartTime, playEndTime);
+                    setLogData(playStartTime, playEndTime);
 
                     clearCounts();
                     changeVolumeStartTime = System.currentTimeMillis();
@@ -446,7 +400,7 @@ public class PlaybackActivity extends Activity {
             case TYPE_ACTION_TAP:
                 if (!pauseFlag && forwardFlag) {
                     pauseFlag = true;
-                    setLogData(TaskType.TYPE_TASK_FORWARD, forwardStartTime, forwardEndTime);
+                    setLogData(forwardStartTime, forwardEndTime);
 
                     clearCounts();
                     pauseStartTime = System.currentTimeMillis();
@@ -513,25 +467,16 @@ public class PlaybackActivity extends Activity {
     }
 
     /** ----- log ----- */
-    private void setLogData(TaskType task, Long startTime, Long endTime) {
-        metrics.selectedMovie = movie.getTitle();
-        metrics.task = task.name;
+    private void setLogData(Long startTime, Long endTime) {
         metrics.startTime = startTime;
         metrics.endTime = endTime;
-        metrics.taskCompletionTime = endTime - startTime;
         metrics.actionsPerTask = actionCount + swipeLeftHoldCount + swipeRightHoldCount;
-        metrics.actionsNeeded = actionsNeeded.get(task);
         metrics.crownRotatesPerTasks = crownRotateCount;
-        metrics.crownRotatesNeeded = crownRotatesNeeded.get(task);
         metrics.swipesPerTasks = swipeCount;
-        metrics.swipesNeeded =swipesNeeded.get(task);
         metrics.tapsPerTasks = tapCount;
-        metrics.tapsNeeded = tapsNeeded.get(task);
         metrics.swipeHoldsPerTasks = swipeLeftHoldCount + swipeRightHoldCount;
-        metrics.swipeHoldNeeded = swipeHoldNeeded.get(task);
-        metrics.errorRate = metrics.actionsNeeded != 0 ? ((double) metrics.actionsPerTask - (double) metrics.actionsNeeded) / metrics.actionsNeeded : 0;
-
         FileUtils.write(getApplicationContext(), metrics);
+        metrics.nextTask();
     }
 
     @Override
