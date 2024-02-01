@@ -25,6 +25,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.RandomPositionSocketService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.search.SearchActivity;
 
 public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";
@@ -41,9 +42,15 @@ public class LoginActivity extends FragmentActivity {
     private boolean isChannelSetUp = false;
     public PairingManager pairingManager;
 
+    /** -------- log -------- */
+    private Metrics metrics;
+    /** -------------------- */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        metrics = (Metrics) getApplicationContext();
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -89,7 +96,6 @@ public class LoginActivity extends FragmentActivity {
         });
         editText.setVisibility(View.GONE);
 
-        new SocketAsyncTask().execute();  // start the SSL Socket Connection for both TV Remote service
         new SocketAsyncTask2().execute();  // get random positions via my own socket
     }
 
@@ -121,7 +127,12 @@ public class LoginActivity extends FragmentActivity {
                 editText.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.GONE);
             } else {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent;
+                if (metrics.session == 3) {
+                    intent = new Intent(getApplicationContext(), SearchActivity.class);
+                } else {
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                }
                 startActivity(intent);
             }
         }
@@ -147,9 +158,8 @@ public class LoginActivity extends FragmentActivity {
             MovieList.setUpMovies(randoms);
 
             /** -------- log -------- */
-            Metrics metrics = (Metrics) getApplicationContext();
             metrics.init(Integer.parseInt(tmp1[0]), Integer.parseInt(tmp1[1]), tmp1[2], Integer.parseInt(tmp1[3]));
-            /** -------- log -------- */
+            /** --------------------- */
             return null;
         }
 
@@ -157,6 +167,9 @@ public class LoginActivity extends FragmentActivity {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             RandomPositionSocketService.stopConnection();
+
+            // start the SSL Socket Connection for both TV Remote service
+            new SocketAsyncTask().execute();
         }
     }
 }
