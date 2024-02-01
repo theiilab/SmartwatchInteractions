@@ -101,6 +101,12 @@ public class PlaybackActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** ----- log ----- */
+        metrics = (Metrics) getApplicationContext();
+        playStartTime = System.currentTimeMillis();
+        playFlag = true;
+        /** --------------- */
+
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -126,12 +132,6 @@ public class PlaybackActivity extends Activity {
         rotate.setInterpolator(new LinearInterpolator());
         rotate.setTarget(movieBg);
         rotate.start();
-
-        /** ----- log ----- */
-        metrics = (Metrics) getApplicationContext();
-        playStartTime = System.currentTimeMillis();
-        playFlag = true;
-        /** --------------- */
 
         swipeHoldGestureListener = new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
             @Override

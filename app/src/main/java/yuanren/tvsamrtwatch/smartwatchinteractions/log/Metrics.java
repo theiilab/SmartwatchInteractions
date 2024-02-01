@@ -181,22 +181,10 @@ public class Metrics extends Application {
         String res;
         if (session == 1) {
             taskCompletionTime = endTime - startTime;
-            if (task.equals(TaskType.TYPE_TASK_FIND.name)) {
-                actionsNeeded = calculateS1ActionsNeeded(); // for task 1 in each block
-                swipesNeeded = actionsNeeded - 1;
-                tapsNeeded = 1;
-            } else {
-                actionsNeeded = session1_actionsNeeded.get(task);
-                swipesNeeded = session1_swipesNeeded.get(task);
-                swipeHoldNeeded = session1_swipeHoldNeeded.get(task);
-                tapsNeeded = session1_tapsNeeded.get(task);
-                crownRotatesNeeded = session1_crownRotatesNeeded.get(task);
-            }
             errorRate = actionsNeeded != 0 ? ((double) actionsPerTask - (double) actionsNeeded) / actionsNeeded : 0;
             res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
         } else if (session == 2) {
             taskCompletionTime = endTime - startTime;
-            actionsNeeded = 3;
             errorRate = actionsNeeded != 0 ? ((double) actionsPerTask - (double) actionsNeeded) / actionsNeeded : 0;
             res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
         } else { // session 3
@@ -224,14 +212,20 @@ public class Metrics extends Application {
         this.block = 1;
         this.taskNum = 1;
         if (session == 1) {
+            // for task 1
             this.targetMovie = dataSet == 0 ? session1_targetMovies[0] : session1_targetMovies2[0];
             this.task = session1_tasks[0];
-            this.actionsNeeded = calculateS1ActionsNeeded();  // for task 1, others need to be calculated dynamically in activity
+            this.actionsNeeded = calculateS1ActionsNeeded();
             this.swipesNeeded = actionsNeeded - 1;
             this.tapsNeeded = 1;
         } else if (session == 2) {
+            // for task 1
             this.targetMovie = dataSet == 0 ? session2_targetMovies[0] : session2_targetMovies2[0];
             this.task = "Question 1";
+            this.actionsNeeded = 3;
+            this.twoFingerTapsNeeded = 1;
+            this.tapsNeeded = 1;
+            this.longPressesNeeded = 1;
         } else {
             this.targetMovie = session3_targetMovies[0];
             this.task = "Search 1";
@@ -244,11 +238,19 @@ public class Metrics extends Application {
             block = block > session1_targetMovies.length ? block : block + 1;
             targetMovie = dataSet == 0 ? session1_targetMovies[Math.min(session1_targetMovies.length - 1, block - 1)] : session1_targetMovies2[Math.min(session1_targetMovies.length - 1, block - 1)];
             task = session1_tasks[0];
+            actionsNeeded = session1_actionsNeeded.get(task);
+            swipesNeeded = session1_swipesNeeded.get(task);
+            swipeHoldNeeded = session1_swipeHoldNeeded.get(task);
+            tapsNeeded = session1_tapsNeeded.get(task);
+            crownRotatesNeeded = session1_crownRotatesNeeded.get(task);
         } else if (session == 2) { // 2
             block = block > session2_targetMovies.length ? block : block + 1;
             targetMovie = dataSet == 0 ? session2_targetMovies[Math.min(session2_targetMovies.length - 1, block - 1)] : session2_targetMovies2[Math.min(session2_targetMovies.length - 1, block - 1)];
             task = "Question 1";
             actionsNeeded = 3;
+            twoFingerTapsNeeded = 1;
+            tapsNeeded = 1;
+            longPressesNeeded = 1;
         } else { // 3
             block = block + 1 > 3 ? block : block + 1;
             targetMovie = session3_targetMovies[0];
@@ -282,6 +284,12 @@ public class Metrics extends Application {
             taskNum = Math.min(session3_targetMovies.length, taskNum + 1);
             task = "Search " + (taskNum + 1 > SESSION_3_NUM_TASK ? taskNum : taskNum + 1);
             targetMovie = session3_targetMovies[Math.max(0, taskNum - 1)];
+            actionsNeeded = session1_actionsNeeded.get(task);
+            swipesNeeded = session1_swipesNeeded.get(task);
+            swipeHoldNeeded = session1_swipeHoldNeeded.get(task);
+            tapsNeeded = session1_tapsNeeded.get(task);
+            crownRotatesNeeded = session1_crownRotatesNeeded.get(task);
+
             selectedMovie = "";
             taskCompletionTime = 0L;
             startTime = 0L;
@@ -295,14 +303,14 @@ public class Metrics extends Application {
         } else if (session == 2) {
             taskNum = Math.min(SESSION_2_NUM_TASK, taskNum + 1);
             task = "Question " + taskNum;
-            taskCompletionTime = 0L;
-            startTime = 0L;
-            endTime = 0L;
-            actionsPerTask = 0;
-            errorRate = 0;
-        } else {  // session 1
-            taskNum = Math.min(SESSION_1_NUM_TASK, taskNum + 1);
-            task = session1_tasks[Math.max(0, taskNum - 1)];
+            actionsNeeded = 3;
+            swipesNeeded = 1;
+            tapsNeeded = 1;
+            longPressesNeeded = 1;
+            swipeHoldNeeded = 0;
+            twoFingerTapsNeeded = 0;
+            crownRotatesNeeded = 0;
+
             taskCompletionTime = 0L;
             startTime = 0L;
             endTime = 0L;
@@ -310,17 +318,34 @@ public class Metrics extends Application {
             errorRate = 0;
             // smartwatch only
             swipesPerTasks = 0;
-            swipesNeeded = 0;
             swipeHoldsPerTasks = 0;
-            swipeHoldNeeded = 0;
             tapsPerTasks = 0;
-            tapsNeeded = 0;
             longPressesPerTasks = 0;
-            longPressesNeeded = 0;
             twoFingerTapsPerTasks = 0;
-            twoFingerTapsNeeded = 0;
             crownRotatesPerTasks = 0;
-            crownRotatesNeeded = 0;
+        } else {  // session 1
+            taskNum = Math.min(SESSION_1_NUM_TASK, taskNum + 1);
+            task = session1_tasks[Math.max(0, taskNum - 1)];
+            actionsNeeded = session1_actionsNeeded.get(task);
+            swipesNeeded = session1_swipesNeeded.get(task);
+            swipeHoldNeeded = session1_swipeHoldNeeded.get(task);
+            tapsNeeded = session1_tapsNeeded.get(task);
+            crownRotatesNeeded = session1_crownRotatesNeeded.get(task);
+            longPressesNeeded = 0;
+            twoFingerTapsNeeded = 0;
+
+            taskCompletionTime = 0L;
+            startTime = 0L;
+            endTime = 0L;
+            actionsPerTask = 0;
+            errorRate = 0;
+            // smartwatch only
+            swipesPerTasks = 0;
+            swipeHoldsPerTasks = 0;
+            tapsPerTasks = 0;
+            longPressesPerTasks = 0;
+            twoFingerTapsPerTasks = 0;
+            crownRotatesPerTasks = 0;
         }
     }
 

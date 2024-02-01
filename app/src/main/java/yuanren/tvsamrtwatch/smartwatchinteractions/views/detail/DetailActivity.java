@@ -28,6 +28,8 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity0;
+import yuanren.tvsamrtwatch.smartwatchinteractions.views.playback.PlaybackActivity2;
 
 public class DetailActivity extends Activity {
     private static final String TAG = "DetailActivity";
@@ -96,7 +98,14 @@ public class DetailActivity extends Activity {
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
-                Intent intent = new Intent(getApplicationContext(), PlaybackActivity.class);
+                Intent intent;
+                if (metrics.session == 1){
+                    intent = new Intent(getApplicationContext(), PlaybackActivity.class);
+                } else if (metrics.session == 2){ // session 2
+                    intent = new Intent(getApplicationContext(), PlaybackActivity2.class);
+                } else {
+                    intent = new Intent(getApplicationContext(), PlaybackActivity0.class);
+                }
                 intent.putExtra(PlaybackActivity.MOVIE_ID, movie.getId());
                 startActivity(intent);
             }

@@ -25,15 +25,19 @@ import java.util.List;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayListBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray_content.XRayContentActivity;
 
 public class XRayListActivity extends Activity {
-    public static final String TAG = "XRayListActivity";
+    private static final String TAG = "XRayListActivity";
+    private static final int REQUEST_CODE_X_RAY_LIST = 101;
+
     public static final String MOVIE_ID = "selectedMovieId";
     private ActivityXrayListBinding binding;
     private ConstraintLayout container;
@@ -44,10 +48,18 @@ public class XRayListActivity extends Activity {
     private Movie movie;
     private List<XRayItem> data;
     private int index = 0;
+    /** ----- log ----- */
+    private Metrics metrics;
+
+    /** --------------- */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** ----- log ----- */
+        metrics = (Metrics) getApplicationContext();
+        /** --------------- */
+
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -69,35 +81,68 @@ public class XRayListActivity extends Activity {
             @Override
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
-
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_RIGHT);
+
+                /** ----- log ----- */
+                metrics.actionsPerTask++;
+                metrics.swipesPerTasks++;
+                /** --------------- */
             }
 
             @Override
             public void onSwipeLeft(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
-
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_LEFT);
+
+                /** ----- log ----- */
+                metrics.actionsPerTask++;
+                metrics.swipesPerTasks++;
+                /** --------------- */
             }
 
             @Override
             public void onClick(View view) {
+                /** ----- log ----- */
+                metrics.actionsPerTask++;
+                metrics.tapsPerTasks++;
+                /** --------------- */
+
                 Intent intent = new Intent(getApplicationContext(), XRayContentActivity.class);
                 intent.putExtra(XRayContentActivity.MOVIE_ID, movie.getId());
                 intent.putExtra(XRayContentActivity.XRAY_ID, data.get(index).getItemId());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_X_RAY_LIST);
             }
 
             @Override
             public boolean onTwoPointerTap(View view) {
                 Log.d(TAG, "onTwoPointerTap");
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
 
+                // make sure every x-ray card is visited before exit this page
+                if (metrics.taskNum < movie.getXRayItems().size()){
+                    return true;
+                }
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
                 finish();
                 return false;
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_X_RAY_LIST) {
+            metrics.actionsPerTask++; // back from x-ray content page by long press
+            metrics.longPressesPerTasks++;
+
+            if (metrics.taskNum == index + 1) {
+                metrics.endTime = System.currentTimeMillis();
+                FileUtils.write(getApplicationContext(), metrics);
+                metrics.nextTask();
+                metrics.startTime = System.currentTimeMillis();
+            }
+        }
     }
 
     private void changeXRayCard(int keyEvent) {

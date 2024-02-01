@@ -57,6 +57,12 @@
             android:name=".views.playback.PlaybackActivity"
             android:exported="false" />
         <activity
+            android:name=".views.playback.PlaybackActivity0"
+            android:exported="false" />
+        <activity
+            android:name=".views.playback.PlaybackActivity2"
+            android:exported="false" />
+        <activity
             android:name=".views.x_ray.XRayListActivity"
             android:exported="false" />
         <activity

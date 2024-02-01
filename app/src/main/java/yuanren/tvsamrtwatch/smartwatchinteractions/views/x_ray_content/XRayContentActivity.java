@@ -3,8 +3,6 @@ package yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray_content;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.wear.widget.WearableLinearLayoutManager;
-import androidx.wear.widget.WearableRecyclerView;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -25,7 +23,6 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 
 public class XRayContentActivity extends Activity implements ClickListener {
     public static final String MOVIE_ID = "selectedMovieId";
