@@ -18,13 +18,21 @@ import android.widget.TextView;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayContentBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnSwipeHoldGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 
 public class XRayContentActivity extends Activity implements ClickListener {
+    private static final String TAG = "XRayContentActivity";
+
     public static final String MOVIE_ID = "selectedMovieId";
     public static final String XRAY_ID = "selectedXRayItemId";
     private static final String TYPE_ITEM_ACTOR = "0";
@@ -44,9 +52,11 @@ public class XRayContentActivity extends Activity implements ClickListener {
     private ImageButton btn3;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private View cover;
     private Movie movie;
     private XRayItem xRayItem;
     private int currentClickedButtonIndex;
+    private OnGestureRegisterListener longPressGestureRegisterListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +86,7 @@ public class XRayContentActivity extends Activity implements ClickListener {
         btn1 = binding.xRayBtn1;
         btn2 = binding.xRayBtn2;
         btn3 = binding.xRayBtn3;
+        cover = binding.cover;
         currentClickedButtonIndex = 0;
 
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
@@ -123,16 +134,21 @@ public class XRayContentActivity extends Activity implements ClickListener {
         }
         recyclerView.setAdapter(adapter);
 
-        container.setOnLongClickListener(new View.OnLongClickListener() {
+        longPressGestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(View view) {
                 XRayContentActivity.super.onBackPressed();
 
-                // provide haptic feedback
-                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+                /** ----- log ----- */
+                Metrics metrics = (Metrics) getApplicationContext();
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, longPressGestureRegisterListener.startTime, longPressGestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------- */
                 return false;
             }
-        });
+        };
+        cover.setOnTouchListener(longPressGestureRegisterListener);
 
 //        btn1.setOnClickListener(new View.OnClickListener() {
 //            @Override

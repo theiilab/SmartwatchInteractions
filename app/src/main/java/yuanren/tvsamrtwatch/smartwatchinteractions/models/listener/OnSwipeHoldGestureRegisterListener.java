@@ -61,6 +61,9 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
         if (event.getPointerCount() > 1) {
             if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
+                endTime = System.currentTimeMillis();
+                duration = endTime - startTime;
+
                 // provide haptic feedback
                 view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 

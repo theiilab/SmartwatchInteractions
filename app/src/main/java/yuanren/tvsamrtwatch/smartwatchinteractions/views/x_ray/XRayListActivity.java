@@ -25,6 +25,8 @@ import java.util.List;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayListBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
@@ -48,6 +50,7 @@ public class XRayListActivity extends Activity {
     private Movie movie;
     private List<XRayItem> data;
     private int index = 0;
+    private OnGestureRegisterListener gestureRegisterListener;
     /** ----- log ----- */
     private Metrics metrics;
 
@@ -77,7 +80,7 @@ public class XRayListActivity extends Activity {
         index = 0;
         setXRayCardInfo();
 
-        container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
@@ -86,6 +89,10 @@ public class XRayListActivity extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.swipesPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -97,6 +104,10 @@ public class XRayListActivity extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.swipesPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -105,6 +116,10 @@ public class XRayListActivity extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.tapsPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
                 Intent intent = new Intent(getApplicationContext(), XRayContentActivity.class);
@@ -115,6 +130,12 @@ public class XRayListActivity extends Activity {
 
             @Override
             public boolean onTwoPointerTap(View view) {
+                /** ----- log ----- */
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TWO_FINGER_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------- */
+
                 Log.d(TAG, "onTwoPointerTap");
 
                 // make sure every x-ray card is visited before exit this page
@@ -125,7 +146,8 @@ public class XRayListActivity extends Activity {
                 finish();
                 return false;
             }
-        });
+        };
+        container.setOnTouchListener(gestureRegisterListener);
 
     }
 

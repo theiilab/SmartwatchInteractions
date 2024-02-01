@@ -31,15 +31,17 @@ import com.bumptech.glide.Glide;
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnSwipeHoldGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 
 public class PlaybackActivity2 extends Activity {
     private static final String TAG = "PlaybackActivity";
-
     public static final String MOVIE_ID = "selectedMovieId";
     private ActivityPlaybackBinding binding;
     private ConstraintLayout container;
@@ -51,6 +53,7 @@ public class PlaybackActivity2 extends Activity {
     private boolean isPlayed = true;
 
     private float accumulatedVolume = 0;
+    private OnSwipeHoldGestureRegisterListener gestureRegisterListener;
 
     /** ----- log ----- */
     private Metrics metrics;
@@ -99,7 +102,7 @@ public class PlaybackActivity2 extends Activity {
         rotate.setTarget(movieBg);
         rotate.start();
 
-        container.setOnTouchListener(new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
+        gestureRegisterListener = new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
@@ -108,6 +111,10 @@ public class PlaybackActivity2 extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.swipesPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -119,6 +126,10 @@ public class PlaybackActivity2 extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.swipesPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -131,6 +142,10 @@ public class PlaybackActivity2 extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.swipeHoldsPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_RIGHT_HOLD.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -143,6 +158,10 @@ public class PlaybackActivity2 extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.swipeHoldsPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_SWIPE_LEFT_HOLD.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
             }
 
@@ -151,6 +170,10 @@ public class PlaybackActivity2 extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.longPressesPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
@@ -163,6 +186,10 @@ public class PlaybackActivity2 extends Activity {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
                 metrics.twoFingerTapsPerTasks++;
+
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TWO_FINGER_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_DOWN);
@@ -172,7 +199,8 @@ public class PlaybackActivity2 extends Activity {
                 startActivity(intent);
                 return false;
             }
-        });
+        };
+        container.setOnTouchListener(gestureRegisterListener);
 
         volumeCtrl.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             @Override
