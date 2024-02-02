@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 public class Action {
     public int pid = 0;
     public String method = "";
-    private int session = 0;
+    public int session = 0;
     private int block = 0;
     public String targetMovie = "";
     public String selectedMovie = "";
