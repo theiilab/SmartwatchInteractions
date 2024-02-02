@@ -68,7 +68,7 @@ public class Metrics extends Application {
             "Mama Mia",
             "Sherlock Holmes",
             "Flipped",
-            "Inception",
+            "Inception ",
             "Space Jam",
             "Death on the Nile"};
 
@@ -76,7 +76,7 @@ public class Metrics extends Application {
             "Red Notice",
             "Uncharted",
             "The Wolf of Wall Street",
-            "Iron man",
+            "Iron man ",
             "Fantastic Beasts and Where to Find Them",
             "Fall",
             "Lala Land",
@@ -157,7 +157,7 @@ public class Metrics extends Application {
             "Red Notice",
             "Uncharted",
             "The Wolf of Wall Street",
-            "Iron man",
+            "Iron man ",
             "Fantastic Beasts and Where to Find Them",
             "Fall",
             "Lala Land",
@@ -173,12 +173,12 @@ public class Metrics extends Application {
             "Mama Mia",
             "Sherlock Holmes",
             "Flipped",
-            "Inception"};
+            "Inception "};
     private String[] session3_targetMovies2 = {
             "Red Notice",
             "Uncharted",
             "The Wolf of Wall Street",
-            "Iron man",
+            "Iron man ",
             "Fantastic Beasts and Where to Find Them",
             "Fall",
             "Lala Land",
