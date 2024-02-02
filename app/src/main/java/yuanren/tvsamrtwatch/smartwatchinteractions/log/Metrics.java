@@ -174,6 +174,17 @@ public class Metrics extends Application {
             "Sherlock Holmes",
             "Flipped",
             "Inception"};
+    private String[] session3_targetMovies2 = {
+            "Red Notice",
+            "Uncharted",
+            "The Wolf of Wall Street",
+            "Iron man",
+            "Fantastic Beasts and Where to Find Them",
+            "Fall",
+            "Lala Land",
+            "The Da Vinci Code",
+            "Crazy Rich Asians",
+            "The Adam Project"};
 
     @NonNull
     @Override
@@ -188,18 +199,11 @@ public class Metrics extends Application {
             errorRate = actionsNeeded != 0 ? ((double) actionsPerTask - (double) actionsNeeded) / actionsNeeded : 0;
             res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
         } else { // session 3
-            if (block == 1) {
-                dataSet = 50;
-            } else if (block == 2) {
-                dataSet = 100;
-            } else {
-                dataSet = 250;
-            }
             taskCompletionTime = endTime - startTime;
+            errorRate = incorrectTitleCount != 0 ? 1 / incorrectTitleCount : 0;
             characterPerSecond = (double) totalCharacterEntered / (taskCompletionTime / 1000);
             timePerCharacter = taskCompletionTime / totalCharacterEntered;
-            errorRate = incorrectTitleCount != 0 ? 1 / incorrectTitleCount : 0;
-            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + errorRate + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "\n";
+            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + errorRate + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "\n";
         }
         return res;
     }
@@ -227,7 +231,7 @@ public class Metrics extends Application {
             this.tapsNeeded = 1;
             this.longPressesNeeded = 1;
         } else {
-            this.targetMovie = session3_targetMovies[0];
+            this.targetMovie = dataSet == 0 ? session3_targetMovies[0] : session3_targetMovies2[0];
             this.task = "Search 1";
         }
         this.movieLength = MovieList.getMovie(targetMovie).getLength();
@@ -253,7 +257,7 @@ public class Metrics extends Application {
             longPressesNeeded = 1;
         } else { // 3
             block = block + 1 > 3 ? block : block + 1;
-            targetMovie = session3_targetMovies[0];
+            targetMovie = dataSet == 0 ? session3_targetMovies[0] : session3_targetMovies2[0];
             task = "Search 1";
         }
         movieLength = MovieList.getMovie(targetMovie).getLength();
@@ -282,18 +286,13 @@ public class Metrics extends Application {
     public void nextTask() {
         if (session == 3) {
             taskNum = Math.min(session3_targetMovies.length, taskNum + 1);
-            task = "Search " + (taskNum + 1 > SESSION_3_NUM_TASK ? taskNum : taskNum + 1);
-            targetMovie = session3_targetMovies[Math.max(0, taskNum - 1)];
-            actionsNeeded = session1_actionsNeeded.get(task);
-            swipesNeeded = session1_swipesNeeded.get(task);
-            swipeHoldNeeded = session1_swipeHoldNeeded.get(task);
-            tapsNeeded = session1_tapsNeeded.get(task);
-            crownRotatesNeeded = session1_crownRotatesNeeded.get(task);
-
+            task = "Search " + taskNum;
+            targetMovie = dataSet == 0 ? session3_targetMovies[Math.max(0, taskNum - 1)]: session3_targetMovies2[Math.max(0, taskNum - 1)];
             selectedMovie = "";
             taskCompletionTime = 0L;
             startTime = 0L;
             endTime = 0L;
+            actionsPerTask = 0;
             errorRate = 0;
             characterPerSecond = 0;
             backspaceCount = 0;

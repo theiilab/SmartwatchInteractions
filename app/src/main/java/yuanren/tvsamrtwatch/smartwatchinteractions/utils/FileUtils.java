@@ -57,8 +57,12 @@ public class FileUtils {
     }
 
     public static void writeRaw(Context context, Action action) {
-        String filename = "P" + action.pid + "-" + action.method + "-Raw" + extension;
-
+        String filename;
+        if (action.session == 3) {
+            filename = "P" + action.pid + "-" + action.method + "-Search-Raw" + extension;
+        } else {
+            filename = "P" + action.pid + "-" + action.method + "-Raw" + extension;
+        }
         File file = new File(context.getFilesDir(), filename);
 
         String data = "";
