@@ -129,12 +129,7 @@ public class LoginActivity extends FragmentActivity {
                 editText.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.GONE);
             } else {
-                Intent intent;
-                if (metrics.session == 3) {
-                    intent = new Intent(getApplicationContext(), SearchActivity.class);
-                } else {
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
-                }
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         }
