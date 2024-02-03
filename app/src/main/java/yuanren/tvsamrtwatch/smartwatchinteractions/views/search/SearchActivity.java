@@ -155,7 +155,7 @@ public class SearchActivity extends Activity {
                             //clear everything
                             clearData();
                         }
-                    }, 1000);
+                    }, 500);
                 }
                 return false;
             }
