@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.RandomPositionSocketService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.movies.MainActivity;
@@ -30,9 +31,6 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.search.SearchActivity;
 public class LoginActivity extends FragmentActivity {
     public static final String TAG = "LoginActivity";
     private int[] randoms;
-    private String pid = "";
-    private String sid = "";
-    private String mid = "";
 
     private FrameLayout container;
     private EditText editText;
@@ -87,7 +85,7 @@ public class LoginActivity extends FragmentActivity {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // Perform action on key press
                     if (editText.getText().length() >= 6) {
-                        new SocketAsyncTask().execute(editText.getText().toString());
+                        new AndroidTVRemotePairingAsyncTask().execute(editText.getText().toString());
                     } else {
                         Toast.makeText(getApplicationContext(), "Enter the pairing code from the TV", Toast.LENGTH_SHORT);
                     }
@@ -98,7 +96,8 @@ public class LoginActivity extends FragmentActivity {
         });
         editText.setVisibility(View.GONE);
 
-        new SocketAsyncTask2().execute();  // get random positions via my own socket
+        // get random positions via my own socket, and start android tv remote service after that
+        new RandomPositionSocketAsyncTask().execute();
     }
 
     @Override
@@ -107,35 +106,7 @@ public class LoginActivity extends FragmentActivity {
         pairingManager.stopSSLPairingConnection();
         RandomPositionSocketService.stopConnection();
     }
-
-    private class SocketAsyncTask extends AsyncTask<String, String, Void> {
-        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-        @Override
-        protected Void doInBackground(String... strings) {
-            // Pairing with Android TV with Android TV Remote Service
-            if (!isChannelSetUp) {
-                pairingManager.createSSLPairingConnection(getApplicationContext());
-            } else {
-                pairingManager.startPairing(strings[0]);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
-            if (!isChannelSetUp) {
-                isChannelSetUp = true;
-                editText.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.GONE);
-            } else {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        }
-    }
-
-    private class SocketAsyncTask2 extends AsyncTask<String, String, Void> {
+    private class RandomPositionSocketAsyncTask extends AsyncTask<String, String, Void> {
         @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         @Override
         protected Void doInBackground(String... strings) {
@@ -165,8 +136,71 @@ public class LoginActivity extends FragmentActivity {
             super.onPostExecute(unused);
             RandomPositionSocketService.stopConnection();
 
-            // start the SSL Socket Connection for both TV Remote service
-            new SocketAsyncTask().execute();
+            // start the SSL Socket Connection for TV Remote service
+            new AndroidTVRemotePairingAsyncTask().execute();
+        }
+    }
+
+    private class AndroidTVRemotePairingAsyncTask extends AsyncTask<String, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(String... strings) {
+            // Pairing with Android TV with Android TV Remote Service
+            if (!isChannelSetUp) {
+                pairingManager.createSSLPairingConnection(getApplicationContext());
+            } else {
+                pairingManager.startPairing(strings[0]);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (!isChannelSetUp) {
+                isChannelSetUp = true;
+                editText.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
+            } else {
+                new AndroidTVRemoteConfigAsyncTask().execute();
+            }
+        }
+    }
+
+    private class AndroidTVRemoteConfigAsyncTask extends AsyncTask<Integer, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            AndroidTVRemoteService.createSSLCommConnection(getApplicationContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            new AndroidTVRemoteInitAsyncTask().execute(KeyEvent.KEYCODE_S);
+        }
+    }
+
+    private class AndroidTVRemoteInitAsyncTask extends AsyncTask<Integer, String, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            AndroidTVRemoteService.sendCommand(integers[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+
+            Intent intent;
+            if (metrics.session == 3) {
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
+            } else {
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            }
+            startActivity(intent);
         }
     }
 }

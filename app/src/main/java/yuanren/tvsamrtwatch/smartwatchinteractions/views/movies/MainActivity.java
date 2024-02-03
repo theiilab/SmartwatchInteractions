@@ -26,13 +26,11 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBindi
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.TaskType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
-import yuanren.tvsamrtwatch.smartwatchinteractions.views.LoginActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.detail.DetailActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuActivity;
 import yuanren.tvsamrtwatch.smartwatchinteractions.views.menu.MenuItemListAdapter;
@@ -65,7 +63,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -169,9 +166,6 @@ public class MainActivity extends Activity {
             }
         };
         container.setOnTouchListener(gestureRegisterListener);
-
-        // start the SSL Socket Connection
-        new SetUpSocketAsyncTask().execute();
     }
 
     @Override
@@ -351,20 +345,6 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         AndroidTVRemoteService.stopSSLCommConnection();
-    }
-
-    private class SetUpSocketAsyncTask extends AsyncTask<Integer, String, Void> {
-        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-        @Override
-        protected Void doInBackground(Integer... integers) {
-            AndroidTVRemoteService.createSSLCommConnection(getApplicationContext());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
-        }
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
