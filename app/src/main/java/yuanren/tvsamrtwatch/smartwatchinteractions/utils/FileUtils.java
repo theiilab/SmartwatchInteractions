@@ -91,12 +91,13 @@ public class FileUtils {
             String line = reader.readLine();
 
             while (line != null) {
-                String[] text = line.split("\\t");
+                String[] text = line.split(",");
                 String name = text[0];
 
                 ArrayList<Point> points = new ArrayList<>();
                 for (int i = 1; i < text.length; ++i) {
-                    String[] p = text[i].split(",");
+                    String[] p = text[i].split("\\t");
+                    Log.d(TAG, "points: " + text[i]);
                     Point point = new Point(Double.valueOf(p[0]), Double.valueOf(p[1]), Integer.valueOf(p[2]));
                     points.add(point);
                 }
