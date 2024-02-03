@@ -208,7 +208,7 @@ public final class MovieList {
                 "The Devil Wears Prada",
                 "The Wolf of Wall Street",
                 "Venom",
-                "Iron man ",
+                "Iron man",
                 "Harry Potter and the Prisoner of Azkaban",
                 "Fantastic Beasts and Where to Find Them",
                 "Insomnia",
@@ -219,7 +219,7 @@ public final class MovieList {
                 "The Da Vinci Code",
                 "Flipped",
                 "Crazy Rich Asians",
-                "Inception ",
+                "Inception",
                 "The Adam Project",
                 "Space Jam",
                 "Million Dollar Baby",
@@ -2087,11 +2087,11 @@ public final class MovieList {
     public static List<Movie> setUpSearchDummyMovies(int length) {
         List<Movie> searchDummies = new ArrayList<>();
         String[] titles = length == -1 ? searchDummytitles : Arrays.copyOfRange(searchDummytitles, 0, length);
-        for (String s : titles) {
+        for (int i = 0; i < titles.length; ++i) {
             searchDummies.add(
                     buildMovieInfo(
                             (long) -1,
-                            s,
+                            titles[i],
                             0,
                             "",
                             "",
@@ -2099,7 +2099,7 @@ public final class MovieList {
                             "",
                             "",
                             "",
-                            0,
+                            i,
                             null));
         }
 

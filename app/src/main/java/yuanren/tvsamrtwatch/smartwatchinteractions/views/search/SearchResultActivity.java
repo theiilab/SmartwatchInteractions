@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,6 +32,7 @@ import java.util.Objects;
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchResultBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
@@ -73,7 +75,7 @@ public class SearchResultActivity extends Activity {
         indicatorUp = binding.indicatorUp;
         indicatorDown = binding.indicatorDown;
 
-        pool = MovieList.setUpSearchDummyMovies();
+        pool = MovieList.setUpSearchDummyMovies(-1);
         pool.addAll(MovieList.getRealList());
         results = getSearchResult(getIntent().getStringExtra(SEARCH_NAME));
         movie = results.get(0);
@@ -107,6 +109,7 @@ public class SearchResultActivity extends Activity {
             @Override
             public void onClick(View view) {
                 super.onClick(view);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_ENTER);
                 setResult(RESULT_OK);
                 finish();
             }
@@ -290,7 +293,7 @@ public class SearchResultActivity extends Activity {
                 if (o1.getValue() < o2.getValue()) {
                     return -1;
                 } else if (Objects.equals(o1.getValue(), o2.getValue())) {
-                    return o1.getKey().getTitle().length() - o2.getKey().getTitle().length();
+                    return o1.getKey().getCategoryIndex() - o2.getKey().getCategoryIndex();
                 } else {
                     return 1;
                 }
