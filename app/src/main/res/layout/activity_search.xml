@@ -20,15 +20,15 @@
         android:background="@drawable/img_search_bg"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="45dp"
         android:background="@drawable/default_background_reversed"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <EditText
         android:id="@+id/search_name"
-        android:layout_width="140dp"
-        android:layout_height="60dp"
+        android:layout_width="110dp"
+        android:layout_height="45dp"
         android:gravity="bottom"
         android:backgroundTint="@color/primary_color"
         android:focusable="true"
@@ -41,7 +41,8 @@
     <yuanren.tvsamrtwatch.smartwatchinteractions.views.search.DrawingView
         android:id="@+id/drawingView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="-10dp"
         app:layout_constraintTop_toBottomOf="@id/search_name"/>
 
     <ImageButton
