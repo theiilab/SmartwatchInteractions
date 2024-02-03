@@ -165,6 +165,9 @@ public class SearchActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (text.length() != 0) {
+                    // provide haptic feedback
+                    v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
                     Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                     intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
                     startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
