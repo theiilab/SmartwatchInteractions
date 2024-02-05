@@ -25,12 +25,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.QDollarRecognizer;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Result;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.SearchSocketService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 
 public class SearchActivity extends Activity {
     private static final String TAG = "SearchActivity";
@@ -45,9 +47,18 @@ public class SearchActivity extends Activity {
     private Handler timeHandler = new Handler(Looper.getMainLooper());
     private int strokeNum = 1;
     private String text = "";
+    /** -------- log -------- */
+    private Metrics metrics;
+    private boolean taskStartFlag = false;
+    /** -------------------- */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** -------- log -------- */
+        metrics = (Metrics) getApplicationContext();
+        metrics.selectedMovie = "";
+        metrics.actionsPerTask = 0;
+        /** --------------------- */
 
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -86,18 +97,36 @@ public class SearchActivity extends Activity {
 
                 // send command to TV
                 new SocketAsyncTask2().execute(text);
+
+                /** -------- log -------- */
+                metrics.totalCharacterEntered = text.length();
+                /** --------------------- */
             }
         });
 
-        searchName.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+        OnGestureRegisterListener gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
+                /** -------- log -------- */
+                setTaskStartTime();
+                metrics.actionsPerTask++;
+                /** --------------------- */
+
                 text += " ";
                 searchName.setText(text);
             }
 
             @Override
             public void onSwipeLeft(View view) {
+                /** -------- log -------- */
+                setTaskStartTime();
+
+                if (text.length() > 0) {
+                    metrics.backspaceCount++;
+                    metrics.actionsPerTask++;
+                }
+                /** --------------------- */
+
                 text = text.length() == 0 ? "" : text.substring(0, text.length() - 1);
                 searchName.setText(text);
             }
@@ -109,15 +138,19 @@ public class SearchActivity extends Activity {
                 onBackPressed();
                 return false;
             }
-        });
+        };
+        searchName.setOnTouchListener(gestureRegisterListener);
 
         drawingView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    timeHandler.removeCallbacksAndMessages(null);
+                    /** -------- log -------- */
+                    setTaskStartTime();
+                    /** --------------------- */
 
+                    timeHandler.removeCallbacksAndMessages(null);
                     strokePoints.add(new Point(motionEvent.getX(), motionEvent.getY(), strokeNum));
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     strokePoints.add(new Point(motionEvent.getX(), motionEvent.getY(), strokeNum));
@@ -154,6 +187,10 @@ public class SearchActivity extends Activity {
 
                             //clear everything
                             clearData();
+
+                            /** -------- log -------- */
+                            metrics.actionsPerTask++;
+                            /** --------------------- */
                         }
                     }, 500);
                 }
@@ -164,6 +201,11 @@ public class SearchActivity extends Activity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /** -------- log -------- */
+                setTaskStartTime();
+                metrics.actionsPerTask++;
+                /** --------------------- */
+
                 if (text.length() != 0) {
                     // provide haptic feedback
                     v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
@@ -180,11 +222,42 @@ public class SearchActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SEARCH_RESULT) {
+            /** -------- log -------- */
+            setLogData();
+            clearLogData();
+            prepareNextTask();
+            /** --------------------- */
+
             text = "";
             searchName.setText(text);
         } else if (resultCode == RESULT_CANCELED && requestCode == REQUEST_CODE_SEARCH_RESULT) {
 
         }
+    }
+
+    /** -------- log -------- */
+    private void setTaskStartTime() {
+        if (!taskStartFlag) {
+            taskStartFlag = true;
+            metrics.startTime = System.currentTimeMillis();
+        }
+    }
+
+    private void prepareNextTask() {
+        if (metrics.block < metrics.SESSION_3_NUM_BLOCK && metrics.taskNum == metrics.SESSION_3_NUM_TASK) {
+            metrics.nextBlock();
+        } else {
+            metrics.nextTask();
+        }
+    }
+
+    private void setLogData() {
+        metrics.endTime = System.currentTimeMillis();
+        FileUtils.write(getApplicationContext(), metrics);
+    }
+
+    private void clearLogData() {
+        taskStartFlag = false;
     }
 
     private void clearData(){

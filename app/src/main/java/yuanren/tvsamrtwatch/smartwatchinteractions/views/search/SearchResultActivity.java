@@ -53,12 +53,18 @@ public class SearchResultActivity extends Activity {
     private List<Movie> pool;
     private List<Movie> results;
     private Movie movie;
-
     private int index = 0;
+
+    /** -------- log -------- */
+    private Metrics metrics;
+    /** -------------------- */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /** -------- log -------- */
+        metrics = (Metrics) getApplicationContext();
+        /** --------------------- */
 
         // keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -75,12 +81,23 @@ public class SearchResultActivity extends Activity {
         indicatorUp = binding.indicatorUp;
         indicatorDown = binding.indicatorDown;
 
-        pool = MovieList.setUpSearchDummyMovies(-1);
+        int length;
+        if (metrics.block == 1) {
+            length = 50;
+        } else if (metrics.block == 2) {
+            length = 100;
+        } else {
+            length = 250;
+        }
+        Log.d(TAG, "Search movie pool length: " + length);
+        pool = MovieList.setUpSearchDummyMovies(length);
         pool.addAll(MovieList.getRealList());
         results = getSearchResult(getIntent().getStringExtra(SEARCH_NAME));
-        movie = results.get(0);
-        setMovieInfo();
-        setIndicator();
+        if (results.size() > 0) {
+            movie = results.get(0);
+            setMovieInfo();
+            setIndicator();
+        }
         container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
@@ -109,14 +126,35 @@ public class SearchResultActivity extends Activity {
             @Override
             public void onClick(View view) {
                 super.onClick(view);
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_ENTER);
-                setResult(RESULT_OK);
-                finish();
+
+                /** -------- log -------- */
+                metrics.actionsPerTask++;
+                /** -------- log -------- */
+                if (metrics.targetMovie.equals(movie.getTitle())) {
+                    new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+                    Log.d(TAG, movie.getTitle() + " selected");
+
+                    /** -------- log -------- */
+                    metrics.selectedMovie = movie.getTitle();
+                    /** --------------------- */
+
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    /** -------- log -------- */
+                    metrics.incorrectTitleCount++;
+                    /** --------------------- */
+                }
             }
 
             @Override
             public boolean onLongClick(View view) {
                 setResult(RESULT_CANCELED);
+
+                /** -------- log -------- */
+                metrics.actionsPerTask++;
+                /** --------------------- */
+
                 finish();
                 return super.onLongClick(view);
             }
@@ -139,6 +177,10 @@ public class SearchResultActivity extends Activity {
         if (isToOutOfRow(keyEvent)) {
             return;
         }
+
+        /** -------- log -------- */
+        metrics.actionsPerTask++;
+        /** --------------------- */
 
         // set up animation for task update
         int out = 0;
