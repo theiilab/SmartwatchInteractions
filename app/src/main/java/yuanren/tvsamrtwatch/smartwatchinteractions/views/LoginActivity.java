@@ -114,6 +114,10 @@ public class LoginActivity extends FragmentActivity {
             RandomPositionSocketService.createConnection();
             String result = RandomPositionSocketService.receive();
 
+            if (result.equals("")) { // session 3 is running
+                return null;
+            }
+
             // format result
             String[] tmp = result.split(";");
             String[] tmp1 = tmp[0].split(","); // pid, session id, method id
