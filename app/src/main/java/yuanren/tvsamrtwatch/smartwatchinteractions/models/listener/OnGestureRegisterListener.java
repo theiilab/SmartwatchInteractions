@@ -81,6 +81,9 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
+            endTime = System.currentTimeMillis();
+            duration = endTime - startTime;
+
             onClick(view);
 
             // provide haptic feedback

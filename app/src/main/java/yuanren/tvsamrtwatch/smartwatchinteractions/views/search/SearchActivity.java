@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
@@ -47,9 +48,11 @@ public class SearchActivity extends Activity {
     private Handler timeHandler = new Handler(Looper.getMainLooper());
     private int strokeNum = 1;
     private String text = "";
+    private OnGestureRegisterListener gestureRegisterListener;
     /** -------- log -------- */
     private Metrics metrics;
     private boolean taskStartFlag = false;
+    private Long actionStartTime = 0L;
     /** -------------------- */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,12 +107,15 @@ public class SearchActivity extends Activity {
             }
         });
 
-        OnGestureRegisterListener gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
+        gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 /** -------- log -------- */
                 setTaskStartTime();
                 metrics.actionsPerTask++;
+
+                Action action = new Action(metrics, "", "SPACE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
                 text += " ";
@@ -124,6 +130,9 @@ public class SearchActivity extends Activity {
                 if (text.length() > 0) {
                     metrics.backspaceCount++;
                     metrics.actionsPerTask++;
+
+                    Action action = new Action(metrics, "", "DELETE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                    FileUtils.writeRaw(getApplicationContext(), action);
                 }
                 /** --------------------- */
 
@@ -148,6 +157,7 @@ public class SearchActivity extends Activity {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     /** -------- log -------- */
                     setTaskStartTime();
+                    actionStartTime = System.currentTimeMillis();
                     /** --------------------- */
 
                     timeHandler.removeCallbacksAndMessages(null);
@@ -190,6 +200,8 @@ public class SearchActivity extends Activity {
 
                             /** -------- log -------- */
                             metrics.actionsPerTask++;
+                            Action action = new Action(metrics, "", result.name, TAG, actionStartTime, System.currentTimeMillis());
+                            FileUtils.writeRaw(getApplicationContext(), action);
                             /** --------------------- */
                         }
                     }, 500);
@@ -204,6 +216,8 @@ public class SearchActivity extends Activity {
                 /** -------- log -------- */
                 setTaskStartTime();
                 metrics.actionsPerTask++;
+                Action action = new Action(metrics, "", "SUBMIT", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
                 if (text.length() != 0) {

@@ -32,10 +32,13 @@ import java.util.Objects;
 import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchResultBinding;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
+import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 
 public class SearchResultActivity extends Activity {
     private static final String TAG = "SearchResultActivity";
@@ -54,6 +57,8 @@ public class SearchResultActivity extends Activity {
     private List<Movie> results;
     private Movie movie;
     private int index = 0;
+
+    private OnGestureRegisterListener gestureRegisterListener;
 
     /** -------- log -------- */
     private Metrics metrics;
@@ -98,29 +103,50 @@ public class SearchResultActivity extends Activity {
             setMovieInfo();
             setIndicator();
         }
-        container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
+
+        gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 super.onSwipeRight(view);
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_RIGHT);
+
+                /** -------- log -------- */
+                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------------- */
             }
 
             @Override
             public void onSwipeLeft(View view) {
                 super.onSwipeLeft(view);
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_LEFT);
+
+                /** -------- log -------- */
+                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------------- */
             }
 
             @Override
             public void onSwipeBottom(View view) {
                 super.onSwipeBottom(view);
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_DOWN);
+
+                /** -------- log -------- */
+                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_DOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------------- */
             }
 
             @Override
             public void onSwipeTop(View view) {
                 super.onSwipeTop(view);
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_UP);
+
+                /** -------- log -------- */
+                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_UP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------------- */
             }
 
             @Override
@@ -129,7 +155,10 @@ public class SearchResultActivity extends Activity {
 
                 /** -------- log -------- */
                 metrics.actionsPerTask++;
-                /** -------- log -------- */
+                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------------- */
+
                 if (metrics.targetMovie.equals(movie.getTitle())) {
                     new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
                     Log.d(TAG, movie.getTitle() + " selected");
@@ -153,12 +182,15 @@ public class SearchResultActivity extends Activity {
 
                 /** -------- log -------- */
                 metrics.actionsPerTask++;
+                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
                 finish();
                 return super.onLongClick(view);
             }
-        });
+        };
+        container.setOnTouchListener(gestureRegisterListener);
 
         // move focus to the movie grid on TV
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
