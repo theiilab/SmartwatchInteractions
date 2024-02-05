@@ -139,6 +139,18 @@ public final class MovieList {
             "Crime"
     };
 
+    public static List<Movie> setUpMovies() {
+        /** fill real movies at the random position and dummy movies in the rest */
+        list = new ArrayList<>();
+        realMovies = setUpRealMovies(); // record of unique real movies
+        List<Movie> reals = realMovies;
+        List<Movie> dummies = setUpDummyMovies((NUM_COLS - NUM_REAL_MOVIE) * NUM_MOVIE_CATEGORY);
+        list.addAll(reals);
+        list.addAll(dummies);
+
+        return list;
+    }
+
     public static List<Movie> setUpMovies(int[] randomPositions) {
         /** fill real movies at the random position and dummy movies in the rest */
         list = new ArrayList<>();

@@ -98,6 +98,8 @@ public class LoginActivity extends FragmentActivity {
 
         // get random positions via my own socket, and start android tv remote service after that
         new RandomPositionSocketAsyncTask().execute();
+        // start the SSL Socket Connection for TV Remote service
+        new AndroidTVRemotePairingAsyncTask().execute();
     }
 
     @Override
@@ -115,6 +117,7 @@ public class LoginActivity extends FragmentActivity {
             String result = RandomPositionSocketService.receive();
 
             if (result.equals("")) { // session 3 is running
+                MovieList.setUpMovies();
                 return null;
             }
 
@@ -139,9 +142,6 @@ public class LoginActivity extends FragmentActivity {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             RandomPositionSocketService.stopConnection();
-
-            // start the SSL Socket Connection for TV Remote service
-            new AndroidTVRemotePairingAsyncTask().execute();
         }
     }
 
