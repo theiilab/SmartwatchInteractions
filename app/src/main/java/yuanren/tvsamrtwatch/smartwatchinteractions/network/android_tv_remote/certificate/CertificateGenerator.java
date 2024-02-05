@@ -159,7 +159,7 @@ public class CertificateGenerator {
             /**
              *  Avoid regenerating if the certificate already existed
              */
-            if (Files.exists(path.resolve("client.pem"))) {
+            if (Files.exists(path.resolve("client.pem")) && Files.exists(path.resolve("private.pem"))) {
                 Log.d(TAG, "Certificate already existed.");
                 return;
             }
