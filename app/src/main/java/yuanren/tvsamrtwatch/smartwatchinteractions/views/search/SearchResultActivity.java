@@ -293,7 +293,7 @@ public class SearchResultActivity extends Activity {
                 if (o1.getValue() < o2.getValue()) {
                     return -1;
                 } else if (Objects.equals(o1.getValue(), o2.getValue())) {
-                    return o1.getKey().getCategoryIndex() - o2.getKey().getCategoryIndex();
+                    return o2.getKey().getCategoryIndex() - o1.getKey().getCategoryIndex();
                 } else {
                     return 1;
                 }
