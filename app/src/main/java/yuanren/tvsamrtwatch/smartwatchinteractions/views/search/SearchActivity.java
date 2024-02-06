@@ -49,6 +49,7 @@ public class SearchActivity extends Activity {
     private int strokeNum = 1;
     private String text = "";
     private OnGestureRegisterListener gestureRegisterListener;
+    private OnGestureRegisterListener tapRegisterListener;
     /** -------- log -------- */
     private Metrics metrics;
     private boolean taskStartFlag = false;
@@ -210,26 +211,26 @@ public class SearchActivity extends Activity {
             }
         });
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
+        tapRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
+
                 /** -------- log -------- */
                 setTaskStartTime();
                 metrics.actionsPerTask++;
-                Action action = new Action(metrics, "", "SUBMIT", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                Action action = new Action(metrics, "", "SUBMIT", TAG, tapRegisterListener.startTime, tapRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
                 if (text.length() != 0) {
-                    // provide haptic feedback
-                    v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
                     Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                     intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
                     startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
                 }
             }
-        });
+        };
+        submitBtn.setOnTouchListener(tapRegisterListener);
     }
 
     @Override
