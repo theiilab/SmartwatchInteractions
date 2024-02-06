@@ -219,7 +219,7 @@ public class Metrics extends Application {
             // for task 1
             this.targetMovie = dataSet == 0 ? session1_targetMovies[0] : session1_targetMovies2[0];
             this.task = session1_tasks[0];
-            this.actionsNeeded = calculateS1ActionsNeeded();
+            this.actionsNeeded = calculateS1T1ActionsNeeded();
             this.swipesNeeded = actionsNeeded - 1;
             this.tapsNeeded = 1;
         } else if (session == 2) {
@@ -242,11 +242,9 @@ public class Metrics extends Application {
             block = block > session1_targetMovies.length ? block : block + 1;
             targetMovie = dataSet == 0 ? session1_targetMovies[Math.min(session1_targetMovies.length - 1, block - 1)] : session1_targetMovies2[Math.min(session1_targetMovies.length - 1, block - 1)];
             task = session1_tasks[0];
-            actionsNeeded = session1_actionsNeeded.get(task);
-            swipesNeeded = session1_swipesNeeded.get(task);
-            swipeHoldNeeded = session1_swipeHoldNeeded.get(task);
-            tapsNeeded = session1_tapsNeeded.get(task);
-            crownRotatesNeeded = session1_crownRotatesNeeded.get(task);
+            actionsNeeded = calculateS1T1ActionsNeeded();
+            swipesNeeded = actionsNeeded - 1;
+            tapsNeeded = 1;
         } else if (session == 2) { // 2
             block = block > session2_targetMovies.length ? block : block + 1;
             targetMovie = dataSet == 0 ? session2_targetMovies[Math.min(session2_targetMovies.length - 1, block - 1)] : session2_targetMovies2[Math.min(session2_targetMovies.length - 1, block - 1)];
@@ -348,7 +346,7 @@ public class Metrics extends Application {
         }
     }
 
-    private int calculateS1ActionsNeeded() {
+    private int calculateS1T1ActionsNeeded() {
         Movie movie = MovieList.getMovie(targetMovie);
 
         int count = 0;
