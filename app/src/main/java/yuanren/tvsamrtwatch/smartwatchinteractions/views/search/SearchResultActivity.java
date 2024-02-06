@@ -94,7 +94,7 @@ public class SearchResultActivity extends Activity {
         } else {
             length = 250;
         }
-        Log.d(TAG, "Search movie pool length: " + length);
+//        Log.d(TAG, "Search movie pool length: " + length);
         pool = MovieList.setUpSearchDummyMovies(length);
         pool.addAll(MovieList.getRealList());
         results = getSearchResult(getIntent().getStringExtra(SEARCH_NAME));
@@ -161,6 +161,7 @@ public class SearchResultActivity extends Activity {
 
                 if (metrics.targetMovie.equals(movie.getTitle())) {
                     new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+                    new SocketAsyncTask().execute(KeyEvent.KEYCODE_ENTER);
                     Log.d(TAG, movie.getTitle() + " selected");
 
                     /** -------- log -------- */
