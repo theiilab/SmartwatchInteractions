@@ -193,17 +193,17 @@ public class Metrics extends Application {
         if (session == 1) {
             taskCompletionTime = endTime - startTime;
             errorRate = actionsNeeded != 0 ? ((double) actionsPerTask - (double) actionsNeeded) / actionsNeeded : 0;
-            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
+            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + 0 + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
         } else if (session == 2) {
             taskCompletionTime = endTime - startTime;
             errorRate = actionsNeeded != 0 ? ((double) actionsPerTask - (double) actionsNeeded) / actionsNeeded : 0;
-            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
+            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + actionsNeeded + "," + errorRate + "," + 0 + "," + swipesPerTasks + "," + swipesNeeded + "," + swipeHoldsPerTasks + "," + swipeHoldNeeded + "," + tapsPerTasks + "," + tapsNeeded + "," + longPressesPerTasks + "," + longPressesNeeded + "," + twoFingerTapsPerTasks + "," + twoFingerTapsNeeded + "," + crownRotatesPerTasks + "," + crownRotatesNeeded + "\n";
         } else { // session 3
             taskCompletionTime = endTime - startTime;
             errorRate = incorrectTitleCount != 0 ? 1 / incorrectTitleCount : 0;
             characterPerSecond = (double) totalCharacterEntered / (taskCompletionTime / 1000);
             timePerCharacter = taskCompletionTime / totalCharacterEntered;
-            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + errorRate + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "\n";
+            res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + errorRate + "," + 0 + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "\n";
         }
         return res;
     }
