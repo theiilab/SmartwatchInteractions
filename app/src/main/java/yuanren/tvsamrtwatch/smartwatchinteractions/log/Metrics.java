@@ -208,30 +208,30 @@ public class Metrics extends Application {
         return res;
     }
 
-    public void init(int pid, int session, String method, int dataSet) {
+    public void init(int pid, int session, String method, int dataSet, int block) {
         this.pid = pid;
         this.session = session;
         this.method = method;
         this.dataSet = dataSet;
-        this.block = 1;
+        this.block = block;
         this.taskNum = 1;
         if (session == 1) {
             // for task 1
-            this.targetMovie = dataSet == 0 ? session1_targetMovies[0] : session1_targetMovies2[0];
-            this.task = session1_tasks[0];
+            this.targetMovie = dataSet == 0 ? session1_targetMovies[block - 1] : session1_targetMovies2[block - 1];
+            this.task = session1_tasks[block - 1];
             this.actionsNeeded = calculateS1T1ActionsNeeded();
             this.swipesNeeded = actionsNeeded - 1;
             this.tapsNeeded = 1;
         } else if (session == 2) {
             // for task 1
-            this.targetMovie = dataSet == 0 ? session2_targetMovies[0] : session2_targetMovies2[0];
+            this.targetMovie = dataSet == 0 ? session2_targetMovies[block - 1] : session2_targetMovies2[block - 1];
             this.task = "Question 1";
             this.actionsNeeded = 3;
             this.twoFingerTapsNeeded = 1;
             this.tapsNeeded = 1;
             this.longPressesNeeded = 1;
         } else {
-            this.targetMovie = dataSet == 0 ? session3_targetMovies[0] : session3_targetMovies2[0];
+            this.targetMovie = dataSet == 0 ? session3_targetMovies[block - 1] : session3_targetMovies2[block - 1];
             this.task = "Search 1";
         }
         this.movieLength = MovieList.getMovie(targetMovie).getLength();

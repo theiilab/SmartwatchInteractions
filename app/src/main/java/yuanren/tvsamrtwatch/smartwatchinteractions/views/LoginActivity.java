@@ -116,14 +116,14 @@ public class LoginActivity extends FragmentActivity {
             RandomPositionSocketService.createConnection();
             String result = RandomPositionSocketService.receive();
 
-            if (result.equals("")) { // session 3 is running
-                MovieList.setUpMovies();
-                return null;
-            }
+//            if (result.equals("")) { // session 3 is running
+//                MovieList.setUpMovies();
+//                return null;
+//            }
 
             // format result
             String[] tmp = result.split(";");
-            String[] tmp1 = tmp[0].split(","); // pid, session id, method id
+            String[] tmp1 = tmp[0].split(","); // pid, session id, method id, data set, block
             String[] tmp2 = tmp[1].split(","); // random position indexes
 
             randoms = new int[tmp2.length];
@@ -133,7 +133,7 @@ public class LoginActivity extends FragmentActivity {
             MovieList.setUpMovies(randoms);
 
             /** -------- log -------- */
-            metrics.init(Integer.parseInt(tmp1[0]), Integer.parseInt(tmp1[1]), tmp1[2], Integer.parseInt(tmp1[3]));
+            metrics.init(Integer.parseInt(tmp1[0]), Integer.parseInt(tmp1[1]), tmp1[2], Integer.parseInt(tmp1[3]), Integer.parseInt(tmp1[4]));
             /** --------------------- */
             return null;
         }
