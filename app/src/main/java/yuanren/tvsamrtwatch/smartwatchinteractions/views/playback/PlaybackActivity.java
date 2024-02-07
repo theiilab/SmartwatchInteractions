@@ -140,8 +140,6 @@ public class PlaybackActivity extends Activity {
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
                 animateControl(KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 /** ----- log ----- */
@@ -157,8 +155,6 @@ public class PlaybackActivity extends Activity {
             public void onSwipeLeft(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.GESTURE_END);
                 animateControl(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 /** ----- log ----- */
@@ -274,9 +270,6 @@ public class PlaybackActivity extends Activity {
                     control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
                     rotate.resume();
                 }
-
-                // provide haptic feedback
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
 
                 /** ----- log ----- */
                 updateLogData(ActionType.TYPE_ACTION_TAP);
