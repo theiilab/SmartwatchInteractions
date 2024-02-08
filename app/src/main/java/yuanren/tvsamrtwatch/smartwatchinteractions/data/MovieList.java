@@ -179,6 +179,7 @@ public final class MovieList {
 
             Movie movie = reals.next();
             movie.setId(id1);
+            movie.setPosition(randomPositions[row]);
             list.set(id1, movie);
             // change movie Id accordingly in movie and its xRayItems (drawbacks for not having database)
             List<XRayItem> items = movie.getXRayItems();
@@ -188,6 +189,7 @@ public final class MovieList {
 
             movie = reals.next();
             movie.setId(id2);
+            movie.setPosition(randomPositions[row + 1]);
             list.set(id2, movie);
             // change movie Id accordingly in movie and its xRayItems (drawbacks for not having database)
             items = movie.getXRayItems();
