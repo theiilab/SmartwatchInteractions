@@ -39,6 +39,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.views.x_ray.XRayListActivity;
 public class PlaybackActivity0 extends Activity {
     public static final String TAG = "PlaybackActivity0";
     public static final String MOVIE_ID = "selectedMovieId";
+    public static final int VALUE_VOLUME_UNIT = 2;
     private ActivityPlaybackBinding binding;
     private ConstraintLayout container;
     private ScrollView volumeCtrl;
@@ -256,7 +257,7 @@ public class PlaybackActivity0 extends Activity {
 
                     accumulatedVolume += delta;
 
-                    if (Math.abs(accumulatedVolume) >= 3) {
+                    if (Math.abs(accumulatedVolume) >= VALUE_VOLUME_UNIT) {
                         if (accumulatedVolume > 0) {
                             new SocketAsyncTask().execute(KeyEvent.KEYCODE_VOLUME_UP);
                         } else {
