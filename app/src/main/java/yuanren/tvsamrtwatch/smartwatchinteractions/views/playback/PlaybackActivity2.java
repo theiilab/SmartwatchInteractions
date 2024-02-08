@@ -49,6 +49,7 @@ public class PlaybackActivity2 extends Activity {
     private ImageView movieBg;
     private ImageButton control;
     private TextView title;
+    private View cover;
     private Movie movie;
     private boolean isPlayed = true;
 
@@ -87,6 +88,7 @@ public class PlaybackActivity2 extends Activity {
         movieBg = binding.movieBg;
         control = binding.control;
         title = binding.title;
+        cover = binding.cover;
 
         // get selected movie
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
@@ -166,6 +168,21 @@ public class PlaybackActivity2 extends Activity {
             }
 
             @Override
+            public void onClick(View v) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
+                if (isPlayed) {
+                    isPlayed = false;
+                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
+                    rotate.pause();
+                } else {
+                    isPlayed = true;
+                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
+                    rotate.resume();
+                }
+            }
+
+            @Override
             public boolean onLongClick(View view) {
                 /** ----- log ----- */
                 metrics.actionsPerTask++;
@@ -200,7 +217,7 @@ public class PlaybackActivity2 extends Activity {
                 return false;
             }
         };
-        container.setOnTouchListener(gestureRegisterListener);
+        cover.setOnTouchListener(gestureRegisterListener);
 
         volumeCtrl.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             @Override
@@ -227,26 +244,6 @@ public class PlaybackActivity2 extends Activity {
                     return true;
                 }
                 return false;
-            }
-        });
-
-        control.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-
-                if (isPlayed) {
-                    isPlayed = false;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
-                    rotate.pause();
-                } else {
-                    isPlayed = true;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
-                    rotate.resume();
-                }
-
-                // provide haptic feedback
-                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
             }
         });
     }

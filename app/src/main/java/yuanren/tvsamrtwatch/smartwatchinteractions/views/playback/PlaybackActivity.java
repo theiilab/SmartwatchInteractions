@@ -52,12 +52,11 @@ public class PlaybackActivity extends Activity {
     private ImageView movieBg;
     private ImageButton control;
     private TextView title;
+    private View cover;
     private Movie movie;
     private boolean isPlayed = true;
     private float accumulatedVolume = 0;
-
     private OnSwipeHoldGestureRegisterListener swipeHoldGestureListener;
-    private OnSwipeHoldGestureRegisterListener clickGestureListener;
 
     /** ----- log ----- */
     private Metrics metrics;
@@ -120,6 +119,7 @@ public class PlaybackActivity extends Activity {
         movieBg = binding.movieBg;
         control = binding.control;
         title = binding.title;
+        cover = binding.cover;
 
         // get selected movie
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
@@ -189,6 +189,29 @@ public class PlaybackActivity extends Activity {
             }
 
             @Override
+            public void onClick(View view) {
+                super.onClick(view);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
+                if (isPlayed) {
+                    isPlayed = false;
+                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
+                    rotate.pause();
+                } else {
+                    isPlayed = true;
+                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
+                    rotate.resume();
+                }
+
+                /** ----- log ----- */
+                updateLogData(ActionType.TYPE_ACTION_TAP);
+                Action action = new Action(metrics, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TAP.name, TAG, swipeHoldGestureListener.startTime, swipeHoldGestureListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------- */
+            }
+
+            @Override
             public boolean onLongClick(View view) {
                 /** ----- log ----- */
                 // raw
@@ -217,7 +240,7 @@ public class PlaybackActivity extends Activity {
                 return false;
             }
         };
-        container.setOnTouchListener(swipeHoldGestureListener);
+        cover.setOnTouchListener(swipeHoldGestureListener);
 
         volumeCtrl.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             @Override
@@ -254,32 +277,6 @@ public class PlaybackActivity extends Activity {
                 return false;
             }
         });
-
-        clickGestureListener = new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
-            @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-
-                if (isPlayed) {
-                    isPlayed = false;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
-                    rotate.pause();
-                } else {
-                    isPlayed = true;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
-                    rotate.resume();
-                }
-
-                /** ----- log ----- */
-                updateLogData(ActionType.TYPE_ACTION_TAP);
-                Action action = new Action(metrics, movie.getTitle(),
-                        ActionType.TYPE_ACTION_TAP.name, TAG, clickGestureListener.startTime, clickGestureListener.endTime);
-                FileUtils.writeRaw(getApplicationContext(), action);
-                /** --------------- */
-            }
-        };
-        control.setOnTouchListener(clickGestureListener);
     }
 
     private void animateControl(int keyEvent) {

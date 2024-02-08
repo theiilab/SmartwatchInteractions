@@ -45,6 +45,7 @@ public class PlaybackActivity0 extends Activity {
     private ImageView movieBg;
     private ImageButton control;
     private TextView title;
+    private View cover;
     private Movie movie;
     private boolean isPlayed = true;
 
@@ -64,6 +65,7 @@ public class PlaybackActivity0 extends Activity {
         movieBg = binding.movieBg;
         control = binding.control;
         title = binding.title;
+        cover = binding.cover;
 
         // get selected movie
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
@@ -79,7 +81,7 @@ public class PlaybackActivity0 extends Activity {
         rotate.setTarget(movieBg);
         rotate.start();
 
-        container.setOnTouchListener(new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
+        cover.setOnTouchListener(new OnSwipeHoldGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
@@ -213,6 +215,21 @@ public class PlaybackActivity0 extends Activity {
             }
 
             @Override
+            public void onClick(View v) {
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
+
+                if (isPlayed) {
+                    isPlayed = false;
+                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
+                    rotate.pause();
+                } else {
+                    isPlayed = true;
+                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
+                    rotate.resume();
+                }
+            }
+
+            @Override
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
@@ -256,26 +273,6 @@ public class PlaybackActivity0 extends Activity {
                     return true;
                 }
                 return false;
-            }
-        });
-
-        control.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
-
-                if (isPlayed) {
-                    isPlayed = false;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_play_arrow_24));
-                    rotate.pause();
-                } else {
-                    isPlayed = true;
-                    control.setImageDrawable(getDrawable(R.drawable.baseline_pause_24));
-                    rotate.resume();
-                }
-
-                // provide haptic feedback
-                v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
             }
         });
     }
