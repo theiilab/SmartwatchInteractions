@@ -16,8 +16,8 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 
 public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouchListener {
     private static final String TAG = "OnSwipeHoldGestureRegisterListener";
-    private static final int SWIPE_THRESHOLD = 100;
-    private static final int SWIPE_HOLD_DURATION_THRESHOLD = 800;
+    private static final int SWIPE_THRESHOLD = 50;
+    private static final int SWIPE_HOLD_DURATION_THRESHOLD = 700;
     public final GestureDetector gestureDetector;
     private View view;
 
@@ -147,7 +147,7 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
     public boolean onTwoPointerTap(View view){return false;}
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_VELOCITY_THRESHOLD = 20;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 0;
 
         @Override
         public boolean onDown(MotionEvent e) {
