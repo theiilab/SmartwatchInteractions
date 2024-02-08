@@ -36,17 +36,15 @@ public class DetailActivity extends Activity {
     public static final String MOVIE_ID = "selectedMovieId";
 
     private ActivityDetailBinding binding;
-    private ConstraintLayout container;
     private ImageView movieBg;
     private TextView title;
     private TextView studio;
     private TextView category;
-    private ImageButton playIB;
+    private View cover;
 
     private Movie movie;
 
-    private OnGestureRegisterListener clickListener;
-    private OnGestureRegisterListener longPressListener;
+    private OnGestureRegisterListener gestureRegisterListener;
 
     /** ----- log ----- */
     private Metrics metrics;
@@ -65,12 +63,11 @@ public class DetailActivity extends Activity {
 
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        container = binding.container;
         movieBg = binding.movieBg;
         title = binding.title;
         studio = binding.studio;
         category = binding.category;
-        playIB = binding.play;
+        cover = binding.cover;
 
         // get selected movie
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
@@ -82,7 +79,7 @@ public class DetailActivity extends Activity {
                 .centerCrop()
                 .into(movieBg);
 
-        clickListener = new OnGestureRegisterListener(getApplicationContext()) {
+        gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onClick(View view) {
                 super.onClick(view);
@@ -94,7 +91,7 @@ public class DetailActivity extends Activity {
                 }
                 // raw log
                 Action action = new Action(metrics, movie.getTitle(),
-                        ActionType.TYPE_ACTION_TAP.name, TAG, clickListener.startTime, clickListener.endTime);
+                        ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
@@ -109,17 +106,14 @@ public class DetailActivity extends Activity {
                 intent.putExtra(PlaybackActivity.MOVIE_ID, movie.getId());
                 startActivity(intent);
             }
-        };
-        playIB.setOnTouchListener(clickListener);
 
-        longPressListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public boolean onLongClick(View view) {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
                 /** ----- log ----- */
                 Action action = new Action(metrics, movie.getTitle(),
-                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, longPressListener.startTime, longPressListener.endTime);
+                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
@@ -127,7 +121,7 @@ public class DetailActivity extends Activity {
                 return true;
             }
         };
-        container.setOnTouchListener(longPressListener);
+        cover.setOnTouchListener(gestureRegisterListener);
     }
 
     private class SocketAsyncTask extends AsyncTask<Integer, String, Void> {
