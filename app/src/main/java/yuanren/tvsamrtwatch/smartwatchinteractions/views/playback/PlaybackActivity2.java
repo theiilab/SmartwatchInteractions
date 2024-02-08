@@ -44,7 +44,6 @@ public class PlaybackActivity2 extends Activity {
     private static final String TAG = "PlaybackActivity";
     public static final String MOVIE_ID = "selectedMovieId";
     private ActivityPlaybackBinding binding;
-    private ConstraintLayout container;
     private ScrollView volumeCtrl;
     private ImageView movieBg;
     private ImageButton control;
@@ -83,7 +82,6 @@ public class PlaybackActivity2 extends Activity {
         binding = ActivityPlaybackBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        container = binding.container;
         volumeCtrl = binding.volumeController;
         movieBg = binding.movieBg;
         control = binding.control;
