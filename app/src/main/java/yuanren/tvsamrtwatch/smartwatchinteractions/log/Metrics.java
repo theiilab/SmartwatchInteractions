@@ -1,6 +1,7 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.log;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -13,6 +14,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 
 public class Metrics extends Application {
+    private final static String TAG = "Metrics";
     public final static int SESSION_1_NUM_TASK = 8;  // change session1_tasks accordingly
     public final static int SESSION_2_NUM_TASK = 7;
     public final static int SESSION_3_NUM_BLOCK = 3;
@@ -202,7 +204,7 @@ public class Metrics extends Application {
             taskCompletionTime = endTime - startTime;
             errorRate = incorrectTitleCount != 0 ? 1 / incorrectTitleCount : 0;
             characterPerSecond = (double) totalCharacterEntered / (taskCompletionTime / 1000);
-            timePerCharacter = taskCompletionTime / totalCharacterEntered;
+            timePerCharacter = totalCharacterEntered != 0 ? taskCompletionTime / totalCharacterEntered : 0;
             res = "" + pid + "," + method + "," + session + "," + dataSet + "," + block + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + taskNum + "," + task + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + errorRate + "," + 0 + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "\n";
         }
         return res;
@@ -360,6 +362,7 @@ public class Metrics extends Application {
                 count = categoryDiff + positionDiff + 1; // vertical difference + horizontal difference + click
             }
         }
+        Log.d(TAG, "session 1 task 1 action needed: " + count);
         return count;
     }
 }
