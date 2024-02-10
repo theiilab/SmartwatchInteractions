@@ -236,7 +236,7 @@ public class Metrics extends Application {
             this.targetMovie = dataSet == 0 ? session3_targetMovies[block - 1] : session3_targetMovies2[block - 1];
             this.task = "Search 1";
         }
-        this.movieLength = MovieList.getMovie(targetMovie).getLength();
+        this.movieLength = MovieList.getMovie(this, targetMovie).getLength();
     }
 
     public void nextBlock() {
@@ -260,7 +260,7 @@ public class Metrics extends Application {
             targetMovie = dataSet == 0 ? session3_targetMovies[0] : session3_targetMovies2[0];
             task = "Search 1";
         }
-        movieLength = MovieList.getMovie(targetMovie).getLength();
+        movieLength = MovieList.getMovie(this, targetMovie).getLength();
         selectedMovie = "";
         taskNum = 1;
         taskCompletionTime = 0L;
@@ -349,14 +349,14 @@ public class Metrics extends Application {
     }
 
     private int calculateS1T1ActionsNeeded() {
-        Movie movie = MovieList.getMovie(targetMovie);
+        Movie movie = MovieList.getMovie(this, targetMovie);
 
         int count = 0;
         if (task.equals(TaskType.TYPE_TASK_FIND.name)) {
             if (block <= 1) {
                 count = movie.getCategoryIndex() + movie.getPosition() + 1; // vertical navigation + horizontal navigation + click
             } else {
-                Movie prevMovie = MovieList.getMovie(dataSet == 0 ? session1_targetMovies[block - 2] : session1_targetMovies2[block - 2]);
+                Movie prevMovie = MovieList.getMovie(this, dataSet == 0 ? session1_targetMovies[block - 2] : session1_targetMovies2[block - 2]);
                 int categoryDiff = Math.abs(movie.getCategoryIndex() - prevMovie.getCategoryIndex());
                 int positionDiff = Math.abs(movie.getPosition() - prevMovie.getPosition());
                 count = categoryDiff + positionDiff + 1; // vertical difference + horizontal difference + click

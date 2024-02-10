@@ -76,7 +76,7 @@ public class XRayListActivity extends Activity {
         infoDetails = binding.infoDetails;
 
         // get selected movie
-        movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
+        movie = MovieList.getMovie(getApplicationContext(), (int) getIntent().getLongExtra(MOVIE_ID, 0));
         data = movie.getXRayItems();
         index = 0;
         setXRayCardInfo();

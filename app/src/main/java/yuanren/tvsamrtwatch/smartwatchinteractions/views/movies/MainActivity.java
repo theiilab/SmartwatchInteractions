@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
         indicatorDown = binding.indicatorDown;
 
         // load movie
-        movie = MovieList.getMovie(currentSelectedMovieIndex);
+        movie = MovieList.getMovie(getApplicationContext(), currentSelectedMovieIndex);
         setMovieInfo();
 
         /** ----- log ----- */
@@ -230,7 +230,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                movie = MovieList.getNextMovie(keyEvent);
+                movie = MovieList.getNextMovie(getApplicationContext(), keyEvent);
                 movieCard.startAnimation(slideIn);
                 setMovieInfo();
                 changeIndicator(keyEvent);

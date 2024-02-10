@@ -90,7 +90,7 @@ public class PlaybackActivity2 extends Activity {
         cover = binding.cover;
 
         // get selected movie
-        movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
+        movie = MovieList.getMovie(getApplicationContext(), (int) getIntent().getLongExtra(MOVIE_ID, 0));
         title.setText(movie.getTitle());
         Glide.with(getApplicationContext())
                 .load(movie.getCardImageUrl())

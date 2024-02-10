@@ -68,7 +68,7 @@ public class XRayContentActivity extends Activity implements ClickListener {
         setContentView(binding.getRoot());
 
         // get selected movie
-        movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
+        movie = MovieList.getMovie(getApplicationContext(), (int) getIntent().getLongExtra(MOVIE_ID, 0));
         xRayItem = movie.getXRayItems().get((int) getIntent().getLongExtra(XRAY_ID, 0));
         String[] text = xRayItem.getDescription().split("\\;"); //System.lineSeparator())
         String name = text[0]; // common

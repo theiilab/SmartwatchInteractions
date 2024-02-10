@@ -1,5 +1,10 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.data;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import java.util.ArrayList;
@@ -10,11 +15,13 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.SplittableRandom;
 
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 
 public final class MovieList {
     private static final String TAG = "MovieList";
+    private static final String SP_TAG = "com.yuanren.smaartwatchinteractions.movielist";
     public static final int NUM_REAL_MOVIE = 2; // the number of real movie in each row
     public static final int NUM_DUMMY_MOVIE = 5; // the number of distinct dummy movies (change in func setUpDummyMovies accordingly)
     public static final int NUM_COLS = 20;
@@ -32,20 +39,28 @@ public final class MovieList {
 
     private static SplittableRandom splittableRandom;
     public static int[] randomPositions;
+    private static Context context;
 
     public static int getIndex() {
         return index;
     }
 
-    public static Movie getFirstMovie() {
-        return list == null ? null : list.get(0);
-    }
-
-    public static Movie getMovie(int id) {
+    public static Movie getMovie(Context ct, int id) {
+        context = ct;
+        if (list == null) {
+            Log.d(TAG, "Movie list is null, set it up again");
+            list = setUpMovies(randomPositions);
+        }
         return list.get(id);
     }
 
-    public static Movie getMovie(String name) {
+    public static Movie getMovie(Context ct, String name) {
+        context = ct;
+        if (list == null) {
+            Log.d(TAG, "Movie list is null, set it up again");
+            list = setUpMovies(randomPositions);
+        }
+
         for (Movie movie : list){
             if (movie.getTitle().equals(name)) {
                 return movie;
@@ -55,9 +70,9 @@ public final class MovieList {
     }
 
     public static List<Movie> getRealList() {
-//        if (list == null) {
-//            list = setupMovies();
-//        }
+        if (realMovies == null) {
+            realMovies = setUpRealMovies();
+        }
         return realMovies;
     }
 
@@ -95,7 +110,7 @@ public final class MovieList {
         return res;
     }
 
-    public static Movie getNextMovie(int keyEvent) {
+    public static Movie getNextMovie(Context ct, int keyEvent) {
         switch (keyEvent) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 index = Math.min(NUM_COLS * NUM_MOVIE_CATEGORY - 1, index + 1);
@@ -120,6 +135,11 @@ public final class MovieList {
 //            int i = (index % 20 - 2) % NUM_DUMMY_MOVIE;
 //            return dummyList.get(i);
 //        }
+        context = ct;
+        if (list == null) {
+            Log.d(TAG, "Movie list is null, set it up again");
+            list = setUpMovies(randomPositions);
+        }
         return list.get(index);
     }
 
@@ -151,8 +171,12 @@ public final class MovieList {
         return list;
     }
 
-    public static List<Movie> setUpMovies(int[] randomPositions) {
+    public static List<Movie> setUpMovies(int[] rp) {
         /** fill real movies at the random position and dummy movies in the rest */
+        randomPositions = rp;
+        if (randomPositions == null || randomPositions.length < NUM_MOVIE_CATEGORY * NUM_REAL_MOVIE) {
+            randomPositions = getRandomPosIntArray(spRead());
+        }
         list = new ArrayList<>();
         realMovies = setUpRealMovies(); // record of unique real movies
 
@@ -200,15 +224,23 @@ public final class MovieList {
         return list;
     }
 
-//    public static String getRandomPosString(int[] data) {
-//        String s = "";
-//        for (int i = 0; i < data.length - 1; ++i) {
-//            s += data[i] + ",";
-//        }
-//
-//        s += data[data.length - 1];
-//        return s;
-//    }
+    private static int[] getRandomPosIntArray(String s) {
+        String[] data = s.split(",");
+        for (int i = 0; i < data.length; ++i) {
+            randomPositions[i] = Integer.parseInt(data[i]);
+        }
+        return randomPositions;
+    }
+
+    public static String getRandomPosString(int[] data) {
+        String s = "";
+        for (int i = 0; i < data.length - 1; ++i) {
+            s += data[i] + ",";
+        }
+
+        s += data[data.length - 1];
+        return s;
+    }
 
     private static int getRandomInt(int min, int max){
         if (splittableRandom == null) {
@@ -226,6 +258,23 @@ public final class MovieList {
             default:
                 return getRandomInt(14, 20);
         }
+    }
+
+    private static void spWrite(String data) {
+        Metrics metrics = (Metrics) context;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(metrics.pid + "-" + metrics.session + "-" + metrics.method + "-" + "randomPositions", data);
+        editor.commit();
+        Log.d(TAG, "Write into shared preference: " + data);
+    }
+
+    private static String spRead() {
+        Metrics metrics = (Metrics) context;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_TAG, MODE_PRIVATE);
+        String data = sharedPreferences.getString(metrics.pid + "-" + metrics.session + "-" + metrics.method + "-" + "randomPositions", "");
+        Log.d(TAG, "Read from shared preference: " + data);
+        return data;
     }
 
     private static List<Movie> setUpRealMovies() {
