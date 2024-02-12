@@ -52,7 +52,7 @@ public class SearchActivity extends Activity {
     private OnGestureRegisterListener tapRegisterListener;
     /** -------- log -------- */
     private Metrics metrics;
-    private boolean taskStartFlag = false;
+    private boolean startFlag = false;
     private Long actionStartTime = 0L;
     /** -------------------- */
     @Override
@@ -239,8 +239,6 @@ public class SearchActivity extends Activity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SEARCH_RESULT) {
             /** -------- log -------- */
             setLogData();
-            clearLogData();
-            prepareNextTask();
             /** --------------------- */
 
             text = "";
@@ -252,8 +250,8 @@ public class SearchActivity extends Activity {
 
     /** -------- log -------- */
     private void setTaskStartTime() {
-        if (!taskStartFlag) {
-            taskStartFlag = true;
+        if (!startFlag) {
+            startFlag = true;
             metrics.startTime = System.currentTimeMillis();
         }
     }
@@ -269,10 +267,8 @@ public class SearchActivity extends Activity {
     private void setLogData() {
         metrics.endTime = System.currentTimeMillis();
         FileUtils.write(getApplicationContext(), metrics);
-    }
-
-    private void clearLogData() {
-        taskStartFlag = false;
+        prepareNextTask();
+        metrics.startTime = System.currentTimeMillis();
     }
 
     private void clearData(){
