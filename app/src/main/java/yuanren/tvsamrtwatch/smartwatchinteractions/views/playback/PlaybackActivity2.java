@@ -22,7 +22,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.InputDeviceCompat;
 import androidx.core.view.MotionEventCompat;
 
@@ -33,7 +32,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityPlaybackBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Block;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Task;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnSwipeHoldGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
@@ -57,24 +58,22 @@ public class PlaybackActivity2 extends Activity {
     private OnSwipeHoldGestureRegisterListener gestureRegisterListener;
 
     /** ----- log ----- */
-    private Metrics metrics;
+    private Session session;
+    private Block block;
+    private Task task;
     /** --------------- */
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** ----- log ----- */
-        metrics = (Metrics) getApplicationContext();
-        metrics.startTime = System.currentTimeMillis();
-        // clear any possible navigation log
-        metrics.actionsPerTask = 0;
-        metrics.swipesPerTasks = 0;
-        metrics.tapsPerTasks = 0;
-        metrics.swipeHoldsPerTasks = 0;
-        metrics.longPressesPerTasks = 0;
-        metrics.twoFingerTapsPerTasks = 0;
-        metrics.crownRotatesPerTasks = 0;
+        session = (Session) getApplicationContext();
+        block = session.getCurrentBlock();
+        task = session.getCurrentBlock().getCurrentTask();
+        block.startTime = System.currentTimeMillis();
+        block.actionsPerBlock = 0;
+        task.startTime = block.startTime;
+        task.actionsPerTask = 0;
         /** --------------- */
 
         // keep screen on
@@ -110,10 +109,11 @@ public class PlaybackActivity2 extends Activity {
                 animateControl(KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.swipesPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.swipesPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -125,10 +125,11 @@ public class PlaybackActivity2 extends Activity {
                 animateControl(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.swipesPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.swipesPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -141,10 +142,11 @@ public class PlaybackActivity2 extends Activity {
                 animateControl(KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.swipeHoldsPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.swipeHoldsPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_RIGHT_HOLD.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -157,10 +159,11 @@ public class PlaybackActivity2 extends Activity {
                 animateControl(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.swipeHoldsPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.swipeHoldsPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_LEFT_HOLD.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -168,6 +171,16 @@ public class PlaybackActivity2 extends Activity {
 
             @Override
             public void onClick(View v) {
+                /** ----- log ----- */
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.tapsPerTasks++;
+
+                Action action = new Action(session, movie.getTitle(),
+                        ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                FileUtils.writeRaw(getApplicationContext(), action);
+                /** --------------- */
+
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
                 if (isPlayed) {
@@ -184,10 +197,11 @@ public class PlaybackActivity2 extends Activity {
             @Override
             public boolean onLongClick(View view) {
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.longPressesPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.longPressesPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -200,10 +214,11 @@ public class PlaybackActivity2 extends Activity {
             @Override
             public boolean onTwoPointerTap(View view) {
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.twoFingerTapsPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.twoFingerTapsPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_TWO_FINGER_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */

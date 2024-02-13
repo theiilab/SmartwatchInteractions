@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,7 +26,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayListBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Block;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Task;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
@@ -52,16 +53,19 @@ public class XRayListActivity extends Activity {
     private int index = 0;
     private OnGestureRegisterListener gestureRegisterListener;
     /** ----- log ----- */
-    private Metrics metrics;
+    private Session session;
+    private Block block;
+    private Task task;
     private boolean lastTaskFlag = false;
-
     /** --------------- */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** ----- log ----- */
-        metrics = (Metrics) getApplicationContext();
+        session = (Session) getApplicationContext();
+        block = session.getCurrentBlock();
+        task = session.getCurrentBlock().getCurrentTask();
         /** --------------- */
 
         // keep screen on
@@ -88,10 +92,11 @@ public class XRayListActivity extends Activity {
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.swipesPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.swipesPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -103,10 +108,11 @@ public class XRayListActivity extends Activity {
                 changeXRayCard(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.swipesPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.swipesPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -115,10 +121,11 @@ public class XRayListActivity extends Activity {
             @Override
             public void onClick(View view) {
                 /** ----- log ----- */
-                metrics.actionsPerTask++;
-                metrics.tapsPerTasks++;
+                block.actionsPerBlock++;
+                task.actionsPerTask++;
+                task.tapsPerTasks++;
 
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -132,7 +139,7 @@ public class XRayListActivity extends Activity {
             @Override
             public boolean onTwoPointerTap(View view) {
                 /** ----- log ----- */
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_TWO_FINGER_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
@@ -140,7 +147,7 @@ public class XRayListActivity extends Activity {
                 Log.d(TAG, "onTwoPointerTap");
 
                 // make sure every x-ray card is visited before exit this page
-                if (metrics.taskNum < movie.getXRayItems().size()){
+                if (task.id < movie.getXRayItems().size()){
                     return true;
                 }
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_UP);
@@ -156,22 +163,25 @@ public class XRayListActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_X_RAY_LIST) {
-            metrics.actionsPerTask++; // back from x-ray content page by long press
-            metrics.longPressesPerTasks++;
+            block.actionsPerBlock++;
+            task.actionsPerTask++; // back from x-ray content page by long press
+            task.longPressesPerTasks++;
 
-            if (metrics.taskNum == index + 1) {
-                Log.d(TAG, "" + metrics.taskNum);
-                if (metrics.taskNum == Metrics.SESSION_2_NUM_TASK && lastTaskFlag) {
+            if (task.id == index + 1) {
+                Log.d(TAG, "" + task.id);
+                if (task.id == block.SESSION_2_NUM_TASK && lastTaskFlag) {
                     Log.d(TAG, "return");
                     return;
                 }
-                metrics.endTime = System.currentTimeMillis();
-                FileUtils.write(getApplicationContext(), metrics);
-                if (metrics.taskNum == Metrics.SESSION_2_NUM_TASK && !lastTaskFlag) {
+
+                task.selectedMovie = movie.getTitle();
+                task.endTime = System.currentTimeMillis();
+                FileUtils.write(getApplicationContext(), task);
+                if (task.id == block.SESSION_2_NUM_TASK && !lastTaskFlag) {
                     lastTaskFlag = true;
                 }
-                metrics.nextTask();
-                metrics.startTime = System.currentTimeMillis();
+                task = block.nextTask();
+                task.startTime = System.currentTimeMillis();
             }
         }
     }

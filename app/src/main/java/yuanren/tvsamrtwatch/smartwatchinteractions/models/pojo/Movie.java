@@ -9,6 +9,8 @@ import java.util.List;
 public class Movie implements Serializable {
     static final long serialVersionUID = 727566175075960653L;
     private long id;
+
+    private long realId;
     private String title;
     private int length;
     private String description;
@@ -31,6 +33,14 @@ public class Movie implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getRealId() {
+        return realId;
+    }
+
+    public void setRealId(long realId) {
+        this.realId = realId;
     }
 
     public String getTitle() {

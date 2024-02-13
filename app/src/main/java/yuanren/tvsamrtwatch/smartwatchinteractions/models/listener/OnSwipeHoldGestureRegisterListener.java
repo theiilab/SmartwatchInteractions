@@ -12,7 +12,7 @@ import java.util.List;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
 
 public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouchListener {
     private static final String TAG = "OnSwipeHoldGestureRegisterListener";
@@ -30,13 +30,13 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
     public int swipeHoldRightCount = 0;
 
     /** ----- log ----- */
-    private Metrics metrics;
+    private Session session;
     public List<Action> swipeHolds = new ArrayList<>();
     /** --------------- */
 
     public OnSwipeHoldGestureRegisterListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
-        metrics = (Metrics) context;
+        session = (Session) context;
     }
 
     public void clearSwipeHoldCounts() {
@@ -108,7 +108,7 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
                         swipeHoldRightCount++;  // must call before onSwipeRightHold(view), otherwise the data will be 1 less behind
 
                         // raw
-                        Action action = new Action(metrics, metrics.selectedMovie,
+                        Action action = new Action(session, session.getCurrentBlock().selectedMovie,
                                 ActionType.TYPE_ACTION_SWIPE_RIGHT_HOLD.name, TAG, startTime, endTime);
                         swipeHolds.add(action);
                         /** --------------- */
@@ -120,7 +120,7 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
                         swipeHoldLeftCount++; // must call before onSwipeRightHold(view), otherwise the data will be 1 less behind
 
                         // raw
-                        Action action = new Action(metrics, metrics.selectedMovie,
+                        Action action = new Action(session, session.getCurrentBlock().selectedMovie,
                                 ActionType.TYPE_ACTION_SWIPE_LEFT_HOLD.name, TAG, startTime, endTime);
                         swipeHolds.add(action);
                         /** --------------- */

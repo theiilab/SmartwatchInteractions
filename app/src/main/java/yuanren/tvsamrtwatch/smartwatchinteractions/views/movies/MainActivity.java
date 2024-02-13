@@ -25,7 +25,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityMainBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Block;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Task;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
@@ -55,7 +57,9 @@ public class MainActivity extends Activity {
     public int currentSelectedMovieIndex = 0;
 
     /** ----- log ----- */
-    private Metrics metrics;
+    private Session session;
+    private Block block;
+    private Task task;
     private boolean findStartFlag = false;
     /** --------------- */
 
@@ -82,8 +86,10 @@ public class MainActivity extends Activity {
         setMovieInfo();
 
         /** ----- log ----- */
-        metrics = (Metrics) getApplicationContext();
-        metrics.selectedMovie = movie.getTitle();
+        session = (Session) getApplicationContext();
+        block = session.getCurrentBlock();
+        task = session.getCurrentBlock().getCurrentTask();
+        block.selectedMovie = movie.getTitle();
         /** --------------- */
 
         gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
@@ -146,7 +152,7 @@ public class MainActivity extends Activity {
 
                 /** ----- log ----- */
                 updateLogData(ActionType.TYPE_ACTION_TAP);
-                if (metrics.targetMovie.equals(movie.getTitle())) {
+                if (block.targetMovie.equals(movie.getTitle())) {
                     setLogData();
                 }
                 /** --------------- */
@@ -174,13 +180,16 @@ public class MainActivity extends Activity {
 
         /** ----- log ----- */
         if (requestCode == REQUEST_CODE_DETAILS) {
-            if (metrics.targetMovie.equals(metrics.selectedMovie)) {
+            if (block.targetMovie.equals(block.selectedMovie)) {
+                block.endTime = System.currentTimeMillis();
+                FileUtils.write(getApplicationContext(), block);
                 clearLogData();
-                metrics.nextBlock();
+                block = session.nextBlock();
+                task = block.getCurrentTask();
             } else {
                 // for press back button from the wrong movie details
-                metrics.actionsPerTask++;
-                metrics.longPressesPerTasks++;
+                task.actionsPerTask++;
+                task.longPressesPerTasks++;
             }
         }
         /** --------------- */
@@ -276,51 +285,52 @@ public class MainActivity extends Activity {
     private void updateLogData(ActionType actionType) {
         if (!findStartFlag) {
             findStartFlag = true;
-            metrics.startTime = System.currentTimeMillis();
+            block.startTime = System.currentTimeMillis();
+            task.startTime = block.startTime;
         }
 
         Action action;
         switch (actionType) {
             case TYPE_ACTION_SWIPE_LEFT:
-                metrics.swipesPerTasks++;
+                task.swipesPerTasks++;
 
                 // raw log
-                action = new Action(metrics, movie.getTitle(),
+                action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_SWIPE_RIGHT:
-                metrics.swipesPerTasks++;
+                task.swipesPerTasks++;
 
                 // raw log
-                action = new Action(metrics, movie.getTitle(),
+                action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_SWIPE_UP:
-                metrics.swipesPerTasks++;
+                task.swipesPerTasks++;
 
                 // raw log
-                action = new Action(metrics, movie.getTitle(),
+                action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_UP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_SWIPE_DOWN:
-                metrics.swipesPerTasks++;
+                task.swipesPerTasks++;
 
                 // raw log
-                action = new Action(metrics, movie.getTitle(),
+                action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_SWIPE_DOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             case TYPE_ACTION_TAP:
-                metrics.tapsPerTasks++;
+                task.tapsPerTasks++;
 
                 // raw log
-                action = new Action(metrics, movie.getTitle(),
+                action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 break;
             default:
-                action = new Action(metrics, movie.getTitle(),
+                action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_UNKNOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
         }
-        metrics.actionsPerTask++;
+        task.actionsPerTask++;
         FileUtils.writeRaw(getApplicationContext(), action);
     }
 
@@ -331,13 +341,15 @@ public class MainActivity extends Activity {
 
     /** ----- log ----- */
     private void setLogData() {
-        metrics.selectedMovie = movie.getTitle();
-        metrics.endTime = System.currentTimeMillis();
-
+        block.selectedMovie = movie.getTitle();
         // only reflect navigation time in log for session 1
-        if (metrics.session == 1) {
-            FileUtils.write(getApplicationContext(), metrics);
-            metrics.nextTask();
+        if (session.id == 1) {
+            block.actionsPerBlock += task.actionsPerTask;
+
+            task.selectedMovie = movie.getTitle();
+            task.endTime = System.currentTimeMillis();
+            FileUtils.write(getApplicationContext(), task);
+            task = block.nextTask();
         }
     }
 

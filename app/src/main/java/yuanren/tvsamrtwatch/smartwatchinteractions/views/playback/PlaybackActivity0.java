@@ -41,7 +41,6 @@ public class PlaybackActivity0 extends Activity {
     public static final String MOVIE_ID = "selectedMovieId";
     public static final int VALUE_VOLUME_UNIT = 2;
     private ActivityPlaybackBinding binding;
-    private ConstraintLayout container;
     private ScrollView volumeCtrl;
     private ImageView movieBg;
     private ImageButton control;
@@ -61,7 +60,6 @@ public class PlaybackActivity0 extends Activity {
         binding = ActivityPlaybackBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        container = binding.container;
         volumeCtrl = binding.volumeController;
         movieBg = binding.movieBg;
         control = binding.control;

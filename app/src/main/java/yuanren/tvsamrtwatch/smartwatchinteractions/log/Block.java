@@ -1,0 +1,234 @@
+package yuanren.tvsamrtwatch.smartwatchinteractions.log;
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
+import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
+
+public class Block {
+    private final static String TAG = "Block";
+    public final static int SESSION_1_NUM_TASK = 8;
+    public final static int SESSION_2_NUM_TASK = 7;
+    public final static int SESSION_3_NUM_TASK = 10;
+    private Context context;
+
+    public int pid;
+    public int sid;
+    public String method;
+    public int dataSet;
+
+    public int id;
+    public String targetMovie = "";
+    public int movieLength = 0;
+    public String selectedMovie = "";
+    public Long startTime = 0L;
+    public Long endTime = 0L;
+    public Long blockCompletionTime = 0L;
+    public int actionsPerBlock = 0;
+    public int actionUpsPerBlock = 0;
+    public int actionsNeeded = 0;
+    public double errorRate = 0;
+    public int index = 0; // zero-based
+    public int incorrectTitleCount = 0;
+    public List<Task> tasks = new ArrayList<>();
+
+    private String[] session1_tasks = {
+            TaskType.TYPE_TASK_FIND.name,
+            TaskType.TYPE_TASK_PLAY_5_SEC.name,
+            TaskType.TYPE_TASK_CHANGE_VOLUME.name,
+            TaskType.TYPE_TASK_FORWARD.name,
+            TaskType.TYPE_TASK_PAUSE.name,
+            TaskType.TYPE_TASK_BACKWARD.name,
+            TaskType.TYPE_TASK_GO_TO_END.name,
+            TaskType.TYPE_TASK_GO_TO_START.name
+    };
+
+    private Map<String, Integer> session1_actionsNeeded = new HashMap<String, Integer>() {{
+        put(TaskType.TYPE_TASK_PLAY_5_SEC.name, 0);
+        put(TaskType.TYPE_TASK_CHANGE_VOLUME.name, 2);
+        put(TaskType.TYPE_TASK_FORWARD.name, 2);
+        put(TaskType.TYPE_TASK_PAUSE.name, 2);
+        put(TaskType.TYPE_TASK_BACKWARD.name, 2);
+        put(TaskType.TYPE_TASK_GO_TO_END.name, 1);
+        put(TaskType.TYPE_TASK_GO_TO_START.name, 1);
+    }};
+    private Map<String, Integer> session1_swipesNeeded = new HashMap<String, Integer>() {{
+        put(TaskType.TYPE_TASK_PLAY_5_SEC.name, 0);
+        put(TaskType.TYPE_TASK_CHANGE_VOLUME.name, 0);
+        put(TaskType.TYPE_TASK_FORWARD.name, 2);
+        put(TaskType.TYPE_TASK_PAUSE.name, 0);
+        put(TaskType.TYPE_TASK_BACKWARD.name, 2);
+        put(TaskType.TYPE_TASK_GO_TO_END.name, 0);
+        put(TaskType.TYPE_TASK_GO_TO_START.name, 0);
+    }};
+    private Map<String, Integer> session1_swipeHoldNeeded = new HashMap<String, Integer>() {{
+        put(TaskType.TYPE_TASK_PLAY_5_SEC.name, 0);
+        put(TaskType.TYPE_TASK_CHANGE_VOLUME.name, 0);
+        put(TaskType.TYPE_TASK_FORWARD.name, 0);
+        put(TaskType.TYPE_TASK_PAUSE.name, 0);
+        put(TaskType.TYPE_TASK_BACKWARD.name, 0);
+        put(TaskType.TYPE_TASK_GO_TO_END.name, 1);
+        put(TaskType.TYPE_TASK_GO_TO_START.name, 1);
+    }};
+    private Map<String, Integer> session1_tapsNeeded = new HashMap<String, Integer>() {{
+        put(TaskType.TYPE_TASK_PLAY_5_SEC.name, 0);
+        put(TaskType.TYPE_TASK_CHANGE_VOLUME.name, 0);
+        put(TaskType.TYPE_TASK_FORWARD.name, 0);
+        put(TaskType.TYPE_TASK_PAUSE.name, 2);
+        put(TaskType.TYPE_TASK_BACKWARD.name, 0);
+        put(TaskType.TYPE_TASK_GO_TO_END.name, 0);
+        put(TaskType.TYPE_TASK_GO_TO_START.name, 0);
+    }};
+    private Map<String, Integer> session1_crownRotatesNeeded = new HashMap<String, Integer>() {{
+        put(TaskType.TYPE_TASK_PLAY_5_SEC.name, 0);
+        put(TaskType.TYPE_TASK_CHANGE_VOLUME.name, 2);
+        put(TaskType.TYPE_TASK_FORWARD.name, 0);
+        put(TaskType.TYPE_TASK_PAUSE.name, 0);
+        put(TaskType.TYPE_TASK_BACKWARD.name, 0);
+        put(TaskType.TYPE_TASK_GO_TO_END.name, 0);
+        put(TaskType.TYPE_TASK_GO_TO_START.name, 0);
+    }};
+    private String[] session3_tasks1 = {
+            "The King's Man",
+            "Jumanji",
+            "The Devil Wears Prada",
+            "Venom",
+            "Harry Potter and the Prisoner of Azkaban",
+            "Insomnia",
+            "Mama Mia",
+            "Sherlock Holmes",
+            "Flipped",
+            "Inception"};
+
+    private String[] session3_tasks2 = {
+            "Red Notice",
+            "Uncharted",
+            "The Wolf of Wall Street",
+            "Iron man",
+            "Fantastic Beasts and Where to Find Them",
+            "Fall",
+            "Lala Land",
+            "The Da Vinci Code",
+            "Crazy Rich Asians",
+            "The Adam Project"};
+
+    public Block(Context context, int pid, int sid, String method, int dataSet, int bid, String targetMovie) {
+        this.context = context;
+        this.pid = pid;
+        this.sid = sid;
+        this.method = method;
+        this.dataSet = dataSet;
+        this.id = bid;
+        this.targetMovie = targetMovie;
+        this.movieLength = MovieList.getMovie(context, targetMovie) != null ? MovieList.getMovie(context, targetMovie).getLength() : 0;
+
+        switch (sid) {
+            case 1:
+                for (int i = 0; i < session1_tasks.length; ++i) {
+                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, session1_tasks[i], targetMovie, movieLength);
+                    if (i == 0) {
+                        task.actionsNeeded = calculateS1T1ActionsNeeded();
+                        task.swipesNeeded = task.actionsNeeded - 1;
+                        task.tapsNeeded = 1;
+                    } else {
+                        task.actionsNeeded = session1_actionsNeeded.get(task.name);
+                        task.crownRotatesNeeded = session1_crownRotatesNeeded.get(task.name);
+                        task.swipesNeeded = session1_swipesNeeded.get(task.name);
+                        task.tapsNeeded = session1_tapsNeeded.get(task.name);
+                        task.swipeHoldNeeded = session1_swipeHoldNeeded.get(task.name);
+                    }
+                    tasks.add(task);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < SESSION_2_NUM_TASK; ++i) {
+                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Question " + (i + 1), targetMovie, movieLength);
+                    task.actionsNeeded = 3;
+                    if (i == 0) {
+                        task.twoFingerTapsNeeded = 1;
+                        task.tapsNeeded = 1;
+                        task.longPressesNeeded = 1;
+                    } else {
+                        task.swipesNeeded = 1;
+                        task.tapsNeeded = 1;
+                        task.longPressesNeeded = 1;
+                    }
+                    tasks.add(task);
+                }
+                break;
+            default:
+                for (int i = 0; i < SESSION_3_NUM_TASK; ++i) {
+                    this.targetMovie = dataSet == 0 ? session3_tasks1[i]: session3_tasks2[i];
+                    this.movieLength = MovieList.getMovie(context, this.targetMovie) != null ? MovieList.getMovie(context, this.targetMovie).getLength() : 0;
+                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Search " + (i + 1), this.targetMovie, movieLength);
+                    tasks.add(task);
+                }
+                break;
+        }
+    }
+
+    public Task nextTask() {
+        switch (sid) {
+            case 1:
+                index = Math.min(index + 1, session1_tasks.length - 1);
+                break;
+            case 2:
+                index = Math.min(index + 1, SESSION_2_NUM_TASK - 1);
+                break;
+            default:
+                index = Math.min(index + 1, SESSION_3_NUM_TASK - 1);
+                break;
+        }
+        return tasks.get(index);
+    }
+
+    public int getCurrentIndex() {
+        return index;
+    }
+
+    public Task getCurrentTask() {
+        return tasks.get(index);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        if (sid == 3) {
+            for (Task task: tasks) {
+                incorrectTitleCount += task.incorrectTitleCount;
+            }
+            errorRate = incorrectTitleCount != 0 ? 10.0 / incorrectTitleCount : 0;
+            blockCompletionTime = endTime - startTime;
+            return "" + pid + "," + method + "," + sid + "," + dataSet + "," + id + "," + blockCompletionTime + "," + startTime + "," + endTime + "," + actionsPerBlock + "," + errorRate + "\n";
+        } else {
+            for (Task task: tasks) {
+                actionsNeeded += task.actionsNeeded;
+            }
+            blockCompletionTime = endTime - startTime;
+            errorRate = actionsNeeded != 0 ? ((double) actionsPerBlock - (double) actionsNeeded) / actionsNeeded : 0;
+            return "" + pid + "," + method + "," + sid + "," + dataSet + "," + id + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + blockCompletionTime + "," + startTime + "," + endTime + "," + actionsPerBlock + "," + actionsNeeded + "," + errorRate + "," + actionUpsPerBlock + "\n";
+        }
+    }
+
+    private int calculateS1T1ActionsNeeded() {
+        Movie movie = MovieList.getMovie(context, targetMovie);
+        int count = 0;
+        if (id == 1) { // 1st movie/block
+            count = movie.getCategoryIndex() + movie.getPosition() + 1; // vertical navigation + horizontal navigation + click
+        } else {
+            int prevId = (int) Math.max(0, movie.getRealId() - 2);
+            Movie prevMovie = MovieList.getPrevMovie(context, prevId);
+            int categoryDiff = Math.abs(movie.getCategoryIndex() - prevMovie.getCategoryIndex());
+            int positionDiff = Math.abs(movie.getPosition() - prevMovie.getPosition());
+            count = categoryDiff + positionDiff + 1; // vertical difference + horizontal difference + click
+        }
+        return count;
+    }
+}

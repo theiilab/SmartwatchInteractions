@@ -1,18 +1,15 @@
 package yuanren.tvsamrtwatch.smartwatchinteractions.views.detail;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +18,8 @@ import com.bumptech.glide.Glide;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityDetailBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Block;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
@@ -47,7 +45,8 @@ public class DetailActivity extends Activity {
     private OnGestureRegisterListener gestureRegisterListener;
 
     /** ----- log ----- */
-    private Metrics metrics;
+    private Session session;
+    private Block block;
     /** --------------- */
 
 
@@ -55,7 +54,8 @@ public class DetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** ----- log ----- */
-        metrics = (Metrics) getApplicationContext();
+        session = (Session) getApplicationContext();
+        block = session.getCurrentBlock();
         /** --------------- */
 
         // keep screen on
@@ -86,19 +86,19 @@ public class DetailActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
 
                 /** ----- log ----- */
-                if (!metrics.targetMovie.equals(movie.getTitle()) && (metrics.session == 1 || metrics.session == 2)) {
+                if (!block.targetMovie.equals(movie.getTitle()) && (session.id == 1 || session.id == 2)) {
                     return;
                 }
                 // raw log
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
 
                 Intent intent;
-                if (metrics.session == 1){
+                if (session.id == 1){
                     intent = new Intent(getApplicationContext(), PlaybackActivity.class);
-                } else if (metrics.session == 2){ // session 2
+                } else if (session.id == 2){ // session 2
                     intent = new Intent(getApplicationContext(), PlaybackActivity2.class);
                 } else {
                     intent = new Intent(getApplicationContext(), PlaybackActivity0.class);
@@ -112,7 +112,7 @@ public class DetailActivity extends Activity {
                 new SocketAsyncTask().execute(KeyEvent.KEYCODE_BACK);
 
                 /** ----- log ----- */
-                Action action = new Action(metrics, movie.getTitle(),
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */

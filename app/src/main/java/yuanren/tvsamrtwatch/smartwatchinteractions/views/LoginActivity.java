@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityLoginBinding;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.pairing.PairingManager;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.socket.RandomPositionSocketService;
@@ -41,14 +41,14 @@ public class LoginActivity extends FragmentActivity {
     public PairingManager pairingManager;
 
     /** -------- log -------- */
-    private Metrics metrics;
+    private Session session;
     /** -------------------- */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** -------- log -------- */
-        metrics = (Metrics) getApplicationContext();
+        session = (Session) getApplicationContext();
         /** --------------------- */
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
@@ -133,7 +133,7 @@ public class LoginActivity extends FragmentActivity {
             MovieList.setUpMovies(randoms);
 
             /** -------- log -------- */
-            metrics.init(Integer.parseInt(tmp1[0]), Integer.parseInt(tmp1[1]), tmp1[2], Integer.parseInt(tmp1[3]), Integer.parseInt(tmp1[4]));
+            session.init(Integer.parseInt(tmp1[0]), Integer.parseInt(tmp1[1]), tmp1[2], Integer.parseInt(tmp1[3]), Integer.parseInt(tmp1[4]));
             /** --------------------- */
             return null;
         }
@@ -199,7 +199,7 @@ public class LoginActivity extends FragmentActivity {
             super.onPostExecute(unused);
 
             Intent intent;
-            if (metrics.session == 3) {
+            if (session.id == 3) {
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
             } else {
                 intent = new Intent(getApplicationContext(), MainActivity.class);

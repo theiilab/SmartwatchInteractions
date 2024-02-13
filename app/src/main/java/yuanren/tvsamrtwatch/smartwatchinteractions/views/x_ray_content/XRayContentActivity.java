@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,10 +19,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.R;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivityXrayContentBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.ClickListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
-import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnSwipeHoldGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
@@ -140,8 +138,8 @@ public class XRayContentActivity extends Activity implements ClickListener {
                 XRayContentActivity.super.onBackPressed();
 
                 /** ----- log ----- */
-                Metrics metrics = (Metrics) getApplicationContext();
-                Action action = new Action(metrics, movie.getTitle(),
+                Session session = (Session) getApplicationContext();
+                Action action = new Action(session, movie.getTitle(),
                         ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, longPressGestureRegisterListener.startTime, longPressGestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */

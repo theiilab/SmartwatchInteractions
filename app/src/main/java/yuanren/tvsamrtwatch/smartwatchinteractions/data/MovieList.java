@@ -15,7 +15,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.SplittableRandom;
 
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.XRayItem;
 
@@ -143,6 +143,15 @@ public final class MovieList {
         return list.get(index);
     }
 
+    public static Movie getPrevMovie(Context ct, int id) {
+        context = ct;
+        if (list == null) {
+            Log.d(TAG, "Movie list is null, set it up again");
+            list = setUpMovies(randomPositions);
+        }
+        return realMovies.get(id);
+    }
+
     // change NUM_MOVIE_CATEGORY accordingly
     public static final String MOVIE_CATEGORY[] = {
             "Action",
@@ -173,10 +182,10 @@ public final class MovieList {
 
     public static List<Movie> setUpMovies(int[] rp) {
         /** fill real movies at the random position and dummy movies in the rest */
-        randomPositions = rp;
-        if (randomPositions == null || randomPositions.length < NUM_MOVIE_CATEGORY * NUM_REAL_MOVIE) {
-            randomPositions = getRandomPosIntArray(spRead());
+        if (rp == null || rp.length < NUM_MOVIE_CATEGORY * NUM_REAL_MOVIE) {
+            rp = getRandomPosIntArray(spRead());
         }
+        randomPositions = rp;
         list = new ArrayList<>();
         realMovies = setUpRealMovies(); // record of unique real movies
 
@@ -226,10 +235,11 @@ public final class MovieList {
 
     private static int[] getRandomPosIntArray(String s) {
         String[] data = s.split(",");
+        int[] positions = new int[NUM_MOVIE_CATEGORY * NUM_REAL_MOVIE];
         for (int i = 0; i < data.length; ++i) {
-            randomPositions[i] = Integer.parseInt(data[i]);
+            positions[i] = Integer.parseInt(data[i]);
         }
-        return randomPositions;
+        return positions;
     }
 
     public static String getRandomPosString(int[] data) {
@@ -261,18 +271,18 @@ public final class MovieList {
     }
 
     private static void spWrite(String data) {
-        Metrics metrics = (Metrics) context;
+        Session session = (Session) context;
         SharedPreferences sharedPreferences = context.getSharedPreferences(SP_TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(metrics.pid + "-" + metrics.session + "-" + metrics.method + "-" + "randomPositions", data);
+        editor.putString(session.pid + "-" + session.id + "-" + session.method + "-" + "randomPositions", data);
         editor.commit();
         Log.d(TAG, "Write into shared preference: " + data);
     }
 
     private static String spRead() {
-        Metrics metrics = (Metrics) context;
+        Session session = (Session) context;
         SharedPreferences sharedPreferences = context.getSharedPreferences(SP_TAG, MODE_PRIVATE);
-        String data = sharedPreferences.getString(metrics.pid + "-" + metrics.session + "-" + metrics.method + "-" + "randomPositions", "");
+        String data = sharedPreferences.getString(session.pid + "-" + session.id + "-" + session.method + "-" + "randomPositions", "");
         Log.d(TAG, "Read from shared preference: " + data);
         return data;
     }
@@ -508,6 +518,7 @@ public final class MovieList {
             reals.add(
                     buildMovieInfo(
                             (long) index,
+                            (long) index,
                             title[index],
                             movieLength[index],
                             description,
@@ -524,6 +535,7 @@ public final class MovieList {
 
     private static Movie buildMovieInfo(
             Long id,
+            Long realId,
             String title,
             int length,
             String description,
@@ -537,6 +549,7 @@ public final class MovieList {
         Movie movie = new Movie();
 //        movie.setId(count++);
         movie.setId(id);
+        movie.setRealId(realId);
         movie.setTitle(title);
         movie.setLength(length);
         movie.setDescription(description);
@@ -2079,6 +2092,7 @@ public final class MovieList {
             dummies.add(
                     buildMovieInfo(
                             (long) index,
+                            (long) index,
                             title[index % n],
                             50,
                             description,
@@ -2169,6 +2183,7 @@ public final class MovieList {
         for (int i = 0; i < titles.length; ++i) {
             searchDummies.add(
                     buildMovieInfo(
+                            (long) -1,
                             (long) -1,
                             titles[i],
                             0,
