@@ -26,7 +26,9 @@ import java.util.ArrayList;
 
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Block;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Task;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.Point;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.qdollar.QDollarRecognizer;
@@ -51,7 +53,9 @@ public class SearchActivity extends Activity {
     private OnGestureRegisterListener gestureRegisterListener;
     private OnGestureRegisterListener tapRegisterListener;
     /** -------- log -------- */
-    private Metrics metrics;
+    private Session session;
+    private Block block;
+    private Task task;
     private boolean startFlag = false;
     private Long actionStartTime = 0L;
     /** -------------------- */
@@ -59,9 +63,9 @@ public class SearchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** -------- log -------- */
-        metrics = (Metrics) getApplicationContext();
-        metrics.selectedMovie = "";
-        metrics.actionsPerTask = 0;
+        session = (Session) getApplicationContext();
+        block = session.getCurrentBlock();
+        task = session.getCurrentBlock().getCurrentTask();
         /** --------------------- */
 
         // keep screen on
@@ -103,7 +107,7 @@ public class SearchActivity extends Activity {
                 new SocketAsyncTask2().execute(text);
 
                 /** -------- log -------- */
-                metrics.totalCharacterEntered = text.length();
+                task.totalCharacterEntered = text.length();
                 /** --------------------- */
             }
         });
@@ -113,9 +117,9 @@ public class SearchActivity extends Activity {
             public void onSwipeRight(View view) {
                 /** -------- log -------- */
                 setTaskStartTime();
-                metrics.actionsPerTask++;
+                task.actionsPerTask++;
 
-                Action action = new Action(metrics, "", "SPACE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                Action action = new Action(session, "", "SPACE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
@@ -129,10 +133,10 @@ public class SearchActivity extends Activity {
                 setTaskStartTime();
 
                 if (text.length() > 0) {
-                    metrics.backspaceCount++;
-                    metrics.actionsPerTask++;
+                    task.actionsPerTask++;
+                    task.backspaceCount++;
 
-                    Action action = new Action(metrics, "", "DELETE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                    Action action = new Action(session, "", "DELETE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                     FileUtils.writeRaw(getApplicationContext(), action);
                 }
                 /** --------------------- */
@@ -200,8 +204,8 @@ public class SearchActivity extends Activity {
                             clearData();
 
                             /** -------- log -------- */
-                            metrics.actionsPerTask++;
-                            Action action = new Action(metrics, "", result.name, TAG, actionStartTime, System.currentTimeMillis());
+                            task.actionsPerTask++;
+                            Action action = new Action(session, "", result.name, TAG, actionStartTime, System.currentTimeMillis());
                             FileUtils.writeRaw(getApplicationContext(), action);
                             /** --------------------- */
                         }
@@ -218,8 +222,8 @@ public class SearchActivity extends Activity {
 
                 /** -------- log -------- */
                 setTaskStartTime();
-                metrics.actionsPerTask++;
-                Action action = new Action(metrics, "", "SUBMIT", TAG, tapRegisterListener.startTime, tapRegisterListener.endTime);
+                task.actionsPerTask++;
+                Action action = new Action(session, "", "SUBMIT", TAG, tapRegisterListener.startTime, tapRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
@@ -252,23 +256,31 @@ public class SearchActivity extends Activity {
     private void setTaskStartTime() {
         if (!startFlag) {
             startFlag = true;
-            metrics.startTime = System.currentTimeMillis();
-        }
-    }
-
-    private void prepareNextTask() {
-        if (metrics.block < metrics.SESSION_3_NUM_BLOCK && metrics.taskNum == metrics.SESSION_3_NUM_TASK) {
-            metrics.nextBlock();
-        } else {
-            metrics.nextTask();
+            block.startTime = System.currentTimeMillis();
+            task.startTime = block.startTime;
         }
     }
 
     private void setLogData() {
-        metrics.endTime = System.currentTimeMillis();
-        FileUtils.write(getApplicationContext(), metrics);
-        prepareNextTask();
-        metrics.startTime = System.currentTimeMillis();
+        block.actionsPerBlock += task.actionsPerTask;
+        task.endTime = System.currentTimeMillis();
+        FileUtils.write(getApplicationContext(), task);
+
+        if (block.id == session.SESSION_3_NUM_BLOCK && task.id == block.SESSION_3_NUM_TASK) {
+            block.endTime = task.endTime;
+            FileUtils.write(getApplicationContext(), block);
+        } else if (block.id < session.SESSION_3_NUM_BLOCK && task.id == block.SESSION_3_NUM_TASK) {
+            block.endTime = task.endTime;
+            FileUtils.write(getApplicationContext(), block);
+
+            block = session.nextBlock();
+            task = block.getCurrentTask();
+            block.startTime = System.currentTimeMillis();
+            task.startTime = block.startTime;
+        } else {
+            task = block.nextTask();
+            task.startTime = System.currentTimeMillis();
+        }
     }
 
     private void clearData(){

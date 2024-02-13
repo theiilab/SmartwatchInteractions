@@ -34,7 +34,9 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.data.MovieList;
 import yuanren.tvsamrtwatch.smartwatchinteractions.databinding.ActivitySearchResultBinding;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.Action;
 import yuanren.tvsamrtwatch.smartwatchinteractions.log.ActionType;
-import yuanren.tvsamrtwatch.smartwatchinteractions.log.Metrics;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Block;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Session;
+import yuanren.tvsamrtwatch.smartwatchinteractions.log.Task;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.listener.OnGestureRegisterListener;
 import yuanren.tvsamrtwatch.smartwatchinteractions.models.pojo.Movie;
 import yuanren.tvsamrtwatch.smartwatchinteractions.network.android_tv_remote.AndroidTVRemoteService;
@@ -61,14 +63,18 @@ public class SearchResultActivity extends Activity {
     private OnGestureRegisterListener gestureRegisterListener;
 
     /** -------- log -------- */
-    private Metrics metrics;
+    private Session session;
+    private Block block;
+    private Task task;
     /** -------------------- */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** -------- log -------- */
-        metrics = (Metrics) getApplicationContext();
+        session = (Session) getApplicationContext();
+        block = session.getCurrentBlock();
+        task = session.getCurrentBlock().getCurrentTask();
         /** --------------------- */
 
         // keep screen on
@@ -87,9 +93,9 @@ public class SearchResultActivity extends Activity {
         indicatorDown = binding.indicatorDown;
 
         int length;
-        if (metrics.block == 1) {
+        if (block.id == 1) {
             length = 50;
-        } else if (metrics.block == 2) {
+        } else if (block.id == 2) {
             length = 100;
         } else {
             length = 250;
@@ -111,7 +117,7 @@ public class SearchResultActivity extends Activity {
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_RIGHT);
 
                 /** -------- log -------- */
-                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_RIGHT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
             }
@@ -122,7 +128,7 @@ public class SearchResultActivity extends Activity {
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_LEFT);
 
                 /** -------- log -------- */
-                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_LEFT.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
             }
@@ -133,7 +139,7 @@ public class SearchResultActivity extends Activity {
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_DOWN);
 
                 /** -------- log -------- */
-                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_DOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_DOWN.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
             }
@@ -144,7 +150,7 @@ public class SearchResultActivity extends Activity {
                 changeMovie(view, KeyEvent.KEYCODE_DPAD_UP);
 
                 /** -------- log -------- */
-                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_UP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_SWIPE_UP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
             }
@@ -154,25 +160,25 @@ public class SearchResultActivity extends Activity {
                 super.onClick(view);
 
                 /** -------- log -------- */
-                metrics.actionsPerTask++;
-                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                task.actionsPerTask++;
+                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
-                if (metrics.targetMovie.equals(movie.getTitle())) {
+                if (task.targetMovie.equals(movie.getTitle())) {
                     new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_CENTER);
                     new SocketAsyncTask().execute(KeyEvent.KEYCODE_ENTER);
                     Log.d(TAG, movie.getTitle() + " selected");
 
                     /** -------- log -------- */
-                    metrics.selectedMovie = movie.getTitle();
+                    task.selectedMovie = movie.getTitle();
                     /** --------------------- */
 
                     setResult(RESULT_OK);
                     finish();
                 } else {
                     /** -------- log -------- */
-                    metrics.incorrectTitleCount++;
+                    task.incorrectTitleCount++;
                     /** --------------------- */
                 }
             }
@@ -182,8 +188,8 @@ public class SearchResultActivity extends Activity {
                 setResult(RESULT_CANCELED);
 
                 /** -------- log -------- */
-                metrics.actionsPerTask++;
-                Action action = new Action(metrics, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+                task.actionsPerTask++;
+                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
 
@@ -212,7 +218,7 @@ public class SearchResultActivity extends Activity {
         }
 
         /** -------- log -------- */
-        metrics.actionsPerTask++;
+        task.actionsPerTask++;
         /** --------------------- */
 
         // set up animation for task update
