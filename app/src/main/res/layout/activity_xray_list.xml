@@ -12,6 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/img_blend_circle_bg"/>
+    <ImageButton
+        android:id="@+id/indicator_left"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="2dp"
+        android:background="@color/transparent"
+        android:alpha="0.3"
+        android:src="@drawable/baseline_arrow_left_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <ImageButton
+        android:id="@+id/indicator_right"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/transparent"
+        android:alpha="1"
+        android:src="@drawable/baseline_arrow_right_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/info_container"

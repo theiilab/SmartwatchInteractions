@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,8 @@ public class XRayListActivity extends Activity {
     private CardView infoContainer;
     private ImageView infoImage;
     private TextView infoDetails;
+    private ImageButton indicatorLeft;
+    private ImageButton indicatorRight;
 
     private Movie movie;
     private List<XRayItem> data;
@@ -58,6 +61,8 @@ public class XRayListActivity extends Activity {
         infoContainer = binding.infoContainer;
         infoImage = binding.infoImage;
         infoDetails = binding.infoDetails;
+        indicatorLeft = binding.indicatorLeft;
+        indicatorRight = binding.indicatorRight;
 
         // get selected movie
         movie = MovieList.getMovie((int) getIntent().getLongExtra(MOVIE_ID, 0));
@@ -147,6 +152,17 @@ public class XRayListActivity extends Activity {
     }
 
     private void setXRayCardInfo() {
+        indicatorLeft.setAlpha(1f);
+        indicatorRight.setAlpha(1f);
+        // if the current is on the last one
+        if (index == data.size() - 1) {
+            indicatorRight.setAlpha(0.3f);
+        }
+        // if the current is on the first one
+        if (index == 0) {
+            indicatorLeft.setAlpha(0.3f);
+        }
+
         infoDetails.setText(data.get(index).getName());
         Glide.with(getApplicationContext())
                 .load(data.get(index).getImageUrl())
