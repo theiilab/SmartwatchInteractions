@@ -92,17 +92,18 @@ public class SearchResultActivity extends Activity {
         indicatorUp = binding.indicatorUp;
         indicatorDown = binding.indicatorDown;
 
-        int length;
-        if (block.id == 1) {
-            length = 50;
-        } else if (block.id == 2) {
-            length = 100;
-        } else {
-            length = 250;
-        }
+//        int length;
+//        if (block.id == 1) {
+//            length = 50;
+//        } else if (block.id == 2) {
+//            length = 100;
+//        } else {
+//            length = 250;
+//        }
 //        Log.d(TAG, "Search movie pool length: " + length);
-        pool = MovieList.setUpSearchDummyMovies(length);
-        pool.addAll(MovieList.getRealList());
+//        pool = MovieList.setUpSearchDummyMovies(length);
+        pool = MovieList.setUpSearchDummyMovies(-1);
+//        pool.addAll(MovieList.getRealList());
         results = getSearchResult(getIntent().getStringExtra(SEARCH_NAME));
         if (results.size() > 0) {
             movie = results.get(0);
