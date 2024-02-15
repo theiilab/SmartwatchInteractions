@@ -209,7 +209,7 @@ public class SearchActivity extends Activity {
                             FileUtils.writeRaw(getApplicationContext(), action);
                             /** --------------------- */
                         }
-                    }, 500);
+                    }, 0);
                 }
                 return false;
             }
