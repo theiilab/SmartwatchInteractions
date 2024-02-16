@@ -109,6 +109,9 @@ public class SearchResultActivity extends Activity {
             movie = results.get(0);
             setMovieInfo();
             setIndicator();
+        } else {
+            movie = new Movie();
+            movie.setTitle("No Result");
         }
 
         gestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
