@@ -326,7 +326,7 @@ public class SearchResultActivity extends Activity {
         if (keyEvent == KeyEvent.KEYCODE_DPAD_DOWN) {         // on the first row
             return index - NUM_COLS < 0;
         } else if (keyEvent == KeyEvent.KEYCODE_DPAD_UP) {    // on the last row
-            return index >= NUM_COLS * (results.size() / NUM_COLS - 1);
+            return index + NUM_COLS > NUM_COLS * (results.size() / NUM_COLS + 1) - 1 || index == results.size() - 1;
         } else if (keyEvent == KeyEvent.KEYCODE_DPAD_RIGHT) { // on the most left
             return index % NUM_COLS == 0;
         } else if (keyEvent == KeyEvent.KEYCODE_DPAD_LEFT) {  // on the most right
@@ -342,7 +342,7 @@ public class SearchResultActivity extends Activity {
             res |= 1;
         }
 
-        if (index >= NUM_COLS * (results.size() / NUM_COLS - 1)) { // on the lower bound
+        if (index + NUM_COLS > NUM_COLS * (results.size() / NUM_COLS + 1) - 1) { // on the lower bound
             res |= 2;
         }
 
