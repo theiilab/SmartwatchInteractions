@@ -165,6 +165,7 @@ public class SearchResultActivity extends Activity {
 
                 /** -------- log -------- */
                 task.actionsPerTask++;
+                task.positionOnSelect = index;
                 Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_TAP.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------------- */
