@@ -44,6 +44,8 @@ public class Task {
     public Long timePerCharacter = 0L;
     public int totalCharacterEntered = 0;
     public int incorrectTitleCount = 0;
+    public String textEntered = "";
+    public String inputStream = "";
 
     public Task(int pid, int sid, String method, int dataSet, int bid, int tid, String name, String targetMovie, int movieLength) {
         this.pid = pid;
@@ -74,7 +76,7 @@ public class Task {
             characterPerSecond = (double) totalCharacterEntered / (taskCompletionTime / 1000);
             timePerCharacter = totalCharacterEntered != 0 ? taskCompletionTime / totalCharacterEntered : 0;
             errorRate = incorrectTitleCount != 0 ? 1.0 / incorrectTitleCount : 0;
-            res = "" + pid + "," + method + "," + sid + "," + dataSet + "," + bid + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + id + "," + name + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + errorRate + "," + positionOnSelect + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "\n";
+            res = "" + pid + "," + method + "," + sid + "," + dataSet + "," + bid + "," + targetMovie + "," + movieLength + "," + selectedMovie + "," + id + "," + name + "," + taskCompletionTime + "," + startTime + "," + endTime + "," + actionsPerTask + "," + errorRate + "," + positionOnSelect + "," + characterPerSecond + "," + backspaceCount + "," + timePerCharacter + "," + totalCharacterEntered + "," + textEntered + "," + inputStream + "\n";
         }
         return res;
     }

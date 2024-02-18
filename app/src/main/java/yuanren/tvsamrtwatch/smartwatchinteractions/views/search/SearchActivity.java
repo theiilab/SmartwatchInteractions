@@ -118,6 +118,7 @@ public class SearchActivity extends Activity {
                 /** -------- log -------- */
                 setTaskStartTime();
                 task.actionsPerTask++;
+                task.inputStream += " ";
 
                 Action action = new Action(session, "", "SPACE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
@@ -135,6 +136,7 @@ public class SearchActivity extends Activity {
                 if (text.length() > 0) {
                     task.actionsPerTask++;
                     task.backspaceCount++;
+                    task.inputStream += "<";
 
                     Action action = new Action(session, "", "DELETE", TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
                     FileUtils.writeRaw(getApplicationContext(), action);
@@ -193,6 +195,10 @@ public class SearchActivity extends Activity {
                             if (result.score > 0) {
                                 text += result.name;
                                 searchName.setText(text);
+
+                                /** -------- log -------- */
+                                task.inputStream += result.name;
+                                /** --------------------- */
                             } else {
                                 Toast.makeText(getApplicationContext(), "Try Again", Toast.LENGTH_SHORT);
                             }
@@ -264,6 +270,7 @@ public class SearchActivity extends Activity {
     private void setLogData() {
         block.actionsPerBlock += task.actionsPerTask;
         task.endTime = System.currentTimeMillis();
+        task.textEntered = text;
         FileUtils.write(getApplicationContext(), task);
 
         if (block.id == session.SESSION_3_NUM_BLOCK && task.id == block.SESSION_3_NUM_TASK) {
