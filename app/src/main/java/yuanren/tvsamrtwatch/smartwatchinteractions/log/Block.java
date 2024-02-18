@@ -271,7 +271,7 @@ public class Block {
             for (Task task: tasks) {
                 incorrectTitleCount += task.incorrectTitleCount;
             }
-            errorRate = incorrectTitleCount != 0 ? 10.0 / incorrectTitleCount : 0;
+            errorRate = incorrectTitleCount != 0 ? incorrectTitleCount / (incorrectTitleCount + 10.0) : 0;
             blockCompletionTime = endTime - startTime;
             return "" + pid + "," + method + "," + sid + "," + dataSet + "," + id + "," + blockCompletionTime + "," + startTime + "," + endTime + "," + actionsPerBlock + "," + errorRate + "\n";
         } else {
