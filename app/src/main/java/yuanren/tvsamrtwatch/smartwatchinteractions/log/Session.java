@@ -111,17 +111,18 @@ public class Session extends Application {
     }
 
     public Block nextBlock() {
-        switch (id) {
-            case 1:
-                index = Math.min(index + 1, session1_targetMovies.length - 1);
-                break;
-            case 2:
-                index = Math.min(index + 1, session2_targetMovies.length - 1);
-                break;
-            default:
-                index = Math.min(index + 1, 2); // max block is 3
-                break;
-        }
+//        switch (id) {
+//            case 1:
+//                index = Math.min(index + 1, session1_targetMovies.length - 1);
+//                break;
+//            case 2:
+//                index = Math.min(index + 1, session2_targetMovies.length - 1);
+//                break;
+//            default:
+//                index = Math.min(index + 1, 2); // max block is 3
+//                break;
+//        }
+        index = Math.min(index + 1, blocks.size() - 1); // max block is 3
         return blocks.get(index);
     }
 
