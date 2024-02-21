@@ -44,7 +44,7 @@ public class SearchActivity extends Activity {
     private ConstraintLayout container;
     private EditText searchName;
     private DrawingView drawingView;
-    private ImageButton submitBtn;
+//    private ImageButton submitBtn;
     private QDollarRecognizer recognizer;
     private ArrayList<Point> strokePoints = new ArrayList<>();
     private Handler timeHandler = new Handler(Looper.getMainLooper());
@@ -77,7 +77,7 @@ public class SearchActivity extends Activity {
         container = binding.container;
         searchName = binding.searchName;
         drawingView = binding.drawingView;
-        submitBtn = binding.submit;
+//        submitBtn = binding.submit;
 
         searchName.setShowSoftInputOnFocus(false);
         searchName.setPressed(true);
@@ -221,26 +221,45 @@ public class SearchActivity extends Activity {
             }
         });
 
-        tapRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
-            @Override
-            public void onClick(View view) {
-                super.onClick(view);
+//        tapRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
+//            @Override
+//            public void onClick(View view) {
+//                super.onClick(view);
+//
+//                /** -------- log -------- */
+//                setTaskStartTime();
+//                task.actionsPerTask++;
+//                Action action = new Action(session, "", "SUBMIT", TAG, tapRegisterListener.startTime, tapRegisterListener.endTime);
+//                FileUtils.writeRaw(getApplicationContext(), action);
+//                /** --------------------- */
+//
+//                if (text.length() != 0) {
+//                    Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+//                    intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
+//                    startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
+//                }
+//            }
+//        };
+//        submitBtn.setOnTouchListener(tapRegisterListener);
+    }
 
-                /** -------- log -------- */
-                setTaskStartTime();
-                task.actionsPerTask++;
-                Action action = new Action(session, "", "SUBMIT", TAG, tapRegisterListener.startTime, tapRegisterListener.endTime);
-                FileUtils.writeRaw(getApplicationContext(), action);
-                /** --------------------- */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_STEM_1) {
+            /** -------- log -------- */
+            setTaskStartTime();
+            task.actionsPerTask++;
+            Action action = new Action(session, "", "SUBMIT", TAG, System.currentTimeMillis(), System.currentTimeMillis());
+            FileUtils.writeRaw(getApplicationContext(), action);
+            /** --------------------- */
 
-                if (text.length() != 0) {
-                    Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                    intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
-                    startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
-                }
+            if (text.length() != 0) {
+                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
+                startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
             }
-        };
-        submitBtn.setOnTouchListener(tapRegisterListener);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

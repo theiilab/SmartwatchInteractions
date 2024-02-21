@@ -188,25 +188,41 @@ public class SearchResultActivity extends Activity {
                 }
             }
 
-            @Override
-            public boolean onLongClick(View view) {
-                setResult(RESULT_CANCELED);
-
-                /** -------- log -------- */
-                task.actionsPerTask++;
-                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
-                FileUtils.writeRaw(getApplicationContext(), action);
-                /** --------------------- */
-
-                finish();
-                return super.onLongClick(view);
-            }
+//            @Override
+//            public boolean onLongClick(View view) {
+//                setResult(RESULT_CANCELED);
+//
+//                /** -------- log -------- */
+//                task.actionsPerTask++;
+//                Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, gestureRegisterListener.startTime, gestureRegisterListener.endTime);
+//                FileUtils.writeRaw(getApplicationContext(), action);
+//                /** --------------------- */
+//
+//                finish();
+//                return super.onLongClick(view);
+//            }
         };
         container.setOnTouchListener(gestureRegisterListener);
 
         // move focus to the movie grid on TV
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_STEM_2) {
+            setResult(RESULT_CANCELED);
+
+            /** -------- log -------- */
+            task.actionsPerTask++;
+            Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, System.currentTimeMillis(), System.currentTimeMillis());
+            FileUtils.writeRaw(getApplicationContext(), action);
+            /** --------------------- */
+
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void setMovieInfo() {
