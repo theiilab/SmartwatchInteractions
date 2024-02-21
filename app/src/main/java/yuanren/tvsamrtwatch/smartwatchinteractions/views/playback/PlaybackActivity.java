@@ -43,7 +43,7 @@ import yuanren.tvsamrtwatch.smartwatchinteractions.utils.FileUtils;
 public class PlaybackActivity extends Activity {
     private static final String TAG = "PlaybackActivity";
     public static final String MOVIE_ID = "selectedMovieId";
-    public static final int VALUE_VOLUME_UNIT = 2;
+    public static final int VALUE_VOLUME_UNIT = 1;
     private ActivityPlaybackBinding binding;
     private ScrollView volumeCtrl;
     private ImageView movieBg;
