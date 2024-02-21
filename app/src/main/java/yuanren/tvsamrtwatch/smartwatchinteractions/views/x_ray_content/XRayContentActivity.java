@@ -54,7 +54,7 @@ public class XRayContentActivity extends Activity implements ClickListener {
     private Movie movie;
     private XRayItem xRayItem;
     private int currentClickedButtonIndex;
-    private OnGestureRegisterListener longPressGestureRegisterListener;
+    private OnGestureRegisterListener tapGestureRegisterListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,21 +132,20 @@ public class XRayContentActivity extends Activity implements ClickListener {
         }
         recyclerView.setAdapter(adapter);
 
-        longPressGestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
+        tapGestureRegisterListener = new OnGestureRegisterListener(getApplicationContext()) {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 XRayContentActivity.super.onBackPressed();
 
                 /** ----- log ----- */
                 Session session = (Session) getApplicationContext();
                 Action action = new Action(session, movie.getTitle(),
-                        ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, longPressGestureRegisterListener.startTime, longPressGestureRegisterListener.endTime);
+                        ActionType.TYPE_ACTION_TAP.name, TAG, tapGestureRegisterListener.startTime, tapGestureRegisterListener.endTime);
                 FileUtils.writeRaw(getApplicationContext(), action);
                 /** --------------- */
-                return false;
             }
         };
-        cover.setOnTouchListener(longPressGestureRegisterListener);
+        cover.setOnTouchListener(tapGestureRegisterListener);
 
 //        btn1.setOnClickListener(new View.OnClickListener() {
 //            @Override
