@@ -161,16 +161,28 @@ public class SearchActivity extends Activity {
             }
         });
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (text.length() != 0) {
-                    Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                    intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
-                    startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
-                }
+//        submitBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (text.length() != 0) {
+//                    Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+//                    intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
+//                    startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() ==KeyEvent.KEYCODE_STEM_1) {
+            if (text.length() != 0) {
+                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                intent.putExtra(SearchResultActivity.SEARCH_NAME, text);
+                startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULT);
             }
-        });
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

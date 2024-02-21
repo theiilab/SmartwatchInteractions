@@ -111,17 +111,26 @@ public class SearchResultActivity extends Activity {
                 finish();
             }
 
-            @Override
-            public boolean onLongClick(View view) {
-                setResult(RESULT_CANCELED);
-                finish();
-                return super.onLongClick(view);
-            }
+//            @Override
+//            public boolean onLongClick(View view) {
+//                setResult(RESULT_CANCELED);
+//                finish();
+//                return super.onLongClick(view);
+//            }
         });
 
         // move focus to the movie grid on TV
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
         new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_RIGHT);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_STEM_2) {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void setMovieInfo() {
