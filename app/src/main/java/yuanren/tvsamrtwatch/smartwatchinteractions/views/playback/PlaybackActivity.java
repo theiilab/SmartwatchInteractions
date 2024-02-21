@@ -408,6 +408,10 @@ public class PlaybackActivity extends Activity {
                 break;
             case TYPE_ACTION_SWIPE_RIGHT_HOLD:
                 if (backwardFlag && task.id == 6) {
+                    // accommodate for the program flaw: if swipe+hold is activated, the swipe gesture is activated for sure (remove that duplicate count)
+                    actionCount--;
+                    swipeCount--;
+
                     // completion of task 6
                     backwardEndTime = System.currentTimeMillis();
                     setLogData(backwardStartTime, backwardEndTime);
@@ -433,6 +437,10 @@ public class PlaybackActivity extends Activity {
                 break;
             case TYPE_ACTION_SWIPE_LEFT_HOLD:
                 if (goToEndFlag && task.id == 7) {
+                    // accommodate for the program flaw: if swipe+hold is activated, the swipe gesture is activated for sure (remove that duplicate count)
+                    actionCount--;
+                    swipeCount--;
+
                     // completion of task 7
                     goToEndEndTime = System.currentTimeMillis();
                     setLogData(goToEndStartTime, goToEndEndTime);
