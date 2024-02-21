@@ -7,6 +7,8 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +22,15 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
     private static final int SWIPE_HOLD_DURATION_THRESHOLD = 700;
     public final GestureDetector gestureDetector;
     private View view;
-
-    private float gestureX;
     private boolean gestureHapticLock = false;
     public Long startTime;
     public Long endTime;
     public Long duration = 0L;
+    public float x0 = 0;
+    public float y0 = 0;
     public int swipeHoldLeftCount = 0;
     public int swipeHoldRightCount = 0;
+    public boolean swipeGestureDetected = false;
 
     /** ----- log ----- */
     private Session session;
@@ -71,11 +74,15 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
             }
         } else {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                gestureX = event.getX();
+                x0 = event.getX();
+                y0 = event.getY();
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                long duration = event.getEventTime() - event.getDownTime();
-                float diffX = event.getX() - gestureX;
+                endTime = System.currentTimeMillis();
+                duration = endTime - startTime;
+                float diffX = event.getX() - x0;
+                float diffY = event.getY() - y0;
 
+                /** swipe + hold gesture */
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && duration > SWIPE_HOLD_DURATION_THRESHOLD) {
                     // provide haptic feedback
                     if (!gestureHapticLock) {
@@ -90,18 +97,43 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
                         onSwipeLeftHold(view);
                         Log.d(TAG, "swipe left + hold gesture");
                     }
+                    swipeGestureDetected = true;
+                } /** swipe gesture */
+                else if ((Math.abs(diffX) > SWIPE_THRESHOLD || Math.abs(diffY) > SWIPE_THRESHOLD) && !swipeGestureDetected) {
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        Log.d(TAG, "onScroll - horizontal");
+
+                        // provide haptic feedback
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
+                        if (diffX > 0) {
+                            onSwipeRight(view);
+                        } else {
+                            onSwipeLeft(view);
+                        }
+                    } else {
+                        Log.d(TAG, "onScroll - vertical");
+
+                        // provide haptic feedback
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
+                        if (diffY > 0) {
+                            onSwipeBottom(view);
+                        } else {
+                            onSwipeTop(view);
+                        }
+                    }
+                    swipeGestureDetected = true;
                 }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 long duration = event.getEventTime() - event.getDownTime();
-                float diffX = event.getX() - gestureX;
+                float diffX = event.getX() - x0;
+                swipeGestureDetected = false;
 
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && duration > SWIPE_HOLD_DURATION_THRESHOLD) {
                     // provide haptic feedback
-//                    if (!gestureHapticLock) {
-                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-//                    } else {
-                        gestureHapticLock = false;
-//                    }
+                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+                    gestureHapticLock = false;
 
                     if (diffX > 0) {
                         /** ----- log ----- */
@@ -146,12 +178,16 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
     public boolean onTwoPointerTap(View view){return false;}
 
-    private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_VELOCITY_THRESHOLD = 0;
+    private final class GestureListener implements GestureDetector.OnGestureListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
+        }
+
+        @Override
+        public void onShowPress(@NonNull MotionEvent e) {
+
         }
 
         @Override
@@ -163,8 +199,6 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
             // provide haptic feedback
             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
-            super.onLongPress(e);
         }
 
         @Override
@@ -176,44 +210,17 @@ public abstract class OnSwipeHoldGestureRegisterListener implements View.OnTouch
 
             // provide haptic feedback
             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+            return true;
+        }
 
-            return super.onSingleTapUp(e);
+        @Override
+        public boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
+            return false;
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            boolean result = false;
-            try {
-                float diffY = e2.getY() - e1.getY();
-                float diffX = e2.getX() - e1.getX();
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        // provide haptic feedback
-                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
-                        if (diffX > 0) {
-                            onSwipeRight(view);
-                        } else {
-                            onSwipeLeft(view);
-                        }
-                        result = true;
-                    }
-                }
-                else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    // provide haptic feedback
-                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
-                    if (diffY > 0) {
-                        onSwipeBottom(view);
-                    } else {
-                        onSwipeTop(view);
-                    }
-                    result = true;
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            return result;
+            return false;
         }
     }
 }

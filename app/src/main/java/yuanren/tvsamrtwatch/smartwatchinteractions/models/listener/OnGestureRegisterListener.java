@@ -7,17 +7,22 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.time.LocalDate;
 
 public abstract class OnGestureRegisterListener implements View.OnTouchListener {
     private static final String TAG = "OnGestureRegisterListener";
+    private static final int SWIPE_THRESHOLD = 50;
     private final GestureDetector gestureDetector;
     private View view;
 
     public Long startTime;
     public Long endTime;
-
     public Long duration;
+    public float x0 = 0;
+    public float y0 = 0;
+    public boolean swipeGestureDetected = false;
 
     public OnGestureRegisterListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
@@ -26,11 +31,52 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d(TAG, "OnGestureRegisterListener - onTouch - down");
             startTime = System.currentTimeMillis();
-        }
-        if (event.getAction() == MotionEvent.ACTION_UP) {
+            x0 = event.getX();
+            y0 = event.getY();
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            Log.d(TAG, "OnGestureRegisterListener - onTouch - move");
             endTime = System.currentTimeMillis();
             duration = endTime - startTime;
+
+            float diffX = event.getX() - x0;
+            float diffY = event.getY() - y0;
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && !swipeGestureDetected) {
+                    Log.d(TAG, "onScroll - horizontal");
+
+                    // provide haptic feedback
+                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
+                    if (diffX > 0) {
+                        onSwipeRight(view);
+                    } else {
+                        onSwipeLeft(view);
+                    }
+                    swipeGestureDetected = true;
+                }
+            } else {
+                if (Math.abs(diffY) > SWIPE_THRESHOLD && !swipeGestureDetected) {
+                    Log.d(TAG, "onScroll - vertical");
+
+                    // provide haptic feedback
+                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+
+                    if (diffY > 0) {
+                        onSwipeBottom(view);
+                    } else {
+                        onSwipeTop(view);
+                    }
+                    swipeGestureDetected = true;
+                }
+            }
+
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            Log.d(TAG, "OnGestureRegisterListener - onTouch - up");
+            endTime = System.currentTimeMillis();
+            duration = endTime - startTime;
+            swipeGestureDetected = false;
         }
 
         if (event.getPointerCount() > 1) {
@@ -57,13 +103,15 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
 
     public boolean onTwoPointerTap(View view){return false;}
 
-    private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_THRESHOLD = 50;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 0;
-
+    private final class GestureListener implements GestureDetector.OnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
+        }
+
+        @Override
+        public void onShowPress(@NonNull MotionEvent e) {
+
         }
 
         @Override
@@ -75,8 +123,6 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
 
             // provide haptic feedback
             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
-            super.onLongPress(e);
         }
 
         @Override
@@ -88,44 +134,17 @@ public abstract class OnGestureRegisterListener implements View.OnTouchListener 
 
             // provide haptic feedback
             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+            return true;
+        }
 
-            return super.onSingleTapUp(e);
+        @Override
+        public boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
+            return false;
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            boolean result = false;
-            try {
-                float diffY = e2.getY() - e1.getY();
-                float diffX = e2.getX() - e1.getX();
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        // provide haptic feedback
-                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
-                        if (diffX > 0) {
-                            onSwipeRight(view);
-                        } else {
-                            onSwipeLeft(view);
-                        }
-                        result = true;
-                    }
-                }
-                else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    // provide haptic feedback
-                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
-
-                    if (diffY > 0) {
-                        onSwipeBottom(view);
-                    } else {
-                        onSwipeTop(view);
-                    }
-                    result = true;
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            return result;
+            return false;
         }
     }
 }
