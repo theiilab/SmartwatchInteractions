@@ -76,9 +76,18 @@ public class SearchResultActivity extends Activity {
         pool = MovieList.setUpSearchDummyMovies();
         pool.addAll(MovieList.getRealList());
         results = getSearchResult(getIntent().getStringExtra(SEARCH_NAME));
-        movie = results.get(0);
-        setMovieInfo();
-        setIndicator();
+
+
+        if (results.size() != 0) {
+            movie = results.get(0);
+            setMovieInfo();
+            setIndicator();
+        } else {
+            movie = new Movie();
+            movie.setTitle("No Result");
+            movie.setCardImageUrl("");
+        }
+
         container.setOnTouchListener(new OnGestureRegisterListener(getApplicationContext()) {
             @Override
             public void onSwipeRight(View view) {

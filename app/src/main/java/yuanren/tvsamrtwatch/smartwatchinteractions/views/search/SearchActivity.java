@@ -39,7 +39,7 @@ public class SearchActivity extends Activity {
     private ConstraintLayout container;
     private EditText searchName;
     private DrawingView drawingView;
-    private ImageButton submitBtn;
+//    private ImageButton submitBtn;
     private QDollarRecognizer recognizer;
     private ArrayList<Point> strokePoints = new ArrayList<>();
     private Handler timeHandler = new Handler(Looper.getMainLooper());
@@ -58,7 +58,7 @@ public class SearchActivity extends Activity {
         container = binding.container;
         searchName = binding.searchName;
         drawingView = binding.drawingView;
-        submitBtn = binding.submit;
+//        submitBtn = binding.submit;
 
         searchName.setShowSoftInputOnFocus(false);
         searchName.setPressed(true);
