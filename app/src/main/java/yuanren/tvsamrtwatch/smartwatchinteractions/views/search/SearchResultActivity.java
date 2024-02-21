@@ -216,7 +216,7 @@ public class SearchResultActivity extends Activity {
 
             /** -------- log -------- */
             task.actionsPerTask++;
-            Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_LONG_PRESS.name, TAG, System.currentTimeMillis(), System.currentTimeMillis());
+            Action action = new Action(session, movie.getTitle(), ActionType.TYPE_ACTION_PRESS_BUTTON.name, TAG, System.currentTimeMillis(), System.currentTimeMillis());
             FileUtils.writeRaw(getApplicationContext(), action);
             /** --------------------- */
 

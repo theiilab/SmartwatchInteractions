@@ -2,6 +2,7 @@ package yuanren.tvsamrtwatch.smartwatchinteractions.log;
 
 public enum ActionType {
     TYPE_ACTION_UNKNOWN("Unknown"),
+    TYPE_ACTION_PRESS_BUTTON("Press side Button"),
     TYPE_ACTION_SWIPE_LEFT("Swipe Left"),
     TYPE_ACTION_SWIPE_RIGHT("Swipe Right"),
     TYPE_ACTION_SWIPE_UP("Swipe Up"),
