@@ -181,7 +181,7 @@ public class MainActivity extends Activity {
         /** ----- log ----- */
         if (requestCode == REQUEST_CODE_DETAILS) {
             if (block.targetMovie.equals(block.selectedMovie)) {
-                block.endTime = System.currentTimeMillis();
+                block.endTime = block.getCurrentTask().endTime;
                 FileUtils.write(getApplicationContext(), block);
                 clearLogData();
                 block = session.nextBlock();
