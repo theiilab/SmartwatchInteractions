@@ -149,9 +149,9 @@ public class SearchActivity extends Activity {
 
             @Override
             public boolean onLongClick(View view) {
-                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+//                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
-                onBackPressed();
+//                onBackPressed();
                 return false;
             }
         };
