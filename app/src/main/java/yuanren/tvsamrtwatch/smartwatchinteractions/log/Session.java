@@ -102,7 +102,7 @@ public class Session extends Application {
                 }
                 break;
             default:
-                for (int i = 0; i < 3; ++i) {
+                for (int i = index; i < 3; ++i) {
                     Block block = new Block(this, pid, id, method, dataSet, i + 1, "");
                     blocks.add(block);
                 }
