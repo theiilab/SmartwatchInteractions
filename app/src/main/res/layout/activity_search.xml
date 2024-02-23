@@ -15,9 +15,13 @@
         android:background="@drawable/img_blend_circle_bg"/>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/img_search_bg"/>
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/img_search_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="50dp"
