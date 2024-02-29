@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Session extends Application {
     private final static String TAG = "Metrics";
-    public static int SESSION_3_NUM_BLOCK = 3;
+    public static int SESSION_3_NUM_BLOCK = 6;
 
     public int pid = 0;
     public String method = "";
@@ -102,7 +102,7 @@ public class Session extends Application {
                 }
                 break;
             default:
-                for (int i = index; i < 3; ++i) {
+                for (int i = index; i < SESSION_3_NUM_BLOCK; ++i) {
                     Block block = new Block(this, pid, id, method, dataSet, i + 1, "");
                     blocks.add(block);
                 }

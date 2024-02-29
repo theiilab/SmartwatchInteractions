@@ -96,6 +96,42 @@ public class Block {
         put(TaskType.TYPE_TASK_GO_TO_START.name, 0);
     }};
     private String[] session3_block1_1 = {
+            "Dancer in the Dark",
+            "Facing the Giants ",
+            "Key West",
+            "Lady of the Manor",
+            "Nancy",
+            "Qiu Jin",
+            "Radius",
+            "San Andreas",
+            "Valley of Love",
+            "Year by the Sea"
+    };
+    private String[] session3_block2_1 = {
+            "Danton",
+            "Far Out Man",
+            "Killing Mr Griffin",
+            "Learn to Swim",
+            "Nelly",
+            "Queen Bees",
+            "Reach for Me",
+            "Scenes of the Crime",
+            "Vesper",
+            "Yona"
+    };
+    private String[] session3_block3_1 = {
+            "Darling",
+            "Feast of Love",
+            "Kiss of Death",
+            "Lincoln",
+            "Never Have I Ever",
+            "Quincy",
+            "Red Joan",
+            "Second Act",
+            "Vice",
+            "You Again"
+    };
+    private String[] session3_block4_1 = {
             "Django Unchained",
             "Fantastic Mr Fox",
             "Keeping Mum",
@@ -108,7 +144,7 @@ public class Block {
             "Year One"
     };
 
-    private String[] session3_block2_1 = {
+    private String[] session3_block5_1 = {
             "Dunkirk",
             "Fight Club",
             "Killing Moon",
@@ -120,7 +156,7 @@ public class Block {
             "Van Helsing",
             "Yojimbo"
     };
-    private String[] session3_block3_1 = {
+    private String[] session3_block6_1 = {
             "Dr Strangelove",
             "Ford v Ferrari",
             "King of California",
@@ -134,6 +170,42 @@ public class Block {
     };
 
     private String[] session3_block1_2 = {
+            "Dangerous Liaisons",
+            "Fairy",
+            "Kicked in the Head",
+            "Land of Mine",
+            "Navalny",
+            "Qu Yuan",
+            "Radio Flyer",
+            "Sami Blood",
+            "Vampire Diary",
+            "Yes Day"
+    };
+    private String[] session3_block2_2 = {
+            "Dark Star",
+            "Fear",
+            "Kindergarten Cop",
+            "Leaving Neverland",
+            "Nemesis",
+            "Queen and Country",
+            "Ready Player One",
+            "Scenic Route",
+            "Vessel",
+            "Yosemite"
+    };
+    private String[] session3_block3_2 = {
+            "Day for Night",
+            "Foster",
+            "Knock Knock",
+            "Line Walker",
+            "No Looking Back",
+            "Quiz Show",
+            "Redeeming Love",
+            "Seeking Justice",
+            "Viking",
+            "You Are Here"
+    };
+    private String[] session3_block4_2 = {
             "Dallas Buyers Club",
             "Farewell My Concubine",
             "Kikis Delivery Service",
@@ -145,7 +217,7 @@ public class Block {
             "Valerian and the City of a Thousand Planets",
             "Yellow Rose"
     };
-    private String[] session3_block2_2 = {
+    private String[] session3_block5_2 = {
             "Donnie Darko",
             "Five Centimeters Per Second",
             "King Kong",
@@ -157,7 +229,7 @@ public class Block {
             "Venom",
             "Young Adam"
     };
-    private String[] session3_block3_2 = {
+    private String[] session3_block6_2 = {
             "Drunken Master",
             "Forrest Gump",
             "Knives Out",
@@ -229,9 +301,30 @@ public class Block {
                         Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Search " + (i + 1), this.targetMovie, movieLength);
                         tasks.add(task);
                     }
-                } else { // block 3
+                } else if (id == 3){ // block 3
                     for (int i = 0; i < SESSION_3_NUM_TASK; ++i) {
                         this.targetMovie = dataSet == 0 ? session3_block3_1[i]: session3_block3_2[i];
+                        this.movieLength = MovieList.getMovie(context, this.targetMovie) != null ? MovieList.getMovie(context, this.targetMovie).getLength() : 0;
+                        Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Search " + (i + 1), this.targetMovie, movieLength);
+                        tasks.add(task);
+                    }
+                } else if (id == 4) {
+                    for (int i = 0; i < SESSION_3_NUM_TASK; ++i) {
+                        this.targetMovie = dataSet == 0 ? session3_block4_1[i]: session3_block4_2[i];
+                        this.movieLength = MovieList.getMovie(context, this.targetMovie) != null ? MovieList.getMovie(context, this.targetMovie).getLength() : 0;
+                        Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Search " + (i + 1), this.targetMovie, movieLength);
+                        tasks.add(task);
+                    }
+                } else if (id == 5) {
+                    for (int i = 0; i < SESSION_3_NUM_TASK; ++i) {
+                        this.targetMovie = dataSet == 0 ? session3_block5_1[i]: session3_block5_2[i];
+                        this.movieLength = MovieList.getMovie(context, this.targetMovie) != null ? MovieList.getMovie(context, this.targetMovie).getLength() : 0;
+                        Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Search " + (i + 1), this.targetMovie, movieLength);
+                        tasks.add(task);
+                    }
+                } else { // block 6
+                    for (int i = 0; i < SESSION_3_NUM_TASK; ++i) {
+                        this.targetMovie = dataSet == 0 ? session3_block6_1[i]: session3_block6_2[i];
                         this.movieLength = MovieList.getMovie(context, this.targetMovie) != null ? MovieList.getMovie(context, this.targetMovie).getLength() : 0;
                         Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Search " + (i + 1), this.targetMovie, movieLength);
                         tasks.add(task);
