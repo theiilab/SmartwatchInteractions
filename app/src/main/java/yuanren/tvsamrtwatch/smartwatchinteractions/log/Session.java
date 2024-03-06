@@ -87,10 +87,9 @@ public class Session extends Application {
 
     private void generateBlocks(int index) {
         switch (id) {
-            case 1:
-                for (int i = index; i < session1_targetMovies.length; ++i) {
-                    String targetMovie = dataSet == 0 ? session1_targetMovies[i] : session1_targetMovies2[i];
-                    Block block = new Block(this, pid, id, method, dataSet, i + 1, targetMovie);
+            case 3:
+                for (int i = index; i < SESSION_3_NUM_BLOCK; ++i) {
+                    Block block = new Block(this, pid, id, method, dataSet, i + 1, "");
                     blocks.add(block);
                 }
                 break;
@@ -102,8 +101,9 @@ public class Session extends Application {
                 }
                 break;
             default:
-                for (int i = index; i < SESSION_3_NUM_BLOCK; ++i) {
-                    Block block = new Block(this, pid, id, method, dataSet, i + 1, "");
+                for (int i = index; i < session1_targetMovies.length; ++i) {
+                    String targetMovie = dataSet == 0 ? session1_targetMovies[i] : session1_targetMovies2[i];
+                    Block block = new Block(this, pid, id, method, dataSet, i + 1, targetMovie);
                     blocks.add(block);
                 }
                 break;

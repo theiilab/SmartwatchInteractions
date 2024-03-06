@@ -97,7 +97,7 @@ public class Block {
     }};
     private String[] session3_block1_1 = {
             "Dancer in the Dark",
-            "Facing the Giants ",
+            "Facing the Giants",
             "Key West",
             "Lady of the Manor",
             "Nancy",
@@ -253,40 +253,7 @@ public class Block {
         this.movieLength = MovieList.getMovie(context, targetMovie) != null ? MovieList.getMovie(context, targetMovie).getLength() : 0;
 
         switch (sid) {
-            case 1:
-                for (int i = 0; i < session1_tasks.length; ++i) {
-                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, session1_tasks[i], targetMovie, movieLength);
-                    if (i == 0) {
-                        task.actionsNeeded = calculateS1T1ActionsNeeded();
-                        task.swipesNeeded = task.actionsNeeded - 1;
-                        task.tapsNeeded = 1;
-                    } else {
-                        task.actionsNeeded = session1_actionsNeeded.get(task.name);
-                        task.crownRotatesNeeded = session1_crownRotatesNeeded.get(task.name);
-                        task.swipesNeeded = session1_swipesNeeded.get(task.name);
-                        task.tapsNeeded = session1_tapsNeeded.get(task.name);
-                        task.swipeHoldNeeded = session1_swipeHoldNeeded.get(task.name);
-                    }
-                    tasks.add(task);
-                }
-                break;
-            case 2:
-                for (int i = 0; i < SESSION_2_NUM_TASK; ++i) {
-                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Question " + (i + 1), targetMovie, movieLength);
-                    task.actionsNeeded = 3;
-                    if (i == 0) {
-                        task.twoFingerTapsNeeded = 1;
-                        task.tapsNeeded = 1;
-                        task.longPressesNeeded = 1;
-                    } else {
-                        task.swipesNeeded = 1;
-                        task.tapsNeeded = 1;
-                        task.longPressesNeeded = 1;
-                    }
-                    tasks.add(task);
-                }
-                break;
-            default:
+            case 3:
                 if (id == 1) {
                     for (int i = 0; i < SESSION_3_NUM_TASK; ++i) {
                         this.targetMovie = dataSet == 0 ? session3_block1_1[i]: session3_block1_2[i];
@@ -331,20 +298,55 @@ public class Block {
                     }
                 }
                 break;
+            case 2:
+                for (int i = 0; i < SESSION_2_NUM_TASK; ++i) {
+                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, "Question " + (i + 1), targetMovie, movieLength);
+                    task.actionsNeeded = 3;
+                    if (i == 0) {
+                        task.twoFingerTapsNeeded = 1;
+                        task.tapsNeeded = 1;
+                        task.longPressesNeeded = 1;
+                    } else {
+                        task.swipesNeeded = 1;
+                        task.tapsNeeded = 1;
+                        task.longPressesNeeded = 1;
+                    }
+                    tasks.add(task);
+                }
+                break;
+            default:
+                for (int i = 0; i < session1_tasks.length; ++i) {
+                    Task task = new Task(pid, sid, method, dataSet, bid, i + 1, session1_tasks[i], targetMovie, movieLength);
+                    if (i == 0) {
+                        task.actionsNeeded = calculateS1T1ActionsNeeded();
+                        task.swipesNeeded = task.actionsNeeded - 1;
+                        task.tapsNeeded = 1;
+                    } else {
+                        task.actionsNeeded = session1_actionsNeeded.get(task.name);
+                        task.crownRotatesNeeded = session1_crownRotatesNeeded.get(task.name);
+                        task.swipesNeeded = session1_swipesNeeded.get(task.name);
+                        task.tapsNeeded = session1_tapsNeeded.get(task.name);
+                        task.swipeHoldNeeded = session1_swipeHoldNeeded.get(task.name);
+                    }
+                    tasks.add(task);
+                }
+                break;
         }
     }
 
     public Task nextTask() {
         switch (sid) {
-            case 1:
-                index = Math.min(index + 1, session1_tasks.length - 1);
+            case 3:
+                index = Math.min(index + 1, SESSION_3_NUM_TASK - 1);
                 break;
             case 2:
                 index = Math.min(index + 1, SESSION_2_NUM_TASK - 1);
                 break;
             default:
-                index = Math.min(index + 1, SESSION_3_NUM_TASK - 1);
+                index = Math.min(index + 1, session1_tasks.length - 1);
                 break;
+
+
         }
         return tasks.get(index);
     }
