@@ -12,6 +12,7 @@ import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
+import org.conscrypt.Conscrypt;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileReader;
@@ -62,7 +63,8 @@ public class CertificateGenerator {
             /**
              * Add BouncyCastle as a Security Provider
              */
-            Security.addProvider(new BouncyCastleProvider());
+//            Security.addProvider(new BouncyCastleProvider());
+            Security.insertProviderAt(Conscrypt.newProvider(), 1);
 
             /**
              * Load Certificate Authority (CA) certificate
@@ -137,7 +139,7 @@ public class CertificateGenerator {
             /**
              * Create SSL socket factory
              */
-            SSLContext sslContext = SSLContext.getInstance("TLS"); // TLSv1.2
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.3"); // TLSv1.2
             sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
 
             /**
