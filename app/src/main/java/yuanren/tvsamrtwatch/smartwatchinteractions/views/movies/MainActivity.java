@@ -96,16 +96,16 @@ public class MainActivity extends Activity {
             @Override
             public void onSwipeRight(View view) {
                 Log.d(TAG, "Swipe right");
-//                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+                new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
 
                 // on the edge between first movie item
                 if (MovieList.getIndex() % MovieList.NUM_COLS == 0) {  // show menu list
-//                    currentSelectedMovieIndex = MovieList.getIndex();
-//                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-//                    intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_HOME);
-//                    startActivity(intent);
+                    currentSelectedMovieIndex = MovieList.getIndex();
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    intent.putExtra(MenuActivity.MENU_ITEM_TYPE, MenuItemListAdapter.MENU_HOME);
+                    startActivity(intent);
                 } else { //  slide left on movie list
-                    new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
+//                    new SocketAsyncTask().execute(KeyEvent.KEYCODE_DPAD_LEFT);
                     changeMovie(view, KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
 
