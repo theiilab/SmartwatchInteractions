@@ -192,7 +192,7 @@ public class SearchActivity extends Activity {
                     timeHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (result.score > 0) {
+                            if (result.score > 0.2) {
                                 text += result.name;
                                 searchName.setText(text);
 
